@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div style="height:400px;overflow:scroll;" id="dd">
+        <div id="main" style="height:400px"></div>
+        <div id="main2" style="height:400px;margin-top:30px;"></div>
+        <div id="main3" style="height:400px;margin-top:30px;"></div>
+        <a>333</a>
+        <div id="div1" style="height:30px;width:40px;"></div>
+    </div>
+    <div id="div"></div>
+    <!-- ECharts单文件引入 -->
+    <script src="../build/dist/echarts.js"></script>
+    <script src="jquery.js"></script>
+    <script type="text/javascript">
+
+
+
+        // 路径配置
+        require.config({
+            paths: {
+                echarts: 'http://echarts.baidu.com/build/dist'
+            }
+        });
+
+        // 使用
+        require(
+            [
+                'echarts',
+                'echarts/chart/bar' // 使用柱状图就加载bar模块，按需加载
+            ],
+            function (ec) {
+                // 基于准备好的dom，初始化echarts图表
+                var myChart = ec.init(document.getElementById('main'));
+                var myChart2 = ec.init(document.getElementById('main2'));
+                var myChart3 = ec.init(document.getElementById('main3'));
+
+                var option = {
+                    tooltip: {
+                        show: true
+                    },
+                    legend: {
+                        data:['销量']
+                    },
+                    xAxis : [
+                        {
+                            type : 'category',
+                            data : ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+                        }
+                    ],
+                    yAxis : [
+                        {
+                            type : 'value'
+                        }
+                    ],
+                    series : [
+                        {
+                            "name":"销量",
+                            "type":"bar",
+                            "data":[5, 20, 40, 10, 10, 20]
+                        }
+                    ]
+                };
+
+                // 为echarts对象加载数据
+                //myChart.setOption(option);
+
+                var oA = document.getElementsByTagName('a')[0];
+                oA.onclick = function () {
+                    myChart2.setOption(option);
+                }
+
+                var arr = [myChart2,myChart3];
+                var obj = ['#main2','#main3'];
+                var vIndex = 0;
+
+                var dd = document.getElementById('dd');
+                dd.onscroll = function () {
+                    //console.log($('#main2').offset().top);
+                    if (arr[vIndex] && $(obj[vIndex]).offset().top <= 300) {
+                        //arr[vIndex].setOption(option);
+                        vIndex++;
+                    }
+                    //arr[Math.floor(dd.scrollTop / 400)].setOption(option);
+                }
+
+                var oDiv = document.getElementById('div1');
+                //console.log(oDiv.offsetTop);
+            }
+        );
+    </script>
+</body>
