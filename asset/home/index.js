@@ -20,40 +20,131 @@ define(function(require) {
 				// 基于准备好的dom，初始化echarts图表
 				var myChart = echarts.init(document.getElementById('main2'),theme);
 
-				var option = {
-					tooltip: {
-						show: true
+				var option = [{
+					name:'周一',
+					group:'最高气温',
+					value:11
+				},{
+					name:'周二',
+					group:'最高气温',
+					value:11
+				},{
+					name:'周三',
+					group:'最高气温',
+					value:15
+				},{
+					name:'周四',
+					group:'最高气温',
+					value:13
+				},{
+					name:'周五',
+					group:'最高气温',
+					value:12
+				},{
+					name:'周六',
+					group:'最高气温',
+					value:13
+				},{
+					name:'周日',
+					group:'最高气温',
+					value:10
+				},{
+					name:'周一',
+					group:'最低气温',
+					value:1
+				},{
+					name:'周二',
+					group:'最低气温',
+					value:-2
+				},{
+					name:'周三',
+					group:'最低气温',
+					value:2
+				},{
+					name:'周四',
+					group:'最低气温',
+					value:5
+				},{
+					name:'周五',
+					group:'最低气温',
+					value:3
+				},{
+					name:'周六',
+					group:'最低气温',
+					value:2
+				},{
+					name:'周日',
+					group:'最低气温',
+					value:0
+				}];
+				var cOption = EchartsCof.ChartOptionTemplates.Lines(option,'hellow-cookie',true);
+				cOption = $.extend({}, cOption, {
+					title : {
+						text: '未来一周气温变化',
+						subtext: '纯属虚构'
+					},
+					tooltip : {
+						trigger: 'axis'
 					},
 					legend: {
-						data:['销量','销量3']
+						data:['最高气温','最低气温']
 					},
+					toolbox: {
+						show : true,
+						feature : {
+							mark : {show: true},
+							dataView : {show: true, readOnly: false},
+							magicType : {show: true, type: ['line', 'bar']},
+							restore : {show: true},
+							saveAsImage : {show: true}
+						}
+					},
+					calculable : true,
 					xAxis : [
 						{
 							type : 'category',
-							data : ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+							boundaryGap : false,
+							data : ['周一','周二','周三','周四','周五','周六','周日']
 						}
 					],
 					yAxis : [
 						{
-							type : 'value'
-						}
-					],
-					series : [
-						{
-							"name":"销量",
-							"type":"bar",
-							"data":[5, 20, 40, 10, 10, 20]
-						},
-						{
-							"name":"销量3",
-							"type":"bar",
-							"data":[52, 25, 40, 10, 10, 20]
+							type : 'value',
+							axisLabel : {
+								formatter: '{value} °C'
+							}
 						}
 					]
-				};
+				});
 
+				cOption['series'][0] = $.extend({}, cOption['series'][0], {
+					markPoint : {
+						data : [
+							{type : 'max', name: '最大值'},
+							{type : 'min', name: '最小值'}
+						]
+					},
+					markLine : {
+						data : [
+							{type : 'average', name: '平均值'}
+						]
+					}
+				});
+
+				cOption['series'][1] = $.extend({}, cOption['series'][1], {
+					markPoint : {
+						data : [
+							{name : '周最低', value : -2, xAxis: 1, yAxis: -1.5}
+						]
+					},
+					markLine : {
+						data : [
+							{type : 'average', name : '平均值'}
+						]
+					}
+				});
 				// 为echarts对象加载数据
-				myChart.setOption(option);
+				myChart.setOption(cOption);
 			}
 		);
 	}

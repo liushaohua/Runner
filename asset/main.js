@@ -9,6 +9,7 @@ define(function(require) {
 	require('jQuery');
     var router = require('router'),
 		$ = jQuery,cPage = {};
+		window.EchartsCof = require('common/MyEcharts');
 
 	router.registerRouter({
 		path: '/home/',
@@ -28,7 +29,6 @@ define(function(require) {
 
 	cPage = {
 		init : function () {
-			//nav样式切换
 
 		}
 	};
