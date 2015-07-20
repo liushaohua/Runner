@@ -3,6 +3,9 @@
 <head>
 	<meta charset="utf-8" />
 	<title>测试用例</title>
+    <style>
+        nav a.active{background:red;}
+    </style>
 </head>
 <body>
 <nav>
@@ -16,17 +19,18 @@
 </body>
 <script src="dep/requirejs/require.js"></script>
 <script>
-    require.config({
-        baseUrl: 'asset',
-        paths : {
-            text: '../dep/requirejs-text/text',
-            router: '../dep/router/router',
-            echarts: '../dep/echarts-2.2.4/build/dist'
-        },
-        pachages: []
-    });
+require.config({
+    baseUrl: 'asset',
+    paths : {
+        text: '../dep/requirejs-text/text',
+        router: '../dep/router/router',
+        echarts: '../dep/echarts-2.2.4/build/dist',
+        jQuery: '../dep/jquery/dist/jquery.min'
+    },
+    pachages: []
+});
 
-	require(['main']);
+require(['main']);
     
 </script>
 </html>

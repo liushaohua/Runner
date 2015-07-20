@@ -1,6 +1,14 @@
+/**
+ * 主main
+ * @copyright 银翼流量可视化平台
+ * @author liushaohua
+ * @email fe.liushaohua#gmail.com
+ */
 define(function(require) {
-
-    var router = require('router');
+	'use strict';
+	require('jQuery');
+    var router = require('router'),
+		$ = jQuery,cPage = {};
 
 	router.registerRouter({
 		path: '/home/',
@@ -9,7 +17,7 @@ define(function(require) {
 
 	router.registerRouter({
 		path: '/tool/',
-		type: 'tool/index'
+		type: 'home/index'
 	});
 
     router.registerRouter({
@@ -17,9 +25,17 @@ define(function(require) {
         type: 'info/index'
     })
 	router.start('/home/');
+
+	cPage = {
+		init : function () {
+			//nav样式切换
+
+		}
+	};
+	cPage.init();
+	//hashChange
+	$(document).on("Runner/hashChange",function(){
+		var hash = location.hash;
+		$('a[href="'+ hash +'"]').addClass('active').siblings().removeClass('active');
+	});
 });
-
-
-/*
-* path代表的是哪个hash触发这个action，type代表触发这个action的时候获取哪个文件
-* */

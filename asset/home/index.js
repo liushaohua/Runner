@@ -14,6 +14,7 @@ define(function(require) {
 		//在页面渲染之后执行，对页面进行操作
 		console.log('initBehavior','uuu');
 		// 使用
+		$(document).trigger('Runner/hashChange')
 		require(['echarts/echarts-all','echarts/chart/macarons'],
 			function (ec,theme) {
 				// 基于准备好的dom，初始化echarts图表
