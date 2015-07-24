@@ -36,13 +36,14 @@ define(function(require) {
 	//hashChange
 	$(document).on("Runner/hashChange",function(){
 		var hash = location.hash;
-		$('a[href="'+ hash +'"]').addClass('active').siblings().removeClass('active');
+		$('.submenu li').removeClass('active');
+		$('a[href="'+ hash +'"]').parent().addClass('active');
 	});
 
 	$('.dropdown-toggle').click(function () {
 		var $li = $(this).parent();
 		$li.addClass('active').siblings().removeClass('active');
-		$('.submenu').slideUp();
+		$('.menu_wrap').slideUp();
 		$(this).next().stop().slideDown();
 	});
 
@@ -51,7 +52,7 @@ define(function(require) {
 		$main = $('#main');
 
 	$hide_bar.click(function () {
-		$('.left_bar').animate({'left': -200});
+		$('.left_bar').animate({'left': -223});
 		$show_bar.css('left',210);
 		$main.animate({'margin-left': 0});
 	});
@@ -59,6 +60,6 @@ define(function(require) {
 	$show_bar.click(function () {
 		$('.left_bar').animate({'left': 0});
 		$show_bar.css('left',0);
-		$main.animate({'margin-left': 200});
+		$main.animate({'margin-left': 223});
 	});
 });
