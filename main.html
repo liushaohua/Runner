@@ -3,19 +3,55 @@
 <head>
 	<meta charset="utf-8" />
 	<title>测试用例</title>
-    <style>
-        nav a.active{background:red;}
-    </style>
+    <link rel="stylesheet" href="asset/common/index.css">
 </head>
 <body>
-<nav>
-	<a href="#/home/">首页</a>
-	<a href="#/tool/">工具页</a>
-    <a href="#/info/">详情页面</a>
-</nav>
-<div id="main">
-    <!-- templace -->
+<div class="wrap">
+    <div class="right_content">
+        <div id="main"><!-- templace --></div>
+    </div>
+    <div class="left_bar">
+        <div class="side_btn">
+            <a class="side_show" href="javascript:;">展开</a>
+            <a class="side_hide" href="javascript:;">收缩</a>
+        </div>
+        <div class="nav">
+            <ul class="nav_list">
+                <li class="active">
+                    <a class="dropdown-toggle" href="javascript:;">页面详细分析</a>
+                    <ul class="submenu" style="display:block;">
+                        <li>
+                            <a href="#/home/">PV&nbsp;UV</a>
+                        </li>
+                        <li>
+                            <a href="#/tool/">工具页</a>
+                        </li>
+                        <li>
+                            <a href="#/info/">详情页面</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="dropdown-toggle" href="javascript:;">用户构成</a>
+                    <ul class="submenu">
+                        <li>
+                            <a href="#/home/">首页</a>
+                        </li>
+                        <li>
+                            <a href="#/tool/">工具页</a>
+                        </li>
+                        <li>
+                            <a href="#/info/">详情页面</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
+
+
+
 </body>
 <script src="dep/requirejs/require.js"></script>
 <script>

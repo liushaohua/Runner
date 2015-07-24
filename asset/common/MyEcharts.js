@@ -1,28 +1,5 @@
 ﻿define(function(require) {
     var ECharts = {
-        ChartConfig: function (container, option) {
-            var chart_path = "javascript/echarts/echarts"; //配置图表请求路径
-            var map_path = "javascript/echarts/echarts-map"; //配置地图的请求路径
-            require.config({//引入常用的图表类型的配置
-                paths: {
-                    echarts: chart_path,
-                    'echarts/chart/bar': chart_path,
-                    'echarts/chart/pie': chart_path,
-                    'echarts/chart/line': chart_path,
-                    'echarts/chart/k': chart_path,
-                    'echarts/chart/scatter': chart_path,
-                    'echarts/chart/radar': chart_path,
-                    'echarts/chart/chord': chart_path,
-                    'echarts/chart/force': chart_path,
-                    'echarts/chart/map': map_path
-                }
-            });
-
-            this.option = { chart: {}, option: option, container: container };
-            return this.option;
-
-        },
-
         ChartDataFormate: {
             FormateNOGroupData: function (data) {
                 //data的格式如上的Result1，这种格式的数据，多用于饼图、单一的柱形图的数据源
@@ -34,7 +11,6 @@
                 }
                 return { category: categories, data: datas };
             },
-
 
             FormateGroupData: function (data, type, is_stack) {
                 //data的格式如上的Result2，type为要渲染的图表类型：可以为line，bar，is_stack表示为是否是堆积图，这种格式的数据多用于展示多条折线图、分组的柱图
@@ -134,7 +110,6 @@
                     }
                 }
             },
-
 
             Pie: function (data, name) {
                 //data:数据格式：{name：xxx,value:xxx}...
