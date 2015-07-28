@@ -69,10 +69,12 @@ html{background:#342b6c;}
 font-family:"Microsoft YaHei ", Helvetica, Arial, sans-serif;font-weight:bold;}
 .home-container .date_query a.active{border-bottom:3px solid #12aaeb;color:#12aaeb;}
 .home-container .query_wrap,.home-container .query_wrap a{border:1px solid #8e8f93;}
-.home-container .query_wrap{padding:20px;margin-left:16px;}
+.home-container .query_wrap{padding:20px 20px 0px 20px;margin-left:16px;margin-bottom:-2px;}
 .home-container .query_wrap li{margin-bottom:22px;}
 .home-container .query_wrap a{width:134px;height:35px;margin-right:30px;text-align:center;display:inline-block;line-height:35px;}
 .home-container .query_wrap a.c-span-last{margin-right:0;}
 .query_channel {text-align:center;}
 .query_channel a{display:inline-block;width:30px;}
 .query_channel a.active{border-bottom:1px solid blue;}
+/*echars*/
+#main_wrap{margin-top:40px;}
