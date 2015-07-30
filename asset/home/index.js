@@ -207,6 +207,10 @@ define(function(require) {
 						}
 					},
 					calculable : true,
+					dataZoom: {
+						show: true,
+						start: 50
+					},
 					xAxis : [
 						{
 							type : 'category',
@@ -249,7 +253,8 @@ define(function(require) {
 				cOption['series'][1] = $.extend({}, cOption['series'][1], {
 					markPoint : {
 						data : [
-							{name : '周最低', value : -2, xAxis: 1, yAxis: -1.5}
+							{type : 'max', name: '最大值'},
+							{type : 'min', name: '最小值'}
 						]
 					},
 					markLine : {
