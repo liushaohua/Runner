@@ -34,7 +34,7 @@ html, body { height: 100%;}
 .nav_list li a{color:#FFF;cursor:pointer;border-radius:5px;width:158px;height:39px;display:block;line-height:39px;text-align:center;transition:.6s all ease;}
 .nav_list li .menu_wrap{margin-top:17px;}
 .nav_list li .submenu{display:none;overflow:hidden;background:#34495e;width:167px;margin-left:9px;padding-left:11px;border-radius: 5px;}
-.nav_list li .dropdown-toggle{display:block;background:#3598db;width:182px;height:39px;line-height:39px;border:none;text-align:center;margin-left:9px;}
+.nav_list li .dropdown-toggle{display:block;background:#3598db;width:182px;height:39px;line-height:39px;border:none;text-align:center;margin-left:9px;transition:none;}
 .nav_list li.active .dropdown-toggle{border-left:9px solid #ea533e;margin-left:0;}
 .nav_list li .up_arrow{width: 0px;height: 0px;border-left: 8px solid transparent;border-right: 8px solid transparent;
     border-bottom: 17px solid #34495e;float:right;margin-right:5px;right: 28px;top: -16px;}

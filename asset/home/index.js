@@ -17,7 +17,84 @@ define(function(require) {
 
 		var Render = {
 			init: function () {
-				this.render_nav();
+				this.render_nav().setDate();
+			},
+			setDate : function () {
+				$('.date_query a').click(function () {
+					$(this).addClass('active').siblings().removeClass('active');
+					var option = [{
+						name:'周一',
+						group:'最高气温',
+						value:11
+					},{
+						name:'周二',
+						group:'最高气温',
+						value:11
+					},{
+						name:'周三',
+						group:'最高气温',
+						value:15
+					},{
+						name:'周四',
+						group:'最高气温',
+						value:13
+					},{
+						name:'周五',
+						group:'最高气温',
+						value:12
+					},{
+						name:'周六',
+						group:'最高气温',
+						value:13
+					},{
+						name:'周日',
+						group:'最高气温',
+						value:10
+					},{
+						name:'周一',
+						group:'最低气温',
+						value:1
+					},{
+						name:'周二',
+						group:'最低气温',
+						value:-3
+					},{
+						name:'周三',
+						group:'最低气温',
+						value:2
+					},{
+						name:'周四',
+						group:'最低气温',
+						value:5
+					},{
+						name:'周五',
+						group:'最低气温',
+						value:3
+					},{
+						name:'周六',
+						group:'最低气温',
+						value:2
+					},{
+						name:'周日',
+						group:'最低气温',
+						value:0
+					}];
+					var cOption = EchartsCof.ChartOptionTemplates.Lines(option,'hellow-cookie',true).series,
+						data = Render.chartsData.myCharts.data.series;
+
+					Render.chartsData.myCharts.data.series = $.extend({}, data, cOption);
+					console.log(Render.chartsData.myCharts.data);
+
+					Render.chartsData.myCharts.dom.setOption(Render.chartsData.myCharts.data);
+					//Render.chartsData.myCharts.dom.refresh();
+					window.onresize = Render.chartsData.myCharts.dom.resize;
+				});
+			},
+			chartsData : {
+				'myCharts': {
+					'dom': '',
+					'data': ''
+				}
 			},
 			render_nav: function () {
 				var cHTML = '<li>',
@@ -29,28 +106,6 @@ define(function(require) {
 					'name': '业务线'
 				},{
 					'name': '日期'
-				},{
-					'name': '日期'
-				},{
-					'name': '时段'
-				},{
-					'name': '日期'
-				},{
-					'name': '业务线'
-				},{
-					'name': '日期'
-				},{
-					'name': '日期'
-				},{
-					'name': '时段'
-				},{
-					'name': '日期'
-				},{
-					'name': '业务线'
-				},{
-					'name': '日期'
-				},{
-					'name': '日期3'
 				}];
 
 				for (var i = 0, len = data.length; i < len; i++) {
@@ -60,6 +115,7 @@ define(function(require) {
 				}
 					cHTML += '</li>';
 				$('.query_wrap ul').html(cHTML);
+				return this;
 			}
 		};
 
@@ -68,8 +124,8 @@ define(function(require) {
 		require(['echarts/echarts-all','echarts/chart/macarons'],
 			function (ec,theme) {
 				// 基于准备好的dom，初始化echarts图表
-				var myChart = echarts.init(document.getElementById('main_wrap'),theme);
-
+				//var myChart = echarts.init(document.getElementById('main_wrap'),theme);
+				Render.chartsData.myCharts.dom = echarts.init(document.getElementById('main_wrap'),theme);
 				var option = [{
 					name:'周一',
 					group:'最高气温',
@@ -203,7 +259,8 @@ define(function(require) {
 					}
 				});
 				// 为echarts对象加载数据
-				myChart.setOption(cOption);
+				Render.chartsData.myCharts.dom.setOption(cOption);
+				Render.chartsData.myCharts.data = cOption;
 			}
 		);
 	}
