@@ -66,8 +66,20 @@
 
                         case 'line':
                             var series_temp = { name: group[i], data: temp, type: chart_type };
-                            if (is_stack)
-                                series_temp = $.extend({}, { stack: 'stack' }, series_temp);
+                            if (is_stack) {
+                                series_temp = $.extend({}, {stack: 'stack'}, series_temp);
+                                series_temp.markPoint = {
+                                    data : [
+                                        {type: 'max', name: '最大值'},
+                                        {type: 'min', name: '最小值'}
+                                    ]
+                                },
+                                series_temp.markLine = {
+                                    data : [
+                                        {type: 'average', name: '平均值'}
+                                    ]
+                                }
+                            }
                             break;
 
                         default:
@@ -161,20 +173,38 @@
             //data:数据格式：{name：xxx,group:xxx,value:xxx}...
                 var stackline_datas = ECharts.ChartDataFormate.FormateGroupData(data, 'line', is_stack);
                 var option = {
-                    legend: { data: stackline_datas.category
-                       },
-                    w:'d',
+                    title : {
+                        text: '未来一周气温变化',
+                        subtext: '纯属虚构'
+                    },
+                    tooltip : {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data: stackline_datas.category,
+                        textStyle:{color: '#fff'}
+                    },
                     xAxis: [{
                         type: 'category', //X轴均为category，Y轴均为value
                         data: stackline_datas.xAxis,
-                         boundaryGap: false//数值轴两端的空白策略
+                        boundaryGap: false,//数值轴两端的空白策略
+                        axisLabel : {
+                            textStyle:{
+                                color:"#fff"
+                            }
+                        }
                     }],
-
-                    yAxis: [{
-                        name: name || '',
-                        type: 'value',
-                        splitArea: { show: true }
-                    }],
+                    yAxis : [
+                        {
+                            type : 'value',
+                            axisLabel : {
+                                formatter: '{value} °C',
+                                textStyle:{
+                                    color:"#fff"
+                                }
+                            }
+                        }
+                    ],
                     series: stackline_datas.series
                 };
                 return $.extend({}, ECharts.ChartOptionTemplates.CommonLineOption, option);

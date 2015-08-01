@@ -204,70 +204,8 @@ define(function(require) {
 				}];
 				var cOption = EchartsCof.ChartOptionTemplates.Lines(option,'hellow-cookie',true);
 				console.log(cOption,'wee');
-				cOption = $.extend({}, cOption, {
-					title : {
-						text: '未来一周气温变化',
-						subtext: '纯属虚构'
-					},
-					tooltip : {
-						trigger: 'axis'
-					},
-					legend: {
-						data:['最高气温','最低气温'],
-						textStyle:{color: '#fff'}
-					},
-					xAxis : [
-						{
-							type : 'category',
-							boundaryGap : false,
-							data : ['周一','周二','周三','周四','周五','周六','周日'],
-							axisLabel : {
-								textStyle:{
-									color:"#fff"
-								}
-							}
-						}
-					],
-					yAxis : [
-						{
-							type : 'value',
-							axisLabel : {
-								formatter: '{value} °C',
-								textStyle:{
-									color:"#fff"
-								}
-							}
-						}
-					]
-				});
 
-				cOption['series'][0] = $.extend({}, cOption['series'][0], {
-					markPoint : {
-						data : [
-							{type : 'max', name: '最大值'},
-							{type : 'min', name: '最小值'}
-						]
-					},
-					markLine : {
-						data : [
-							{type : 'average', name: '平均值'}
-						]
-					}
-				});
 
-				cOption['series'][1] = $.extend({}, cOption['series'][1], {
-					markPoint : {
-						data : [
-							{type : 'max', name: '最大值'},
-							{type : 'min', name: '最小值'}
-						]
-					},
-					markLine : {
-						data : [
-							{type : 'average', name : '平均值'}
-						]
-					}
-				});
 				// 为echarts对象加载数据
 				Render.chartsData.myCharts.dom.setOption(cOption);
 				Render.chartsData.myCharts.data = cOption;
