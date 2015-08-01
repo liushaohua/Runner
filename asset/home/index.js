@@ -122,10 +122,29 @@ define(function(require) {
 		Render.init();
 
 		require(['echarts/echarts-all','echarts/chart/macarons'],
-			function (ec,theme) {
-				// 基于准备好的dom，初始化echarts图表
-				//var myChart = echarts.init(document.getElementById('main_wrap'),theme);
-				Render.chartsData.myCharts.dom = echarts.init(document.getElementById('main_wrap'),theme);
+			function (ec,theme) {;
+				var myChart;
+				myChart = Render.chartsData.myCharts.dom = echarts.init(document.getElementById('main_wrap'),theme);
+
+				myChart.showLoading({
+					text: '正在努力的读取数据中...'
+				});
+
+				$.ajax({
+					url: '/dashboard/netflow/ajax/mau',
+					type: 'post',
+					async: true,
+					data:{"businessName":'3', 'indexType':''},
+					dataType: 'json',
+					success: function(data, textStatus) {
+						myChart.hideLoading();
+					},
+					error : function() {
+						//console.log(55);
+						myChart.hideLoading();
+					}
+				});
+
 				var option = [{
 					name:'周一',
 					group:'最高气温',
@@ -184,6 +203,7 @@ define(function(require) {
 					value:0
 				}];
 				var cOption = EchartsCof.ChartOptionTemplates.Lines(option,'hellow-cookie',true);
+				console.log(cOption,'wee');
 				cOption = $.extend({}, cOption, {
 					title : {
 						text: '未来一周气温变化',
@@ -195,21 +215,6 @@ define(function(require) {
 					legend: {
 						data:['最高气温','最低气温'],
 						textStyle:{color: '#fff'}
-					},
-					toolbox: {
-						show : true,
-						feature : {
-							mark : {show: true},
-							dataView : {show: true, readOnly: false},
-							magicType : {show: true, type: ['line', 'bar']},
-							restore : {show: true},
-							saveAsImage : {show: true}
-						}
-					},
-					calculable : true,
-					dataZoom: {
-						show: true,
-						start: 50
 					},
 					xAxis : [
 						{
