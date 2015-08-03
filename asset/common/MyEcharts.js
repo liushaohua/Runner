@@ -12,82 +12,123 @@
                 return { category: categories, data: datas };
             },
 
-            FormateGroupData: function (data, type, is_stack) {
+            FormateGroupData: function (data, type, is_stack, pack) {
                 //data的格式如上的Result2，type为要渲染的图表类型：可以为line，bar，is_stack表示为是否是堆积图，这种格式的数据多用于展示多条折线图、分组的柱图
                 var chart_type = 'line';
                 if (type)
                     chart_type = type || 'line';
 
-                var xAxis = [];
-                var group = [];
-                var series = [];
+                function HandleData (data, is_only) {console.log(data);
+                    var xAxis = [];
+                    var group = [];
+                    var series = [];
 
-                for (var i = 0; i < data.length; i++) {
-                    for (var j = 0; j < xAxis.length && xAxis[j] != data[i].name; j++);
-                    if (j == xAxis.length)
-                        xAxis.push(data[i].name);
+                    for (var i = 0; i < data.length; i++) {
+                        for (var j = 0; j < xAxis.length && xAxis[j] != data[i].name; j++);
+                        if (j == xAxis.length)
+                            xAxis.push(data[i].name);
 
-                    for (var k = 0; k < group.length && group[k] != data[i].group; k++);
-                    if (k == group.length)
-                        group.push(data[i].group);
-                }
-
-
-                for (var i = 0; i < group.length; i++) {
-                    var temp = [];
-                    for (var j = 0; j < data.length; j++) {
-                        if (group[i] == data[j].group) {
-                            if (type == "map") {
-                                temp.push({ name: data[j].name, value: data[i].value });
-                            } else {
-                                temp.push(data[j].value);
-                            }
-                        }
-
+                        for (var k = 0; k < group.length && group[k] != data[i].group; k++);
+                        if (k == group.length)
+                            group.push(data[i].group);
                     }
 
-                    switch (type) {
-                        case 'bar':
-                            var series_temp = { name: group[i], data: temp, type: chart_type };
-                            if (is_stack)
-                                series_temp = $.extend({}, { stack: 'stack' }, series_temp);
-                            break;
-
-                        case 'map':
-                            var series_temp = {
-                                name: group[i], type: chart_type, mapType: 'china', selectedMode: 'single',
-                                itemStyle: {
-                                    normal: { label: { show: true} },
-                                    emphasis: { label: { show: true} }
-                                  },
-                                data: temp
-                            };
-                            break;
-
-                        case 'line':
-                            var series_temp = { name: group[i], data: temp, type: chart_type };
-                            if (is_stack) {
-                                series_temp = $.extend({}, {stack: 'stack'}, series_temp);
-                                series_temp.markPoint = {
-                                    data : [
-                                        {type: 'max', name: '最大值'},
-                                        {type: 'min', name: '最小值'}
-                                    ]
-                                },
-                                series_temp.markLine = {
-                                    data : [
-                                        {type: 'average', name: '平均值'}
-                                    ]
+                    for (var i = 0; i < group.length; i++) {
+                        var temp = [];
+                        for (var j = 0; j < data.length; j++) {
+                            if (group[i] == data[j].group) {
+                                if (type == "map") {
+                                    temp.push({ name: data[j].name, value: data[i].value });
+                                } else {
+                                    temp.push(data[j].value);
                                 }
                             }
-                            break;
 
-                        default:
-                          var series_temp = { name: group[i], data: temp, type: chart_type };
+                        }
+
+                        switch (type) {
+                            case 'bar':
+                                var series_temp = { name: group[i], data: temp, type: chart_type };
+                                if (is_stack)
+                                    series_temp = $.extend({}, { stack: 'stack' }, series_temp);
+                                break;
+
+                            case 'map':
+                                var series_temp = {
+                                    name: group[i], type: chart_type, mapType: 'china', selectedMode: 'single',
+                                    itemStyle: {
+                                        normal: { label: { show: true} },
+                                        emphasis: { label: { show: true} }
+                                    },
+                                    data: temp
+                                };
+                                break;
+
+                            case 'line':
+                                var series_temp = { name: group[i], data: temp, type: chart_type };
+                                if (is_stack) {
+                                    series_temp = $.extend({}, {stack: 'stack'}, series_temp);
+                                    series_temp.markPoint = {
+                                        data : [
+                                            {type: 'max', name: '最大值'},
+                                            {type: 'min', name: '最小值'}
+                                        ]
+                                    },
+                                        series_temp.markLine = {
+                                            data : [
+                                                {type: 'average', name: '平均值'}
+                                            ]
+                                        }
+                                }
+                                break;
+
+                            default:
+                                var series_temp = { name: group[i], data: temp, type: chart_type };
+                        }
+                        series.push(series_temp);
                     }
-                     series.push(series_temp);
+                    if (is_only) {
+                        return {series: series };
                     }
-                return { category: group, xAxis: xAxis, series: series };
+                    return { category: group, xAxis: xAxis, series: series };
+                }
+
+                if (pack['hasTime']) {
+                    console.log(HandleData(data),'niaiwo');
+                    var handOption = {
+                        origin: function () {
+                            var c = 0;
+                            for (var i in data) {
+                                if (!c) {
+                                    c = true;
+                                    var d = HandleData(data[i]);
+                                    return d;
+                                }
+                            }
+                        } (),
+                        options: [function () {
+                            var c = 0;
+                            for (var i in data) {
+                                if (!c) {
+                                    c = true;
+                                    var d = HandleData(data[i]);
+                                    delete data[i];
+                                    return d;
+                                }
+                            }
+                        } ()]
+                    };
+
+                    for (var i in data) {
+                        handOption.options.push(function () {
+                            return HandleData(data[i],true);
+                        } ());
+                    }
+                    //console.log(handOption);
+                    return handOption;
+                }
+
+                return HandleData(data);
             }
         },
         ChartOptionTemplates: {
@@ -106,7 +147,16 @@
                         saveAsImage : {show: true}
                     }
                 }
-             },
+            },
+
+            CommonLineOptionTimeLine: {//同用配置and add Time line
+                timeline : {
+                    data : [
+                        '2013-001-01', '2013-02-01', '2013-03-01', '2013-04-01', '2013-05-01'
+                    ]
+                },
+                options : [{}]
+            },
 
             CommonLineOption: {//通用的折线图表的基本配置
                 tooltip: {
@@ -169,12 +219,25 @@
                 return $.extend({}, ECharts.ChartOptionTemplates.CommonOption, option);
             },
 
-            Lines: function (data, name, is_stack) {
+            Lines: function (data, name, is_stack, pack) {
             //data:数据格式：{name：xxx,group:xxx,value:xxx}...
-                var stackline_datas = ECharts.ChartDataFormate.FormateGroupData(data, 'line', is_stack);
+                console.log(data,'wwwwwwwwwwwwwwwwapp');
+                var pack = pack || {},
+                    timeLineData = (function () {
+                        var cData = [];
+                        console.log(pack['hasTime']);
+                        if (pack['hasTime']) {
+                            console.log(data,666);
+                            for (var i in data) {
+                                cData.push(i);
+                            }
+                        }
+                        return cData;
+                    } ()),
+                    stackline_datas = ECharts.ChartDataFormate.FormateGroupData(data, 'line', is_stack, pack);
                 var option = {
                     title : {
-                        text: '未来一周气温变化',
+                        text: pack['title'] || '未设置title',
                         subtext: '纯属虚构'
                     },
                     tooltip : {
@@ -207,6 +270,53 @@
                     ],
                     series: stackline_datas.series
                 };
+                console.log(stackline_datas,'mm');
+
+
+                if (pack['hasTime']) {
+                    var option2 = {
+                        title : {
+                            text: pack['title'] || '未设置title',
+                            subtext: '纯属虚构'
+                        },
+                        tooltip : {
+                            trigger: 'axis'
+                        },
+                        legend: {
+                            data: stackline_datas.origin.category,
+                            textStyle:{color: '#fff'}
+                        },
+                        xAxis: [{
+                            type: 'category', //X轴均为category，Y轴均为value
+                            data: timeLineData,
+                            boundaryGap: false,//数值轴两端的空白策略
+                            axisLabel : {
+                                textStyle:{
+                                    color:"#fff"
+                                }
+                            }
+                        }],
+                        yAxis : [
+                            {
+                                type : 'value',
+                                axisLabel : {
+                                    formatter: '{value} °C',
+                                    textStyle:{
+                                        color:"#fff"
+                                    }
+                                }
+                            }
+                        ]
+                    };
+
+                    stackline_datas = stackline_datas.options;
+                    stackline_datas[0] = $.extend({}, stackline_datas[0],option2);
+                    ECharts.ChartOptionTemplates.CommonLineOptionTimeLine.timeline['data'] = timeLineData;
+                    ECharts.ChartOptionTemplates.CommonLineOptionTimeLine.options =  stackline_datas;
+
+                    return ECharts.ChartOptionTemplates.CommonLineOptionTimeLine;
+
+                }
                 return $.extend({}, ECharts.ChartOptionTemplates.CommonLineOption, option);
             },
 

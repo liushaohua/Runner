@@ -73,6 +73,7 @@ font-family:"Microsoft YaHei ", Helvetica, Arial, sans-serif;font-weight:bold;}
 .home-container .query_wrap li{margin-bottom:22px;}
 .home-container .query_wrap a{width:134px;height:35px;margin-right:30px;text-align:center;display:inline-block;line-height:35px;}
 .home-container .query_wrap a.c-span-last{margin-right:0;}
+.home-container .query_wrap a.active{border-color:#20c993;}
 .query_channel {text-align:center;}
 .query_channel a{display:inline-block;width:30px;}
 .query_channel a.active{border-bottom:1px solid blue;}

@@ -17,9 +17,10 @@ define(function(require) {
 
 		var Render = {
 			init: function () {
-				this.render_nav().setDate();
+				this.render_nav().setDate().render_charts();
 			},
 			setDate : function () {
+				var _this = this;
 				$('.date_query a').click(function () {
 					$(this).addClass('active').siblings().removeClass('active');
 					var option = [{
@@ -88,6 +89,72 @@ define(function(require) {
 					Render.chartsData.myCharts.dom.setOption(Render.chartsData.myCharts.data);
 					//Render.chartsData.myCharts.dom.refresh();
 					window.onresize = Render.chartsData.myCharts.dom.resize;
+				});
+				return _this;
+			},
+			render_charts : function () {
+				$('.query_wrap').on('click', 'a', function () {
+					var $this = $(this),
+						cVal = $this.html();
+					$('.query_wrap a').removeClass('active');
+					$this.addClass('active');
+					if (cVal == '时段') {
+						var option = [{
+							name:'周一',
+							group:'最高气温',
+							value:11
+						},{
+							name:'周二',
+							group:'最高气温',
+							value:11
+						},{
+							name:'周三',
+							group:'最高气温',
+							value:15
+						}];
+
+						var option2 = {
+							'2012-555': [{
+								name:'周一',
+								group:'最高气温',
+								value:11
+							},{
+								name:'周二',
+								group:'最高气温',
+								value:11
+							},{
+								name:'周三',
+								group:'最高气温',
+								value:15
+							}],
+							'2012-03': [{
+								name:'周一',
+								group:'最高气温',
+								value:11
+							},{
+								name:'周二',
+								group:'最高气温',
+								value:11
+							},{
+								name:'周三',
+								group:'最高气温',
+								value:15
+							}]
+						};
+						var cOption = EchartsCof.ChartOptionTemplates.Pie(option,'hellow-cookie',true, {
+							'title': '未来一周气温变化-aa'
+						});
+
+						var cOption2 = EchartsCof.ChartOptionTemplates.Lines(option2,'hellow-cookie',true, {
+							'hasTime' : 1,
+							'title': '未来一周气温变化-aa'
+						});
+						console.log(cOption2,'wwwaiaiai');
+						Render.chartsData.myCharts.dom.clear();
+						//Render.chartsData.myCharts.dom.setOption(cOption);
+						Render.chartsData.myCharts.dom.setOption(cOption2);
+						Render.chartsData.myCharts.data = cOption;
+					}
 				});
 			},
 			chartsData : {
@@ -202,7 +269,9 @@ define(function(require) {
 					group:'最低气温',
 					value:0
 				}];
-				var cOption = EchartsCof.ChartOptionTemplates.Lines(option,'hellow-cookie',true);
+				var cOption = EchartsCof.ChartOptionTemplates.Lines(option,'hellow-cookie',true, {
+					'title': '未来一周气温变化-ga'
+				});
 				console.log(cOption,'wee');
 
 
