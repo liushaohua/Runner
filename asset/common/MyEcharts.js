@@ -67,7 +67,7 @@
                             case 'line':
                                 var series_temp = { name: group[i], data: temp, type: chart_type };
                                 if (is_stack) {
-                                    series_temp = $.extend({}, {stack: 'stack'}, series_temp);
+                                    //series_temp = $.extend({}, {stack: 'stack'}, series_temp);
                                     series_temp.markPoint = {
                                         data : [
                                             {type: 'max', name: '最大值'},
@@ -133,7 +133,7 @@
         },
         ChartOptionTemplates: {
             CommonOption: {
-            //通用的图表基本配置
+                //通用的图表基本配置
                 tooltip: {
                     trigger: 'axis'//tooltip触发方式:axis以X轴线触发,item以每一个数据项触发
                 },
@@ -220,7 +220,7 @@
             },
 
             Lines: function (data, name, is_stack, pack) {
-            //data:数据格式：{name：xxx,group:xxx,value:xxx}...
+                //data:数据格式：{name：xxx,group:xxx,value:xxx}...
                 console.log(data,'wwwwwwwwwwwwwwwwapp');
                 var pack = pack || {},
                     timeLineData = (function () {
@@ -288,7 +288,7 @@
                         },
                         xAxis: [{
                             type: 'category', //X轴均为category，Y轴均为value
-                            data: timeLineData,
+                            data: stackline_datas.origin.xAxis,
                             boundaryGap: false,//数值轴两端的空白策略
                             axisLabel : {
                                 textStyle:{
@@ -324,7 +324,7 @@
                 //data:数据格式：{name：xxx,group:xxx,value:xxx}...
                 var bars_dates = ECharts.ChartDataFormate.FormateGroupData(data, 'bar', is_stack);
                 var option = {
-                       legend: bars_dates.category,
+                    legend: bars_dates.category,
                     xAxis: [{
                         type: 'category',
                         data: bars_dates.xAxis,

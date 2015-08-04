@@ -114,7 +114,7 @@ define(function(require) {
 						}];
 
 						var option2 = {
-							'2012-555': [{
+							'2002-01-01': [{
 								name:'周一',
 								group:'最高气温',
 								value:11
@@ -127,7 +127,7 @@ define(function(require) {
 								group:'最高气温',
 								value:15
 							}],
-							'2012-03': [{
+							'2003-01-01': [{
 								name:'周一',
 								group:'最高气温',
 								value:11
