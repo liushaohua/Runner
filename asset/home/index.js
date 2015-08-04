@@ -126,6 +126,18 @@ define(function(require) {
 								name:'周三',
 								group:'最高气温',
 								value:15
+							},{
+								name:'周一',
+								group:'最低气温',
+								value:2
+							},{
+								name:'周二',
+								group:'最低气温',
+								value:1
+							},{
+								name:'周三',
+								group:'最低气温',
+								value:-1
 							}],
 							'2003-01-01': [{
 								name:'周一',
@@ -138,7 +150,19 @@ define(function(require) {
 							},{
 								name:'周三',
 								group:'最高气温',
-								value:15
+								value:14
+							},{
+								name:'周一',
+								group:'最低气温',
+								value:2
+							},{
+								name:'周二',
+								group:'最低气温',
+								value:3
+							},{
+								name:'周三',
+								group:'最低气温',
+								value:-2
 							}]
 						};
 						var cOption = EchartsCof.ChartOptionTemplates.Pie(option,'hellow-cookie',true, {
