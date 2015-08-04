@@ -113,6 +113,73 @@ define(function(require) {
 							value:15
 						}];
 
+						var option_map = [{
+							name:'北京',
+							group:'最高气温',
+							value:11
+						},{
+							name:'天津',
+							group:'最高气温',
+							value:11
+						},{
+							name:'新疆',
+							group:'最高气温',
+							value:15
+						}];
+
+						var option_map2 = {
+							'2002-01-01': [{
+								name:'北京',
+								group:'最高气温',
+								value:11
+							},{
+								name:'天津',
+								group:'最高气温',
+								value:11
+							},{
+								name:'新疆',
+								group:'最高气温',
+								value:15
+							},{
+								name:'北京',
+								group:'最低气温',
+								value:2
+							},{
+								name:'天津',
+								group:'最低气温',
+								value:1
+							},{
+								name:'新疆',
+								group:'最低气温',
+								value:-1
+							}],
+							'2003-01-01': [{
+								name:'北京',
+								group:'最高气温',
+								value:15
+							},{
+								name:'天津',
+								group:'最高气温',
+								value:11
+							},{
+								name:'新疆',
+								group:'最高气温',
+								value:14
+							},{
+								name:'北京',
+								group:'最低气温',
+								value:2
+							},{
+								name:'天津',
+								group:'最低气温',
+								value:3
+							},{
+								name:'新疆',
+								group:'最低气温',
+								value:-2
+							}]
+						};
+
 						var option2 = {
 							'2002-01-01': [{
 								name:'周一',
@@ -169,14 +236,27 @@ define(function(require) {
 							'title': '未来一周气温变化-aa'
 						});
 
+						var cOption_map = EchartsCof.ChartOptionTemplates.Map(option_map,'hellow-cookie',true, {
+							'title': '未来一周气温变化-aa'
+						});
+
+
+						//console.log(JSON.stringify(cOption_map),'zz0y');
+
 						var cOption2 = EchartsCof.ChartOptionTemplates.Lines(option2,'hellow-cookie',true, {
 							'hasTime' : 1,
 							'title': '未来一周气温变化-aa'
 						});
-						console.log(cOption2,'wwwaiaiai');
+
+						var cOption23 = EchartsCof.ChartOptionTemplates.Map(option_map2,'hellow-cookie',true, {
+							'hasTime' : 1,
+							'title': '未来一周气温变化-aa'
+						});
+
+						console.log(JSON.stringify(cOption23),'wwwaiaiai');
 						Render.chartsData.myCharts.dom.clear();
 						//Render.chartsData.myCharts.dom.setOption(cOption);
-						Render.chartsData.myCharts.dom.setOption(cOption2);
+						Render.chartsData.myCharts.dom.setOption(cOption23);
 						Render.chartsData.myCharts.data = cOption;
 					}
 				});
@@ -220,14 +300,21 @@ define(function(require) {
 				myChart.showLoading({
 					text: '正在努力的读取数据中...'
 				});
-
+				console.log('kais');
 				$.ajax({
-					url: '/dashboard/netflow/ajax/mau',
+					url: 'http://10.59.10.123/',
 					type: 'post',
 					async: true,
-					data:{"businessName":'3', 'indexType':''},
+					data:{
+						'time_type':'day',
+						'ds':'20150717',
+						'biz_name':'ershouche',
+						'browser_type':'chrome',
+						'limit':'5'
+					},
 					dataType: 'json',
 					success: function(data, textStatus) {
+						console.log(data);
 						myChart.hideLoading();
 					},
 					error : function() {

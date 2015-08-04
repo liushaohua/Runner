@@ -18,7 +18,7 @@
                 if (type)
                     chart_type = type || 'line';
 
-                function HandleData (data, is_only) {console.log(data);
+                function HandleData (data, is_only) {
                     var xAxis = [];
                     var group = [];
                     var series = [];
@@ -90,11 +90,14 @@
                     if (is_only) {
                         return {series: series };
                     }
+
+                    if (type == 'map') {
+                        return { category: group, series: series };
+                    }
                     return { category: group, xAxis: xAxis, series: series };
                 }
 
                 if (pack['hasTime']) {
-                    console.log(HandleData(data),'niaiwo');
                     var handOption = {
                         origin: function () {
                             var c = 0;
@@ -124,7 +127,6 @@
                             return HandleData(data[i],true);
                         } ());
                     }
-                    //console.log(handOption);
                     return handOption;
                 }
 
@@ -163,10 +165,6 @@
                     trigger: 'axis'
                 },
                 calculable : true,
-                dataZoom: {
-                    show: true,
-                    start: 30
-                },
                 toolbox: {
                     show: true,
                     feature: {
@@ -221,13 +219,10 @@
 
             Lines: function (data, name, is_stack, pack) {
                 //data:数据格式：{name：xxx,group:xxx,value:xxx}...
-                console.log(data,'wwwwwwwwwwwwwwwwapp');
                 var pack = pack || {},
                     timeLineData = (function () {
                         var cData = [];
-                        console.log(pack['hasTime']);
                         if (pack['hasTime']) {
-                            console.log(data,666);
                             for (var i in data) {
                                 cData.push(i);
                             }
@@ -239,6 +234,10 @@
                     title : {
                         text: pack['title'] || '未设置title',
                         subtext: '纯属虚构'
+                    },
+                    dataZoom: {
+                        show: true,
+                        start: 30
                     },
                     tooltip : {
                         trigger: 'axis'
@@ -270,9 +269,7 @@
                     ],
                     series: stackline_datas.series
                 };
-                console.log(stackline_datas,'mm');
-
-
+                
                 if (pack['hasTime']) {
                     var option2 = {
                         title : {
@@ -343,6 +340,120 @@
                     }],
                     series: bars_dates.series
                 };
+                return $.extend({}, ECharts.ChartOptionTemplates.CommonLineOption, option);
+            },
+
+            Map: function (data, name, is_stack, pack) {
+                //data:数据格式：{name：xxx,group:xxx,value:xxx}...
+                var pack = pack || {},
+                    timeLineData = (function () {
+                        var cData = [];
+                        if (pack['hasTime']) {
+                            for (var i in data) {
+                                cData.push(i);
+                            }
+                        }
+                        return cData;
+                    } ()),
+                    stackline_datas = ECharts.ChartDataFormate.FormateGroupData(data, 'map', is_stack, pack);
+                var option = {
+                    title : {
+                        text: pack['title'] || '未设置title',
+                        subtext: '纯属虚构',
+                        x:'center'
+                    },
+                    tooltip : {
+                        trigger: 'item'
+                    },
+                    legend: {
+                        data: stackline_datas.category,
+                        orient: 'vertical',
+                        x:'left',
+                        textStyle:{color: '#fff'}
+                    },
+                    dataRange: {
+                        min: 0,
+                        max: 2500,
+                        x: 'left',
+                        y: 'bottom',
+                        text:['高','低'],           // 文本，默认为数值文本
+                        calculable : true
+                    },
+                    toolbox: {
+                        show: true,
+                        orient : 'vertical',
+                        x: 'right',
+                        y: 'center',
+                        feature : {
+                            mark : {show: true},
+                            dataView : {show: true, readOnly: false},
+                            restore : {show: true},
+                            saveAsImage : {show: true}
+                        }
+                    },
+                    roamController: {
+                        show: true,
+                        x: 'right',
+                        mapTypeControl: {
+                            'china': true
+                        }
+                    },
+                    series: stackline_datas.series
+                };
+
+                if (pack['hasTime']) {
+                    var option2 = {
+                        title : {
+                            text: pack['title'] || '未设置title',
+                            subtext: '纯属虚构',
+                            x:'center'
+                        },
+                        tooltip : {
+                            trigger: 'item'
+                        },
+                        legend: {
+                            data: stackline_datas.origin.category,
+                            orient: 'vertical',
+                            x:'left',
+                            textStyle:{color: '#fff'}
+                        },
+                        dataRange: {
+                            min: 0,
+                            max: 2500,
+                            x: 'left',
+                            y: 'bottom',
+                            text:['高','低'],           // 文本，默认为数值文本
+                            calculable : true
+                        },
+                        toolbox: {
+                            show: true,
+                            orient : 'vertical',
+                            x: 'right',
+                            y: 'center',
+                            feature : {
+                                mark : {show: true},
+                                dataView : {show: true, readOnly: false},
+                                restore : {show: true},
+                                saveAsImage : {show: true}
+                            }
+                        },
+                        roamController: {
+                            show: true,
+                            x: 'right',
+                            mapTypeControl: {
+                                'china': true
+                            }
+                        }
+                    };
+
+                    stackline_datas = stackline_datas.options;
+                    stackline_datas[0] = $.extend({}, stackline_datas[0],option2);
+                    ECharts.ChartOptionTemplates.CommonLineOptionTimeLine.timeline['data'] = timeLineData;
+                    ECharts.ChartOptionTemplates.CommonLineOptionTimeLine.options =  stackline_datas;
+
+                    return ECharts.ChartOptionTemplates.CommonLineOptionTimeLine;
+
+                }
                 return $.extend({}, ECharts.ChartOptionTemplates.CommonLineOption, option);
             }
         },
