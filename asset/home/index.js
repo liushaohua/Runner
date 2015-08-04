@@ -4,10 +4,12 @@ define(function(require) {
 
     home.template = require('text!./index.html');
 
+	//require('../dep/jquery-ui-1.11.4/jquery-ui.css');
+
     home.beforeRender = function() {
 		//在页面渲染之前执行，获取数据
 		console.log('beforeRender');
-	}
+	};
 
     home.initBehavior = function() {
 		//在页面渲染之后执行，对页面进行操作
@@ -18,6 +20,10 @@ define(function(require) {
 		var Render = {
 			init: function () {
 				this.render_nav().setDate().render_charts();
+				this.calendar();
+			},
+			calendar: function () {
+
 			},
 			setDate : function () {
 				var _this = this;
