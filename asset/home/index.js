@@ -6,6 +6,7 @@ define(function(require) {
 
 	//require('../dep/jquery-ui-1.11.4/jquery-ui.css');
 
+
     home.beforeRender = function() {
 		//在页面渲染之前执行，获取数据
 		console.log('beforeRender');
@@ -16,14 +17,9 @@ define(function(require) {
 		console.log('initBehavior','uuu');
 		// 使用
 		$(document).trigger('Runner/hashChange');
-
 		var Render = {
 			init: function () {
 				this.render_nav().setDate().render_charts();
-				this.calendar();
-			},
-			calendar: function () {
-
 			},
 			setDate : function () {
 				var _this = this;
@@ -101,9 +97,30 @@ define(function(require) {
 			render_charts : function () {
 				$('.query_wrap').on('click', 'a', function () {
 					var $this = $(this),
-						cVal = $this.html();
+						cVal = $this.html(),
+						_position = $this.offset();
 					$('.query_wrap a').removeClass('active');
 					$this.addClass('active');
+					switch (cVal) {
+						case '日期':
+							console.log('日期');
+							require(['dep/jquery-ui-1.11.4/jquery-ui.js'],
+								function () {
+									var $datepicker = $( "#datepicker" );
+									$datepicker.css({'left': _position.left - 37, 'top': _position.top});
+									$datepicker.datepicker();
+									$datepicker.datepicker('show');
+									$('#ui-datepicker-div').css('top',_position.top +37);
+									$("#ui-datepicker-div").css('font-size','0.2em') //改变大小*/
+									var date = $('#datepicker').datepicker({ dateFormat: 'yy/mm/dd' }).val();
+									console.log(date);
+
+								}
+							);
+							break;
+						default:
+							console.log('其他');
+					}
 					if (cVal == '时段') {
 						var option = [{
 							name:'周一',
@@ -306,7 +323,7 @@ define(function(require) {
 				myChart.showLoading({
 					text: '正在努力的读取数据中...'
 				});
-				console.log('kais');
+
 				$.ajax({
 					url: 'http://10.59.10.123/',
 					type: 'post',
@@ -389,8 +406,6 @@ define(function(require) {
 				var cOption = EchartsCof.ChartOptionTemplates.Lines(option,'hellow-cookie',true, {
 					'title': '未来一周气温变化-ga'
 				});
-				console.log(cOption,'wee');
-
 
 				// 为echarts对象加载数据
 				Render.chartsData.myCharts.dom.setOption(cOption);

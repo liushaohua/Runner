@@ -29,9 +29,16 @@ html, body { height: 100%;}
 .right_content { float: left; width: 100%; height: 100%;}
 #main { margin-left: 223px;height: 100%;}
 .logo{padding-top:5px;padding-left:15px;}
+.fix_logo{position:fixed;top:5px;left:15px;display:none;}
 /*nav-list*/
 .nav_list>li{margin-top:2px;}
-.nav_list li a{color:#FFF;cursor:pointer;border-radius:5px;width:158px;height:39px;display:block;line-height:39px;text-align:center;transition:.6s all ease;}
+.nav_list li a{color:#FFF;cursor:pointer;border-radius:5px;width:158px;height:39px;display:block;line-height:39px;text-align:center;transition:.6s all ease;position:relative;}
+.nav_list li a i{position:absolute;width:16px;height:16px;display:block;background:url(./images/icon.png);left:11px;top:11px;}
+.nav_list li a i.analysis{background-position: -71px 0px;}
+.nav_list li a i.compose{background-position: -98px 0px;}
+.nav_list li a i.count{background-position: -122px 0px;}
+.nav_list li a i.land{background-position: -148px 0px;}
+.nav_list li a i.search{background-position: -173px 0px;}
 .nav_list li .menu_wrap{margin-top:17px;}
 .nav_list li .submenu{display:none;overflow:hidden;background:#34495e;width:167px;margin-left:9px;padding-left:11px;border-radius: 5px;}
 .nav_list li .dropdown-toggle{display:block;background:#3598db;width:182px;height:39px;line-height:39px;border:none;text-align:center;margin-left:9px;transition:none;}
@@ -43,9 +50,9 @@ html, body { height: 100%;}
 .submenu li.active a,.submenu li a:hover{background:#3598db;}
 
 .side_btn{position:relative;height:25px;margin-top:40px;margin-bottom:25px;}
-.side_btn a{display:inline-block;width:26px;height:26px;background:red;}
-.side_show{left:0;position:absolute;}
-.side_hide{right:26px;position:absolute;}
+.side_btn a{display:inline-block;width:26px;height:26px;background:url(./images/icon.png);}
+.side_btn a.side_show{left:0;position:absolute;background-position: -35px 0px;display:none;}
+.side_btn a.side_hide{right:26px;position:absolute;background-position:0 0;}
 
 /*.right_nav*/
 .right_nav{width:100%;height:50px;}
@@ -80,4 +87,19 @@ font-family:"Microsoft YaHei ", Helvetica, Arial, sans-serif;font-weight:bold;}
 /*echars*/
 #main_wrap{margin:40px auto 0;}
 /*»’¿˙*/
-.hasDatepicker{opacity: 0;width: 1px;}
+#datepicker{opacity: 0;width: 0px;position:absolute;}
+#ui-datepicker-div{background:#3f67c0;}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
+    border:none;
+    background:#3f67c0;
+    color:#fff;
+    text-align:center;
+}
+.ui-datepicker td{
+    border: 1px solid #33367d;
+}
+.ui-datepicker-calendar thead tr{background:#35b5eb;color:#Fff;}
+.ui-datepicker-calendar thead tr th{border: 1px solid #33367d;}
+.ui-widget-content,.ui-widget-header{border:none;background:none;}
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus{background:none;border-color:#3f67c0;}
+.ui-state-hover .ui-icon, .ui-state-focus .ui-icon{background-image: url("../../dep/jquery-ui-1.11.4/images/ui-icons_ffffff_256x240.png");}

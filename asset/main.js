@@ -7,10 +7,11 @@
 define(function(require) {
 	'use strict';
 	require('jQuery');
-	require('dep/jquery-ui-1.11.4/jquery-ui.js');
+	//require('dep/jquery-ui-1.11.4/jquery-ui.js');
     var router = require('router'),
 		$ = jQuery,cPage = {};
 		window.EchartsCof = require('common/MyEcharts');
+
 
 	router.registerRouter({
 		path: '/home/',
@@ -49,31 +50,24 @@ define(function(require) {
 	});
 
 	$(function () {
-		return;
-		$( "#datepicker" ).datepicker({ dateFormat: 'yy/mm/dd' });
-		console.log(55);
-		$('a').click(function () {
-			$( "#datepicker" ).datepicker('show');
-			var date = $('#datepicker').datepicker({ dateFormat: 'yy/mm/dd' }).val();
-			console.log(date);
-		});
-		$( "#datepicker" ).datepicker('show');
-		$("#ui-datepicker-div").css('font-size','0.6em') //改变大小
+
 	});
 
 	var $show_bar = $('.side_show'),
 		$hide_bar = $('.side_hide'),
-		$main = $('#main');
+		$main = $('#main'),
+		$fix_logon = $('.fix_logo');
 
 	$hide_bar.click(function () {
 		$('.left_bar').animate({'left': -223});
-		$show_bar.css('left',210);
-		$main.animate({'margin-left': 0});
+		$show_bar.css('left',240).add($fix_logon).fadeIn(1000);
+		$main.animate({'margin-left': 74});
 	});
 
 	$show_bar.click(function () {
 		$('.left_bar').animate({'left': 0});
-		$show_bar.css('left',0);
+		$show_bar.hide().css('left',0);
+		$fix_logon.fadeOut(500);
 		$main.animate({'margin-left': 223});
 	});
 });

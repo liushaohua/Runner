@@ -18,11 +18,13 @@
                 </ul>
                 <div class="right_gap"></div>
             </div>
-            <input type="text" id="datepicker" class="hasDatepicker">
         </div>
         <div id="main"><!-- templace --></div>
     </div>
-    <div class="left_bar" style="display:none;">
+    <div class="fix_logo">
+        <img src="asset/common/images/logo.png" width="198" height="104">
+    </div>
+    <div class="left_bar">
         <div class="logo">
             <img src="asset/common/images/logo.png" width="198" height="104"/>
         </div>
@@ -33,7 +35,7 @@
         <div class="nav">
             <ul class="nav_list">
                 <li>
-                    <a class="dropdown-toggle" href="javascript:;">页面详细分析</a>
+                    <a class="dropdown-toggle" href="javascript:;"><i class="analysis"></i>页面详细分析</a>
                     <div class="rel menu_wrap">
                         <div class="up_arrow abs"></div>
                         <ul class="submenu" style="display:block;">
@@ -50,7 +52,7 @@
                     </div>
                 </li>
                 <li>
-                    <a class="dropdown-toggle" href="javascript:;">用户构成</a>
+                    <a class="dropdown-toggle" href="javascript:;"><i class="compose"></i>用户构成</a>
                     <div>
                         <ul class="submenu">
                             <li>
@@ -69,9 +71,7 @@
         </div>
     </div>
 </div>
-
-
-
+<input type="text" id="datepicker">
 </body>
 <script src="dep/requirejs/require.js"></script>
 <script>
@@ -86,8 +86,6 @@ require.config({
     },
     pachages: []
 });
-
 require(['main']);
-    
 </script>
 </html>
