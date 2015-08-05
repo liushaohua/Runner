@@ -103,3 +103,6 @@ font-family:"Microsoft YaHei ", Helvetica, Arial, sans-serif;font-weight:bold;}
 .ui-widget-content,.ui-widget-header{border:none;background:none;}
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus{background:none;border-color:#3f67c0;}
 .ui-state-hover .ui-icon, .ui-state-focus .ui-icon{background-image: url("../../dep/jquery-ui-1.11.4/images/ui-icons_ffffff_256x240.png");}
+div.ui-datepicker, .ui-datepicker td{
+    font-size:12px;
+}

@@ -19,7 +19,49 @@ define(function(require) {
 		$(document).trigger('Runner/hashChange');
 		var Render = {
 			init: function () {
-				this.render_nav().setDate().render_charts();
+				this.render_nav().setDate().set_method().getServer();
+			},
+			Method: {
+				'time_type':'day',
+				'ds':'20150717',
+				'biz_name':'ershouche',
+				'browser_type':'chrome',
+				'limit':'5',
+				'date': $('#datepicker').val(),
+				'time': '',
+				'business': ''
+			},
+			getServer: function () {
+				console.log('getServer');
+				var _this = this;
+				$.ajax({
+					url: 'http://10.59.10.123/',
+					type: 'post',
+					async: true,
+					data: _this.Method,
+					dataType: 'json',
+					success: function(data, textStatus) {
+						console.log(data);
+						_this.render_charts('line', data);
+						Render.chartsData.myCharts.dom.hideLoading();
+					},
+					error : function() {
+						try{
+							Render.chartsData.myCharts.dom.hideLoading();
+						}catch(e){}
+					}
+				});
+			},
+			render_charts: function (type, data) {
+				var cOption;
+				if (type == 'line') {
+					cOption = EchartsCof.ChartOptionTemplates.Lines(option,'hellow-cookie',true, {
+						'title': '未来一周气温变化-ga'
+					});
+				}
+				// 为echarts对象加载数据
+				Render.chartsData.myCharts.dom.setOption(cOption);
+				Render.chartsData.myCharts.data = cOption;
 			},
 			setDate : function () {
 				var _this = this;
@@ -94,7 +136,8 @@ define(function(require) {
 				});
 				return _this;
 			},
-			render_charts : function () {
+			set_method : function () {
+				var _this = this;
 				$('.query_wrap').on('click', 'a', function () {
 					var $this = $(this),
 						cVal = $this.html(),
@@ -108,13 +151,14 @@ define(function(require) {
 								function () {
 									var $datepicker = $( "#datepicker" );
 									$datepicker.css({'left': _position.left - 37, 'top': _position.top});
-									$datepicker.datepicker();
+									$datepicker.datepicker({ dateFormat: 'yy/mm/dd',onSelect: function(dateText, inst) {
+										var date = $datepicker.datepicker().val();
+										_this.Method.date = date;
+										console.log(_this.Method);
+									} });
 									$datepicker.datepicker('show');
 									$('#ui-datepicker-div').css('top',_position.top +37);
-									$("#ui-datepicker-div").css('font-size','0.2em') //改变大小*/
-									var date = $('#datepicker').datepicker({ dateFormat: 'yy/mm/dd' }).val();
-									console.log(date);
-
+									//$("#ui-datepicker-div").css('font-size','0.2em') //改变大小*/
 								}
 							);
 							break;
@@ -283,6 +327,7 @@ define(function(require) {
 						Render.chartsData.myCharts.data = cOption;
 					}
 				});
+				return this;
 			},
 			chartsData : {
 				'myCharts': {
@@ -320,31 +365,11 @@ define(function(require) {
 				var myChart;
 				myChart = Render.chartsData.myCharts.dom = echarts.init(document.getElementById('main_wrap'),theme);
 
-				myChart.showLoading({
-					text: '正在努力的读取数据中...'
-				});
+				//myChart.showLoading({
+					//text: '正在努力的读取数据中...'
+				//});
 
-				$.ajax({
-					url: 'http://10.59.10.123/',
-					type: 'post',
-					async: true,
-					data:{
-						'time_type':'day',
-						'ds':'20150717',
-						'biz_name':'ershouche',
-						'browser_type':'chrome',
-						'limit':'5'
-					},
-					dataType: 'json',
-					success: function(data, textStatus) {
-						console.log(data);
-						myChart.hideLoading();
-					},
-					error : function() {
-						//console.log(55);
-						myChart.hideLoading();
-					}
-				});
+				Render.getServer();
 
 				var option = [{
 					name:'周一',
