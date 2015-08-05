@@ -56,8 +56,9 @@ html, body { height: 100%;}
 
 /*.right_nav*/
 .right_nav{width:100%;height:50px;}
-.right_nav_wrap{float:right;width:500px;height:50px;border-radius:8px;padding-left:24px;position:relative;}
+.right_nav_wrap{float:right;width:450px;height:50px;border-radius:8px;padding-left:24px;position:relative;}
 .right_nav .nav_bar{position:absolute;top:3px;left:24px;width:90px;height:38px;background:#3498db;border-radius:3px;}
+.right_nav .right_gap{background:url(../login/images/icon.png);cursor:pointer;}
 .right_nav .right_gap{position:absolute;width:24px;height:21px;right:6%;top:30%;background-position:-59px 0;}
 .right_nav ul{overflow:hidden;position:absolute;}
 .right_nav li{height:38px;float:left;margin-right:35px;margin-top:2%;border-radius:4px;}
@@ -65,6 +66,8 @@ html, body { height: 100%;}
 .right_nav li a{padding-left:17px;padding-right:17px;height:100%;display:inline-block;line-height:38px;
     font-size:14px;color:#fff;border-radius:3px;background:transparent;transition:.5s all ease;}
 .right_nav li a:hover{background:#3498db;}
+.p_info{position:absolute;width:295px;padding-left:15px;height:45px;line-height:45px;top:48px;right:22px;background:#34495e;color:#fff;border-radius:5px;display:none;}
+.p_info a{color:#fff;}
 
 /*home*/
 html{background:#342b6c;}

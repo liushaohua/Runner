@@ -49,14 +49,11 @@ define(function(require) {
 		$(this).next().stop().slideDown();
 	});
 
-	$(function () {
-
-	});
-
 	var $show_bar = $('.side_show'),
 		$hide_bar = $('.side_hide'),
 		$main = $('#main'),
-		$fix_logon = $('.fix_logo');
+		$fix_logon = $('.fix_logo'),
+		$p_info = $('.p_info');
 
 	$hide_bar.click(function () {
 		$('.left_bar').animate({'left': -223});
@@ -69,5 +66,15 @@ define(function(require) {
 		$show_bar.hide().css('left',0);
 		$fix_logon.fadeOut(500);
 		$main.animate({'margin-left': 223});
+	});
+
+	$('.right_gap').click(function (ev) {
+		var ev = ev || window.event;
+		$p_info.fadeIn(500);
+		ev.stopPropagation();
+	});
+
+	$(document).click(function () {
+		$p_info.fadeOut(500);
 	});
 });
