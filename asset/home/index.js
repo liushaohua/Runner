@@ -31,6 +31,32 @@ define(function(require) {
 				'time': '',
 				'business': ''
 			},
+			_dropdown: function (type, offset) {
+				var hash_list = {
+					'业务线': ['1点','2点','3点','4点','5点','6点']
+				},
+				init = function () {
+					var cHtml = '',
+						aLi = '',
+						list = hash_list[type];
+
+					if (!list) return;
+					for (var i = 0, len = list.length; i < len; i++) {
+						aLi += '<li>'+ list[i] +'</li>';
+					}
+
+					cHtml += '<div class="dropdown">'
+						  +      '<ul>'
+						  +          aLi
+						  +      '</ul>'
+					      +  '</div>';
+					$('body').append(cHtml);
+					$('.dropdown').css({'left': offset.left, 'top': offset.top});
+				};
+				return {
+					init: init
+				};
+			},
 			getServer: function () {
 				console.log('getServer');
 				var _this = this;
@@ -164,6 +190,7 @@ define(function(require) {
 							break;
 						default:
 							console.log('其他');
+							_this._dropdown(cVal, _position).init();
 					}
 					if (cVal == '时段') {
 						var option = [{

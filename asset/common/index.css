@@ -106,3 +106,6 @@ font-family:"Microsoft YaHei ", Helvetica, Arial, sans-serif;font-weight:bold;}
 div.ui-datepicker, .ui-datepicker td{
     font-size:12px;
 }
+
+/*dropdown*/
+.dropdown{position:absolute;width:300px;border:1px solid red;}
