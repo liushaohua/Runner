@@ -97,18 +97,24 @@ font-family:"Microsoft YaHei ", Helvetica, Arial, sans-serif;font-weight:bold;}
     background:#3f67c0;
     color:#fff;
     text-align:center;
+    height: 19px;
+    line-height: 19px;
 }
 .ui-datepicker td{
     border: 1px solid #33367d;
 }
 .ui-datepicker-calendar thead tr{background:#35b5eb;color:#Fff;}
-.ui-datepicker-calendar thead tr th{border: 1px solid #33367d;}
+.ui-datepicker-calendar thead tr th{border: 1px solid #33367d;width:20px;}
 .ui-widget-content,.ui-widget-header{border:none;background:none;}
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus{background:none;border-color:#3f67c0;}
 .ui-state-hover .ui-icon, .ui-state-focus .ui-icon{background-image: url("../../dep/jquery-ui-1.11.4/images/ui-icons_ffffff_256x240.png");}
 div.ui-datepicker, .ui-datepicker td{
     font-size:12px;
+    padding: 0;
+    margin: 0;
 }
+.ui-widget-content a.ui-state-active{background:#39479f;height: 26px;
+    line-height: 24px;padding: 0;}
 
 /*dropdown*/
 .dropdown {padding-top:5px;padding-bottom:5px;  position: absolute;width: 135px;background-color: #34495e;border-radius:5px;  border: 1px solid #8e8f93;-webkit-box-shadow: 1px 2px 1px rgba(0,0,0,0.072);
@@ -116,5 +122,5 @@ div.ui-datepicker, .ui-datepicker td{
     -o-box-shadow: 1px 2px 1px rgba(0,0,0,0.072);}
 .dropdown ul{padding-left:5px;}
 .dropdown li{line-height:23px;height:23px;margin-bottom:2px;}
-.dropdown li a{color:#fff;display:inline-block;width:116px;padding-left:5px;padding-right:5px;transition: .6s all ease;border-radius:5px;}
+.dropdown li a{color:#fff;display:inline-block;width:116px;padding-left:5px;padding-right:5px;transition: .6s all ease;border-radius:5px;font-size:13px;}
 .dropdown li a:hover,.dropdown li.active a{font-weight:bold;background:#3598db;}

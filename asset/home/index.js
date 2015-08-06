@@ -35,6 +35,7 @@ define(function(require) {
 				'business': ''
 			},
 			screen: window.config.screen,
+			dictionary: window.config.dictionary,
 			_dropdown: function (type, offset) {
 				var _this = this,
 					init = function () {
@@ -46,7 +47,7 @@ define(function(require) {
 					if (!list) return;
 					for (var i = 0, len = list.length; i < len; i++) {
 						list[i]['state'] && (oldIndex = i);
-						aLi += '<li class="'+ (list[i]['state'] ? 'active': '') +'"><a href="javascript:;">'+ list[i]['value'] +'</a></li>';
+						aLi += '<li value="'+ list[i]['value'] +'" class="'+ (list[i]['state'] ? 'active': '') +'"><a href="javascript:;">'+ list[i]['text'] +'</a></li>';
 					}
 
 					cHtml += '<div class="dropdown">'
@@ -62,6 +63,8 @@ define(function(require) {
 						$this.addClass('active').siblings().removeClass('active');
 						_this.screen[type][oldIndex].state = 0;
 						_this.screen[type][$this.index()].state = 1;
+						_this.dictionary[type] && (_this.Method[_this.dictionary[type]] = $this.attr('value'));
+						_this.getServer(type);
 
 					});
 				};
@@ -69,9 +72,9 @@ define(function(require) {
 					init: init
 				};
 			},
-			getServer: function () {
-				console.log('getServer');
+			getServer: function (type) {
 				var _this = this;
+				console.log('getServer',_this.Method);
 				$.ajax({
 					url: 'http://10.59.10.123/',
 					type: 'post',
@@ -193,7 +196,7 @@ define(function(require) {
 									$datepicker.datepicker({ dateFormat: 'yy/mm/dd',onSelect: function(dateText, inst) {
 										var date = $datepicker.datepicker().val();
 										_this.Method.date = date;
-										console.log(_this.Method);
+										_this.getServer(cVal);
 									} });
 									$datepicker.datepicker('show');
 									$('#ui-datepicker-div').css('top',_position.top +37);
