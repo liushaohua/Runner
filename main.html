@@ -81,6 +81,7 @@
 require.config({
     baseUrl: 'asset',
     paths : {
+        config: '../asset/common/config',
         text: '../dep/requirejs-text/text',
         router: '../dep/router/router',
         echarts: '../dep/echarts-2.2.4/build/dist',
@@ -89,6 +90,6 @@ require.config({
     },
     pachages: []
 });
-require(['main']);
+require(['config','main']);
 </script>
 </html>

@@ -254,6 +254,9 @@
                             textStyle:{
                                 color:"#fff"
                             }
+                        },
+                        splitLine : {    // 轴线
+                            show: false
                         }
                     }],
                     yAxis : [
@@ -264,6 +267,9 @@
                                 textStyle:{
                                     color:"#fff"
                                 }
+                            },
+                            splitLine : {    // 轴线
+                                show: false
                             }
                         }
                     ],

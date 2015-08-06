@@ -88,7 +88,7 @@ font-family:"Microsoft YaHei ", Helvetica, Arial, sans-serif;font-weight:bold;}
 .query_channel a{display:inline-block;width:30px;}
 .query_channel a.active{border-bottom:1px solid blue;}
 /*echars*/
-#main_wrap{margin:40px auto 0;}
+#main_wrap{margin:40px auto 0;background:none;}
 /*»’¿˙*/
 #datepicker{opacity: 0;width: 0px;position:absolute;}
 #ui-datepicker-div{background:#3f67c0;}
@@ -111,4 +111,10 @@ div.ui-datepicker, .ui-datepicker td{
 }
 
 /*dropdown*/
-.dropdown{position:absolute;width:300px;border:1px solid red;}
+.dropdown {padding-top:5px;padding-bottom:5px;  position: absolute;width: 135px;background-color: #34495e;border-radius:5px;  border: 1px solid #8e8f93;-webkit-box-shadow: 1px 2px 1px rgba(0,0,0,0.072);
+    -moz-box-shadow: 1px 2px 1px rgba(0,0,0,0.072);
+    -o-box-shadow: 1px 2px 1px rgba(0,0,0,0.072);}
+.dropdown ul{padding-left:5px;}
+.dropdown li{line-height:23px;height:23px;margin-bottom:2px;}
+.dropdown li a{color:#fff;display:inline-block;width:116px;padding-left:5px;padding-right:5px;transition: .6s all ease;border-radius:5px;}
+.dropdown li a:hover,.dropdown li.active a{font-weight:bold;background:#3598db;}

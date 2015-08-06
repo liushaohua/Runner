@@ -53,6 +53,7 @@ define(function(require) {
 		$hide_bar = $('.side_hide'),
 		$main = $('#main'),
 		$fix_logon = $('.fix_logo'),
+		$logo = $('.logo'),
 		$p_info = $('.p_info');
 
 	$hide_bar.click(function () {
@@ -77,4 +78,20 @@ define(function(require) {
 	$(document).click(function () {
 		$p_info.fadeOut(500);
 	});
+
+	var breath = [];
+
+	breath[0] = function() {
+		$logo.fadeTo(1000, 0.4, function() {
+			breath[1]();
+		});
+	};
+
+	breath[1] = function() {
+		$logo.fadeTo(2000, 1, function() {
+			breath[0]();
+		});
+	};
+
+	breath[1]();
 });

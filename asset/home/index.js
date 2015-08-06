@@ -20,6 +20,9 @@ define(function(require) {
 		var Render = {
 			init: function () {
 				this.render_nav().setDate().set_method().getServer();
+				$(document).click(function () {
+					$('.dropdown').fadeOut(300);
+				});
 			},
 			Method: {
 				'time_type':'day',
@@ -31,18 +34,19 @@ define(function(require) {
 				'time': '',
 				'business': ''
 			},
+			screen: window.config.screen,
 			_dropdown: function (type, offset) {
-				var hash_list = {
-					'业务线': ['1点','2点','3点','4点','5点','6点']
-				},
-				init = function () {
+				var _this = this,
+					init = function () {
 					var cHtml = '',
 						aLi = '',
-						list = hash_list[type];
+						list = _this.screen[type],
+						oldIndex = 0;
 
 					if (!list) return;
 					for (var i = 0, len = list.length; i < len; i++) {
-						aLi += '<li>'+ list[i] +'</li>';
+						list[i]['state'] && (oldIndex = i);
+						aLi += '<li class="'+ (list[i]['state'] ? 'active': '') +'"><a href="javascript:;">'+ list[i]['value'] +'</a></li>';
 					}
 
 					cHtml += '<div class="dropdown">'
@@ -51,7 +55,15 @@ define(function(require) {
 						  +      '</ul>'
 					      +  '</div>';
 					$('body').append(cHtml);
-					$('.dropdown').css({'left': offset.left, 'top': offset.top});
+					$('.dropdown').css({'left': offset.left, 'top': offset.top + 37});
+
+					$('.dropdown li').click(function () {
+						var $this = $(this);
+						$this.addClass('active').siblings().removeClass('active');
+						_this.screen[type][oldIndex].state = 0;
+						_this.screen[type][$this.index()].state = 1;
+
+					});
 				};
 				return {
 					init: init
@@ -164,10 +176,11 @@ define(function(require) {
 			},
 			set_method : function () {
 				var _this = this;
-				$('.query_wrap').on('click', 'a', function () {
+				$('.query_wrap').on('click', 'a', function (ev) {
 					var $this = $(this),
 						cVal = $this.html(),
-						_position = $this.offset();
+						_position = $this.offset(),
+						ev = ev || window.event;
 					$('.query_wrap a').removeClass('active');
 					$this.addClass('active');
 					switch (cVal) {
@@ -191,6 +204,7 @@ define(function(require) {
 						default:
 							console.log('其他');
 							_this._dropdown(cVal, _position).init();
+							ev.stopPropagation();
 					}
 					if (cVal == '时段') {
 						var option = [{
@@ -371,11 +385,27 @@ define(function(require) {
 				},{
 					'name': '业务线'
 				},{
-					'name': '日期'
+					'name': '一级分类'
+				},{
+					'name': '二级分类'
+				},{
+					'name': '页面类型'
+				},{
+					'name': '国家'
+				},{
+					'name': '省份'
+				},{
+					'name': '城市'
+				},{
+					'name': '浏览器'
+				},{
+					'name': '操作系统'
+				},{
+					'name': '分辨率'
 				}];
 
 				for (var i = 0, len = data.length; i < len; i++) {
-					var bBOOL = ((i+1)% 6 == 0 && i+1 != len);
+					var bBOOL = ((i+1)% 6 == 0);
 					cHTML += '<a href="javascript:;"'+ (bBOOL ? 'class="c-span-last"' : '')+'>' + data[i]['name'] +'</a>'
 					      + ( bBOOL ? '</li><li>'  : '');
 				}
@@ -458,7 +488,7 @@ define(function(require) {
 				var cOption = EchartsCof.ChartOptionTemplates.Lines(option,'hellow-cookie',true, {
 					'title': '未来一周气温变化-ga'
 				});
-
+//console.log(JSON.stringify(cOption));
 				// 为echarts对象加载数据
 				Render.chartsData.myCharts.dom.setOption(cOption);
 				Render.chartsData.myCharts.data = cOption;
