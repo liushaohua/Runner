@@ -386,15 +386,11 @@ define(function(require) {
 				},{
 					'name': '时段'
 				},{
-					'name': '业务线'
-				},{
 					'name': '一级分类'
 				},{
 					'name': '二级分类'
 				},{
 					'name': '页面类型'
-				},{
-					'name': '国家'
 				},{
 					'name': '省份'
 				},{
