@@ -97,8 +97,9 @@ define(function(require) {
 		_select: function () {
 			$('.menu-btn').click(function () {
 				var $this = $(this),
-					_position = $this.position();
-				$this.next('.select_w').css({'left': _position.left, 'top': _position.top + $this.height()}).slideDown(500);
+					_position = $this.position(),
+					$select_w = $this.next('.select_w');
+				$select_w.css({'left': _position.left, 'top': _position.top + $this.height()}).slideDown(500);
 			});
 		}
 	};

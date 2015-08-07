@@ -25,7 +25,7 @@ define(function(require) {
 					$('.dropdown').fadeOut(300);
 				});
 
-				setTimeout(function () {
+				/*setTimeout(function () {
 					_this.screen['省份'] = [{
 						'text': '河1',
 						'value': '11'
@@ -40,7 +40,21 @@ define(function(require) {
 						'text': '甘肃4',
 						'value': '甘肃'
 					}];
-				},1000);
+				},1000);*/
+
+				$.ajax({
+					url: 'http://10.9.17.55:8080/filter',
+					type: 'post',
+					async: true,
+					data: {
+						'prov_id': 1
+					},
+					dataType: 'json',
+					success: function(data, textStatus) {
+						_this.screen['省份'] = data.data;
+						console.log(data);
+					}
+				});
 			},
 			Method: {
 				'time_type':'day',
