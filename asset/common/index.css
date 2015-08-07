@@ -152,7 +152,8 @@ div.ui-datepicker, .ui-datepicker td{
 .dropdown li a:hover,.dropdown li.active a{font-weight:bold;background:#3598db;}
 
 /*select*/
-.select_wrap{padding-left:30px;}
-.select_s{height:20px;width:164px;}
-.select_s .menu-btn{height:20px;background:red;cursor:pointer;}
-.select_s ul{position:absolute;display:none;}
+.select_wrap{padding-left:30px;width:164px;}
+.select_s{height:25px;}
+.select_s .menu-btn{height:25px;line-height:25px;background:#3598db;cursor:pointer;border-radius:5px;color:#fff;font-size:13px;padding-left:10px;}
+.select_s .select_w{position:absolute;display:none;background: #34495e;width:164px;}
+.select_s ul{color:#fff;padding-left:5px;}

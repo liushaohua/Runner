@@ -314,10 +314,14 @@
 
                     stackline_datas = stackline_datas.options;
                     stackline_datas[0] = $.extend({}, stackline_datas[0],option2);
-                    ECharts.ChartOptionTemplates.CommonLineOptionTimeLine.timeline['data'] = timeLineData;
-                    ECharts.ChartOptionTemplates.CommonLineOptionTimeLine.options =  stackline_datas;
+                    //ECharts.ChartOptionTemplates.CommonLineOptionTimeLine.timeline['data'] = timeLineData;
+                    //ECharts.ChartOptionTemplates.CommonLineOptionTimeLine.options =  stackline_datas;
 
-                    return ECharts.ChartOptionTemplates.CommonLineOptionTimeLine;
+                    //return ECharts.ChartOptionTemplates.CommonLineOptionTimeLine;
+                    var optionLine = ECharts.ChartOptionTemplates.CommonLineOptionTimeLine;
+                    optionLine.timeline['data'] = timeLineData;
+                    optionLine.options = stackline_datas;
+                    return optionLine;
 
                 }
                 return $.extend({}, ECharts.ChartOptionTemplates.CommonLineOption, option);
@@ -454,10 +458,15 @@
 
                     stackline_datas = stackline_datas.options;
                     stackline_datas[0] = $.extend({}, stackline_datas[0],option2);
-                    ECharts.ChartOptionTemplates.CommonLineOptionTimeLine.timeline['data'] = timeLineData;
-                    ECharts.ChartOptionTemplates.CommonLineOptionTimeLine.options =  stackline_datas;
+                    //ECharts.ChartOptionTemplates.CommonLineOptionTimeLine.timeline['data'] = timeLineData;
+                    //ECharts.ChartOptionTemplates.CommonLineOptionTimeLine.options =  stackline_datas;
 
-                    return ECharts.ChartOptionTemplates.CommonLineOptionTimeLine;
+                    //return ECharts.ChartOptionTemplates.CommonLineOptionTimeLine;
+
+                    var optionLine = ECharts.ChartOptionTemplates.CommonLineOptionTimeLine;
+                    optionLine.timeline['data'] = timeLineData;
+                    optionLine.options = stackline_datas;
+                    return optionLine;
 
                 }
                 return $.extend({}, ECharts.ChartOptionTemplates.CommonLineOption, option);

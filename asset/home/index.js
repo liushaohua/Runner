@@ -19,10 +19,28 @@ define(function(require) {
 		$(document).trigger('Runner/hashChange');
 		var Render = {
 			init: function () {
+				var _this = this;
 				this.render_nav().setDate().set_method().getServer();
 				$(document).click(function () {
 					$('.dropdown').fadeOut(300);
 				});
+
+				setTimeout(function () {
+					_this.screen['省份'] = [{
+						'text': '河1',
+						'value': '11'
+					},{
+						'text': '江西2',
+						'value': '江西',
+						'state': 1
+					},{
+						'text': '广东3',
+						'value': '广东'
+					},{
+						'text': '甘肃4',
+						'value': '甘肃'
+					}];
+				},1000);
 			},
 			Method: {
 				'time_type':'day',
