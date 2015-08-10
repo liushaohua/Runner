@@ -17,6 +17,7 @@ define(function(require) {
 		console.log('initBehavior','uuu');
 		// 使用
 		$(document).trigger('Runner/hashChange');
+		$('.top_bar').animate({'margin-left':0},500);
 		var Render = {
 			init: function () {
 				var _this = this;
@@ -51,7 +52,7 @@ define(function(require) {
 					},
 					dataType: 'json',
 					success: function(data, textStatus) {
-						_this.screen['省份'] = data.data;
+						//_this.screen['省份'] = data.data;
 						console.log(data);
 					}
 				});
@@ -69,6 +70,7 @@ define(function(require) {
 			screen: window.config.screen,
 			dictionary: window.config.dictionary,
 			_dropdown: function (type, offset) {
+				$('.dropdown').remove();
 				var _this = this,
 					init = function () {
 					var cHtml = '',
@@ -124,6 +126,7 @@ define(function(require) {
 						}catch(e){}
 					}
 				});
+				return _this;
 			},
 			render_charts: function (type, data) {
 				var cOption;
@@ -403,6 +406,15 @@ define(function(require) {
 						Render.chartsData.myCharts.data = cOption;
 					}
 				});
+
+				$('.menu-btn').click(function (ev) {
+					var $this = $(this),
+						cVal = $this.find('span').html(),
+						_position = $this.offset(),
+						ev = ev || window.event;
+					_this._dropdown(cVal, _position).init();
+					ev.stopPropagation();
+				});
 				return this;
 			},
 			chartsData : {
@@ -436,7 +448,7 @@ define(function(require) {
 				}];
 
 				for (var i = 0, len = data.length; i < len; i++) {
-					var bBOOL = ((i+1)% 6 == 0);
+					var bBOOL = ((i+1)% 5 == 0);
 					cHTML += '<a href="javascript:;"'+ (bBOOL ? 'class="c-span-last"' : '')+'>' + data[i]['name'] +'</a>'
 					      + ( bBOOL ? '</li><li>'  : '');
 				}
@@ -452,11 +464,10 @@ define(function(require) {
 			function (ec,theme) {;
 				var myChart;
 				myChart = Render.chartsData.myCharts.dom = echarts.init(document.getElementById('main_wrap'),theme);
-
+				$('#main_wrap > div').animate({'margin-left':0},500);
 				//myChart.showLoading({
 					//text: '正在努力的读取数据中...'
 				//});
-
 				Render.getServer();
 
 				var option = [{

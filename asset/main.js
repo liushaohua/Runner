@@ -91,8 +91,6 @@ define(function(require) {
 			};
 
 			breath[1]();
-
-			_this._select();
 		},
 		_select: function () {
 			$('.menu-btn').click(function () {
