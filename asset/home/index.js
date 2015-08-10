@@ -65,7 +65,8 @@ define(function(require) {
 				'limit':'5',
 				'date': $('#datepicker').val(),
 				'time': '',
-				'business': ''
+				'business': '',
+				'os_type': 'android'
 			},
 			screen: window.config.screen,
 			dictionary: window.config.dictionary,
@@ -117,7 +118,8 @@ define(function(require) {
 					dataType: 'json',
 					success: function(data, textStatus) {
 						console.log(data);
-						_this.render_charts('line', data);
+						//_this.render_charts('line', data);
+						_this.render_charts('TreeMap', data);
 						Render.chartsData.myCharts.dom.hideLoading();
 					},
 					error : function() {
@@ -131,7 +133,11 @@ define(function(require) {
 			render_charts: function (type, data) {
 				var cOption;
 				if (type == 'line') {
-					cOption = EchartsCof.ChartOptionTemplates.Lines(option,'hellow-cookie',true, {
+					cOption = EchartsCof.ChartOptionTemplates.Lines(data,'hellow-cookie',true, {
+						'title': '未来一周气温变化-ga'
+					});
+				} else if (type == 'TreeMap') {
+					cOption = EchartsCof.ChartOptionTemplates.TreeMap(data,'hellow-cookie',true, {
 						'title': '未来一周气温变化-ga'
 					});
 				}
@@ -241,7 +247,8 @@ define(function(require) {
 							break;
 						default:
 							console.log('其他');
-							_this._dropdown(cVal, _position).init();
+							_this._dropdown(cVal, _position).init();console.log(cVal);
+							//_this.getServer('TreeMap');
 							ev.stopPropagation();
 					}
 					if (cVal == '时段') {
@@ -410,38 +417,64 @@ define(function(require) {
 						var option_map2 = {
 							'2002-01-01': [{
 								name:'北京',
-								group:'占有率',
 								value:11
 							},{
 								name:'天津',
-								group:'占有率',
 								value:11
 							},{
 								name:'新疆',
-								group:'占有率',
 								value:15
 							}],
 							'2003-01-01': [{
 								name:'北京',
-								group:'占有率',
 								value:15
 							},{
 								name:'天津',
-								group:'占有率',
 								value:11
 							},{
 								name:'新疆',
-								group:'占有率',
 								value:14
 							}]
 						};
 
-						var cOption23 = EchartsCof.ChartOptionTemplates.TreeMap(option_map2,'hellow-cookie',true, {
+						var dd = {
+							"2015-07-28": [
+						{
+							"value": 1,
+							"name": "ipad"
+						},
+						{
+							"value": 5,
+							"name": "android"
+						},
+						{
+							"value": 4,
+							"name": "iphone"
+						}],
+								"2015-08-02": [
+								{
+									"value": 1,
+									"name": "ipad"
+								},
+								{
+									"value": 7,
+									"name": "android"
+								},
+								{
+									"value": 5,
+									"name": "iphone"
+								}
+							]
+
+					};
+						var cc = {"20150728":[{"value":1,"name":"ipad"},{"value":657161,"name":"android"},{"value":403,"name":"iphone"}],"20150729":[{"value":983305,"name":"android"},{"value":464,"name":"iphone"}],"20150730":[{"value":348,"name":"iphone"},{"value":720813,"name":"android"}],"20150731":[{"value":615425,"name":"android"},{"value":417,"name":"iphone"}],"20150801":[{"value":907686,"name":"android"},{"value":636,"name":"iphone"}],"20150802":[{"value":1,"name":"ipad"},{"value":780799,"name":"android"},{"value":532,"name":"iphone"}],"total":20,"status":"success"};
+						var cOption23 = EchartsCof.ChartOptionTemplates.TreeMap(dd,'hellow-cookie',true, {
 							'hasTime' : 1,
 							'title': '未来一周气温变化-aa'
 						});
 
 						console.log(JSON.stringify(cOption23),'操作系统');
+
 						Render.chartsData.myCharts.dom.clear();
 						Render.chartsData.myCharts.dom.setOption(cOption23);
 						Render.chartsData.myCharts.data = cOption;

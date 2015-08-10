@@ -67,6 +67,7 @@
     config.dictionary = {
         '日期': 'ds',
         '业务线': 'biz_name',
+        '操作系统': 'caozuo',
         '浏览器': 'browser_type'
     };
 
