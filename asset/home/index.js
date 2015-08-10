@@ -405,6 +405,47 @@ define(function(require) {
 						Render.chartsData.myCharts.dom.setOption(cOption23);
 						Render.chartsData.myCharts.data = cOption;
 					}
+
+					if (cVal == '操作系统') {
+						var option_map2 = {
+							'2002-01-01': [{
+								name:'北京',
+								group:'占有率',
+								value:11
+							},{
+								name:'天津',
+								group:'占有率',
+								value:11
+							},{
+								name:'新疆',
+								group:'占有率',
+								value:15
+							}],
+							'2003-01-01': [{
+								name:'北京',
+								group:'占有率',
+								value:15
+							},{
+								name:'天津',
+								group:'占有率',
+								value:11
+							},{
+								name:'新疆',
+								group:'占有率',
+								value:14
+							}]
+						};
+
+						var cOption23 = EchartsCof.ChartOptionTemplates.TreeMap(option_map2,'hellow-cookie',true, {
+							'hasTime' : 1,
+							'title': '未来一周气温变化-aa'
+						});
+
+						console.log(JSON.stringify(cOption23),'操作系统');
+						Render.chartsData.myCharts.dom.clear();
+						Render.chartsData.myCharts.dom.setOption(cOption23);
+						Render.chartsData.myCharts.data = cOption;
+					}
 				});
 
 				$('.menu-btn').click(function (ev) {

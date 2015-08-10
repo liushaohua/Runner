@@ -27,7 +27,6 @@
                         for (var j = 0; j < xAxis.length && xAxis[j] != data[i].name; j++);
                         if (j == xAxis.length)
                             xAxis.push(data[i].name);
-
                         for (var k = 0; k < group.length && group[k] != data[i].group; k++);
                         if (k == group.length)
                             group.push(data[i].group);
@@ -39,6 +38,23 @@
                             if (group[i] == data[j].group) {
                                 if (type == "map") {
                                     temp.push({ name: data[j].name, value: data[i].value });
+                                } else if (type == "treemap") {
+                                    temp.push({
+                                        name: data[j].name,
+                                        value: data[j].value,
+                                        itemStyle: {
+                                            normal: {
+                                                color: function(lower, upper) {
+                                                    return '#' + Math.floor(Math.random() * (upper - lower + 1) + lower).toString(16);
+                                                }(0, 0xF0F0F0),
+                                            },
+                                            emphasis: {
+                                                label: {
+                                                    show: false
+                                                }
+                                            }
+                                        }
+                                    });
                                 } else {
                                     temp.push(data[j].value);
                                 }
@@ -59,6 +75,45 @@
                                     itemStyle: {
                                         normal: { label: { show: true} },
                                         emphasis: { label: { show: true} }
+                                    },
+                                    data: temp
+                                };
+                                break;
+
+                            case 'treemap':
+                                var series_temp = {
+                                    name: group[i], type: chart_type,
+                                    itemStyle: {
+                                        normal: {
+                                            label: {
+                                                show: true,
+                                                formatter: "{b}: {c}",
+                                                textStyle: {
+                                                    color: '#00ffdd',
+                                                    fontFamily: 'Times New Roman",Georgia,Serif',
+                                                    fontSize: 20,
+                                                    fontStyle: 'italic',
+                                                    fontWeight: 'bolder'
+                                                }
+                                            },
+                                            borderWidth: 1,
+                                            borderColor: '#000'
+                                        },
+                                        emphasis: {
+                                            label: {
+                                                show: true,
+                                                textStyle: {
+                                                    color: '#0000ff',
+                                                    fontFamily: 'Times New Roman",Georgia,Serif',
+                                                    fontSize: 18,
+                                                    fontStyle: 'normal',
+                                                    fontWeight: 'bold'
+                                                }
+                                            },
+                                            color: '#cc99cc',
+                                            borderWidth: 3,
+                                            borderColor: '#996699'
+                                        }
                                     },
                                     data: temp
                                 };
@@ -93,6 +148,8 @@
 
                     if (type == 'map') {
                         return { category: group, series: series };
+                    }else if (type == 'treemap') {
+                        return {series: series };
                     }
                     return { category: group, xAxis: xAxis, series: series };
                 }
@@ -462,6 +519,51 @@
                     //ECharts.ChartOptionTemplates.CommonLineOptionTimeLine.options =  stackline_datas;
 
                     //return ECharts.ChartOptionTemplates.CommonLineOptionTimeLine;
+
+                    var optionLine = ECharts.ChartOptionTemplates.CommonLineOptionTimeLine;
+                    optionLine.timeline['data'] = timeLineData;
+                    optionLine.options = stackline_datas;
+                    return optionLine;
+
+                }
+                return $.extend({}, ECharts.ChartOptionTemplates.CommonLineOption, option);
+            },
+            TreeMap: function (data, name, is_stack, pack) {
+                var pack = pack || {},
+                    timeLineData = (function () {
+                        var cData = [];
+                        if (pack['hasTime']) {
+                            for (var i in data) {
+                                cData.push(i);
+                            }
+                        }
+                        return cData;
+                    } ()),
+                    stackline_datas = ECharts.ChartDataFormate.FormateGroupData(data, 'treemap', is_stack, pack);
+
+                if (pack['hasTime']) {
+                    var option2 = {
+                        title : {
+                            text: pack['title'] || '未设置title',
+                            subtext: '纯属虚构'
+                        },
+                        tooltip : {
+                            trigger: 'item'
+                        },
+                        toolbox: {
+                            show : true,
+                            feature : {
+                                mark : {show: true},
+                                dataView : {show: true, readOnly: false},
+                                restore : {show: true},
+                                saveAsImage : {show: true}
+                            }
+                        },
+                        hoverable : true
+                    };
+
+                    stackline_datas = stackline_datas.options;
+                    stackline_datas[0] = $.extend({}, stackline_datas[0],option2);
 
                     var optionLine = ECharts.ChartOptionTemplates.CommonLineOptionTimeLine;
                     optionLine.timeline['data'] = timeLineData;
