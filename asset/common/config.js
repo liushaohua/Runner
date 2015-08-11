@@ -6,8 +6,6 @@
 (function() {
     'use strict';
     var config = {};
-
-
     /**
      * 搜索筛选条件
      * @type {Object}
@@ -69,6 +67,17 @@
         '业务线': 'biz_name',
         '操作系统': 'caozuo',
         '浏览器': 'browser_type'
+    };
+
+    /**
+     * 中英文转换词典
+     * @type {Object}
+     */
+    config.echarts_type = {
+        '时段': 'Map',
+        '操作系统': 'TreeMap',
+        'default': 'line',
+        '业务线': 'TreeMap',
     };
 
     window.config = config;

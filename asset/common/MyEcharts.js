@@ -542,7 +542,7 @@
                     stackline_datas = ECharts.ChartDataFormate.FormateGroupData(data, 'treemap', is_stack, pack);
 
                 if (pack['hasTime']) {
-                    var option2 = {
+                    var option = {
                         title : {
                             text: pack['title'] || '未设置title',
                             subtext: '纯属虚构'
@@ -563,7 +563,7 @@
                     };
 
                     stackline_datas = stackline_datas.options;
-                    stackline_datas[0] = $.extend({}, stackline_datas[0],option2);
+                    stackline_datas[0] = $.extend({}, stackline_datas[0],option);
 
                     var optionLine = ECharts.ChartOptionTemplates.CommonLineOptionTimeLine;
                     optionLine.timeline['data'] = timeLineData;

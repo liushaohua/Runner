@@ -1,60 +1,21 @@
 define(function(require) {
-	
 	var home = {};
-
     home.template = require('text!./index.html');
 
-	//require('../dep/jquery-ui-1.11.4/jquery-ui.css');
-
-
     home.beforeRender = function() {
-		//在页面渲染之前执行，获取数据
-		console.log('beforeRender');
+		//在页面渲染之前执行，获取数据beforeRender
 	};
 
     home.initBehavior = function() {
 		//在页面渲染之后执行，对页面进行操作
-		console.log('initBehavior','uuu');
-		// 使用
 		$(document).trigger('Runner/hashChange');
 		$('.top_bar').animate({'margin-left':0},500);
 		var Render = {
 			init: function () {
 				var _this = this;
-				this.render_nav().setDate().set_method().getServer();
+				this.render_nav().setDate().set_method().getServer(this.echarts_type['default']);
 				$(document).click(function () {
 					$('.dropdown').fadeOut(300);
-				});
-
-				/*setTimeout(function () {
-					_this.screen['省份'] = [{
-						'text': '河1',
-						'value': '11'
-					},{
-						'text': '江西2',
-						'value': '江西',
-						'state': 1
-					},{
-						'text': '广东3',
-						'value': '广东'
-					},{
-						'text': '甘肃4',
-						'value': '甘肃'
-					}];
-				},1000);*/
-
-				$.ajax({
-					url: 'http://10.9.17.55:8080/filter',
-					type: 'post',
-					async: true,
-					data: {
-						'prov_id': 1
-					},
-					dataType: 'json',
-					success: function(data, textStatus) {
-						//_this.screen['省份'] = data.data;
-						console.log(data);
-					}
 				});
 			},
 			Method: {
@@ -70,6 +31,7 @@ define(function(require) {
 			},
 			screen: window.config.screen,
 			dictionary: window.config.dictionary,
+			echarts_type: window.config.echarts_type,
 			_dropdown: function (type, offset) {
 				$('.dropdown').remove();
 				var _this = this,
@@ -99,8 +61,7 @@ define(function(require) {
 						_this.screen[type][oldIndex].state = 0;
 						_this.screen[type][$this.index()].state = 1;
 						_this.dictionary[type] && (_this.Method[_this.dictionary[type]] = $this.attr('value'));
-						_this.getServer(type);
-
+						_this.getServer(_this.echarts_type[type]);
 					});
 				};
 				return {
@@ -108,8 +69,10 @@ define(function(require) {
 				};
 			},
 			getServer: function (type) {
-				var _this = this;
+				var _this = this,
+					option;
 				console.log('getServer',_this.Method);
+
 				$.ajax({
 					url: 'http://10.59.10.123/',
 					type: 'post',
@@ -118,8 +81,6 @@ define(function(require) {
 					dataType: 'json',
 					success: function(data, textStatus) {
 						console.log(data);
-						//_this.render_charts('line', data);
-						_this.render_charts('TreeMap', data);
 						Render.chartsData.myCharts.dom.hideLoading();
 					},
 					error : function() {
@@ -128,28 +89,8 @@ define(function(require) {
 						}catch(e){}
 					}
 				});
-				return _this;
-			},
-			render_charts: function (type, data) {
-				var cOption;
 				if (type == 'line') {
-					cOption = EchartsCof.ChartOptionTemplates.Lines(data,'hellow-cookie',true, {
-						'title': '未来一周气温变化-ga'
-					});
-				} else if (type == 'TreeMap') {
-					cOption = EchartsCof.ChartOptionTemplates.TreeMap(data,'hellow-cookie',true, {
-						'title': '未来一周气温变化-ga'
-					});
-				}
-				// 为echarts对象加载数据
-				Render.chartsData.myCharts.dom.setOption(cOption);
-				Render.chartsData.myCharts.data = cOption;
-			},
-			setDate : function () {
-				var _this = this;
-				$('.date_query a').click(function () {
-					$(this).addClass('active').siblings().removeClass('active');
-					var option = [{
+					option = [{
 						name:'周一',
 						group:'最高气温',
 						value:11
@@ -206,15 +147,62 @@ define(function(require) {
 						group:'最低气温',
 						value:0
 					}];
-					var cOption = EchartsCof.ChartOptionTemplates.Lines(option,'hellow-cookie',true).series,
-						data = Render.chartsData.myCharts.data.series;
+				} else if (type == 'TreeMap' || type == 'Map') {
+					option = {
+						'2002-01-01': [{
+							name:'北京',
+							group: '最高气温',
+							value:11
+						},{
+							name:'天津',
+							group: '最高气温',
+							value:11
+						},{
+							name:'新疆',
+							group: '最高气温',
+							value:15
+						}],
+						'2003-01-01': [{
+							name:'北京',
+							group: '最高气温',
+							value:15
+						},{
+							name:'天津',
+							group: '最高气温',
+							value:11
+						},{
+							name:'新疆',
+							group: '最高气温',
+							value:14
+						}]
+					};
 
-					Render.chartsData.myCharts.data.series = $.extend({}, data, cOption);
-					console.log(Render.chartsData.myCharts.data);
-
-					Render.chartsData.myCharts.dom.setOption(Render.chartsData.myCharts.data);
-					//Render.chartsData.myCharts.dom.refresh();
-					window.onresize = Render.chartsData.myCharts.dom.resize;
+				}
+				_this.render_charts(type, option);
+				return _this;
+			},
+			render_charts: function (type, data) {
+				var cOption;
+				if (type == 'line') {
+					cOption = EchartsCof.ChartOptionTemplates.Lines(data,'hellow-cookie',true, {
+						'title': '未来一周气温变化-ga'
+					});
+				} else {
+					cOption = EchartsCof.ChartOptionTemplates[type](data,'hellow-cookie',true, {
+						'hasTime' : 1,
+						'title': '未来一周气温变化-aa'
+					});
+				}
+				// 为echarts对象加载数据
+				this.chartsData.myCharts.dom.clear();
+				this.chartsData.myCharts.dom.setOption(cOption);
+				this.chartsData.myCharts.data = cOption;
+			},
+			setDate : function () {
+				var _this = this;
+				$('.date_query a').click(function () {
+					$(this).addClass('active').siblings().removeClass('active');
+					_this.getServer('Map');
 				});
 				return _this;
 			},
@@ -241,243 +229,13 @@ define(function(require) {
 									} });
 									$datepicker.datepicker('show');
 									$('#ui-datepicker-div').css('top',_position.top +37);
-									//$("#ui-datepicker-div").css('font-size','0.2em') //改变大小*/
 								}
 							);
 							break;
 						default:
-							console.log('其他');
 							_this._dropdown(cVal, _position).init();console.log(cVal);
-							//_this.getServer('TreeMap');
+							_this.getServer(_this.echarts_type[cVal]);
 							ev.stopPropagation();
-					}
-					if (cVal == '时段') {
-						var option = [{
-							name:'周一',
-							group:'最高气温',
-							value:11
-						},{
-							name:'周二',
-							group:'最高气温',
-							value:11
-						},{
-							name:'周三',
-							group:'最高气温',
-							value:15
-						}];
-
-						var option_map = [{
-							name:'北京',
-							group:'最高气温',
-							value:11
-						},{
-							name:'天津',
-							group:'最高气温',
-							value:11
-						},{
-							name:'新疆',
-							group:'最高气温',
-							value:15
-						}];
-
-						var option_map2 = {
-							'2002-01-01': [{
-								name:'北京',
-								group:'最高气温',
-								value:11
-							},{
-								name:'天津',
-								group:'最高气温',
-								value:11
-							},{
-								name:'新疆',
-								group:'最高气温',
-								value:15
-							},{
-								name:'北京',
-								group:'最低气温',
-								value:2
-							},{
-								name:'天津',
-								group:'最低气温',
-								value:1
-							},{
-								name:'新疆',
-								group:'最低气温',
-								value:-1
-							}],
-							'2003-01-01': [{
-								name:'北京',
-								group:'最高气温',
-								value:15
-							},{
-								name:'天津',
-								group:'最高气温',
-								value:11
-							},{
-								name:'新疆',
-								group:'最高气温',
-								value:14
-							},{
-								name:'北京',
-								group:'最低气温',
-								value:2
-							},{
-								name:'天津',
-								group:'最低气温',
-								value:3
-							},{
-								name:'新疆',
-								group:'最低气温',
-								value:-2
-							}]
-						};
-
-						var option2 = {
-							'2002-01-01': [{
-								name:'周一',
-								group:'最高气温',
-								value:11
-							},{
-								name:'周二',
-								group:'最高气温',
-								value:11
-							},{
-								name:'周三',
-								group:'最高气温',
-								value:15
-							},{
-								name:'周一',
-								group:'最低气温',
-								value:2
-							},{
-								name:'周二',
-								group:'最低气温',
-								value:1
-							},{
-								name:'周三',
-								group:'最低气温',
-								value:-1
-							}],
-							'2003-01-01': [{
-								name:'周一',
-								group:'最高气温',
-								value:11
-							},{
-								name:'周二',
-								group:'最高气温',
-								value:11
-							},{
-								name:'周三',
-								group:'最高气温',
-								value:14
-							},{
-								name:'周一',
-								group:'最低气温',
-								value:2
-							},{
-								name:'周二',
-								group:'最低气温',
-								value:3
-							},{
-								name:'周三',
-								group:'最低气温',
-								value:-2
-							}]
-						};
-						var cOption = EchartsCof.ChartOptionTemplates.Pie(option,'hellow-cookie',true, {
-							'title': '未来一周气温变化-aa'
-						});
-
-						var cOption_map = EchartsCof.ChartOptionTemplates.Map(option_map,'hellow-cookie',true, {
-							'title': '未来一周气温变化-aa'
-						});
-
-
-						//console.log(JSON.stringify(cOption_map),'zz0y');
-
-						var cOption2 = EchartsCof.ChartOptionTemplates.Lines(option2,'hellow-cookie',true, {
-							'hasTime' : 1,
-							'title': '未来一周气温变化-aa'
-						});
-
-						var cOption23 = EchartsCof.ChartOptionTemplates.Map(option_map2,'hellow-cookie',true, {
-							'hasTime' : 1,
-							'title': '未来一周气温变化-aa'
-						});
-
-						console.log(JSON.stringify(cOption23),'wwwaiaiai');
-						Render.chartsData.myCharts.dom.clear();
-						//Render.chartsData.myCharts.dom.setOption(cOption);
-						Render.chartsData.myCharts.dom.setOption(cOption23);
-						Render.chartsData.myCharts.data = cOption;
-					}
-
-					if (cVal == '操作系统') {
-						var option_map2 = {
-							'2002-01-01': [{
-								name:'北京',
-								value:11
-							},{
-								name:'天津',
-								value:11
-							},{
-								name:'新疆',
-								value:15
-							}],
-							'2003-01-01': [{
-								name:'北京',
-								value:15
-							},{
-								name:'天津',
-								value:11
-							},{
-								name:'新疆',
-								value:14
-							}]
-						};
-
-						var dd = {
-							"2015-07-28": [
-						{
-							"value": 1,
-							"name": "ipad"
-						},
-						{
-							"value": 5,
-							"name": "android"
-						},
-						{
-							"value": 4,
-							"name": "iphone"
-						}],
-								"2015-08-02": [
-								{
-									"value": 1,
-									"name": "ipad"
-								},
-								{
-									"value": 7,
-									"name": "android"
-								},
-								{
-									"value": 5,
-									"name": "iphone"
-								}
-							]
-
-					};
-						var cc = {"20150728":[{"value":1,"name":"ipad"},{"value":657161,"name":"android"},{"value":403,"name":"iphone"}],"20150729":[{"value":983305,"name":"android"},{"value":464,"name":"iphone"}],"20150730":[{"value":348,"name":"iphone"},{"value":720813,"name":"android"}],"20150731":[{"value":615425,"name":"android"},{"value":417,"name":"iphone"}],"20150801":[{"value":907686,"name":"android"},{"value":636,"name":"iphone"}],"20150802":[{"value":1,"name":"ipad"},{"value":780799,"name":"android"},{"value":532,"name":"iphone"}],"total":20,"status":"success"};
-						var cOption23 = EchartsCof.ChartOptionTemplates.TreeMap(dd,'hellow-cookie',true, {
-							'hasTime' : 1,
-							'title': '未来一周气温变化-aa'
-						});
-
-						console.log(JSON.stringify(cOption23),'操作系统');
-
-						Render.chartsData.myCharts.dom.clear();
-						Render.chartsData.myCharts.dom.setOption(cOption23);
-						Render.chartsData.myCharts.data = cOption;
 					}
 				});
 
@@ -532,8 +290,6 @@ define(function(require) {
 			}
 		};
 
-		Render.init();
-
 		require(['echarts/echarts-all','echarts/chart/macarons'],
 			function (ec,theme) {;
 				var myChart;
@@ -542,72 +298,7 @@ define(function(require) {
 				//myChart.showLoading({
 					//text: '正在努力的读取数据中...'
 				//});
-				Render.getServer();
-
-				var option = [{
-					name:'周一',
-					group:'最高气温',
-					value:11
-				},{
-					name:'周二',
-					group:'最高气温',
-					value:11
-				},{
-					name:'周三',
-					group:'最高气温',
-					value:15
-				},{
-					name:'周四',
-					group:'最高气温',
-					value:13
-				},{
-					name:'周五',
-					group:'最高气温',
-					value:12
-				},{
-					name:'周六',
-					group:'最高气温',
-					value:13
-				},{
-					name:'周日',
-					group:'最高气温',
-					value:10
-				},{
-					name:'周一',
-					group:'最低气温',
-					value:1
-				},{
-					name:'周二',
-					group:'最低气温',
-					value:-2
-				},{
-					name:'周三',
-					group:'最低气温',
-					value:2
-				},{
-					name:'周四',
-					group:'最低气温',
-					value:5
-				},{
-					name:'周五',
-					group:'最低气温',
-					value:3
-				},{
-					name:'周六',
-					group:'最低气温',
-					value:2
-				},{
-					name:'周日',
-					group:'最低气温',
-					value:0
-				}];
-				var cOption = EchartsCof.ChartOptionTemplates.Lines(option,'hellow-cookie',true, {
-					'title': '未来一周气温变化-ga'
-				});
-//console.log(JSON.stringify(cOption));
-				// 为echarts对象加载数据
-				Render.chartsData.myCharts.dom.setOption(cOption);
-				Render.chartsData.myCharts.data = cOption;
+				Render.init();
 			}
 		);
 	}
