@@ -371,10 +371,6 @@
 
                     stackline_datas = stackline_datas.options;
                     stackline_datas[0] = $.extend({}, stackline_datas[0],option2);
-                    //ECharts.ChartOptionTemplates.CommonLineOptionTimeLine.timeline['data'] = timeLineData;
-                    //ECharts.ChartOptionTemplates.CommonLineOptionTimeLine.options =  stackline_datas;
-
-                    //return ECharts.ChartOptionTemplates.CommonLineOptionTimeLine;
                     var optionLine = ECharts.ChartOptionTemplates.CommonLineOptionTimeLine;
                     optionLine.timeline['data'] = timeLineData;
                     optionLine.options = stackline_datas;
@@ -411,7 +407,6 @@
             },
 
             Map: function (data, name, is_stack, pack) {
-                //data:数据格式：{name：xxx,group:xxx,value:xxx}...
                 var pack = pack || {},
                     timeLineData = (function () {
                         var cData = [];
@@ -515,11 +510,6 @@
 
                     stackline_datas = stackline_datas.options;
                     stackline_datas[0] = $.extend({}, stackline_datas[0],option2);
-                    //ECharts.ChartOptionTemplates.CommonLineOptionTimeLine.timeline['data'] = timeLineData;
-                    //ECharts.ChartOptionTemplates.CommonLineOptionTimeLine.options =  stackline_datas;
-
-                    //return ECharts.ChartOptionTemplates.CommonLineOptionTimeLine;
-
                     var optionLine = ECharts.ChartOptionTemplates.CommonLineOptionTimeLine;
                     optionLine.timeline['data'] = timeLineData;
                     optionLine.options = stackline_datas;

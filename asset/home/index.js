@@ -1,15 +1,24 @@
+/**
+ * 页面加载主包装函数
+ */
 define(function(require) {
 	var home = {};
     home.template = require('text!./index.html');
 
-    home.beforeRender = function() {
-		//在页面渲染之前执行，获取数据beforeRender
-	};
+	/**
+	 * 在页面渲染之前执行，获取数据beforeRender
+	 */
+    home.beforeRender = function() {};
 
+	/**
+	 * 在页面渲染之后执行函数
+	 */
     home.initBehavior = function() {
-		//在页面渲染之后执行，对页面进行操作
 		$(document).trigger('Runner/hashChange');
 		$('.top_bar').animate({'margin-left':0},500);
+		/**
+		 * Render图表渲染主函数
+		 */
 		var Render = {
 			init: function () {
 				var _this = this;
@@ -193,7 +202,9 @@ define(function(require) {
 						'title': '未来一周气温变化-aa'
 					});
 				}
-				// 为echarts对象加载数据
+				/**
+				 * echarts加载数据对象，渲染图表
+				 */
 				this.chartsData.myCharts.dom.clear();
 				this.chartsData.myCharts.dom.setOption(cOption);
 				this.chartsData.myCharts.data = cOption;
@@ -289,7 +300,9 @@ define(function(require) {
 				return this;
 			}
 		};
-
+		/**
+		 * echarts初始化函数
+		 */
 		require(['echarts/echarts-all','echarts/chart/macarons'],
 			function (ec,theme) {;
 				var myChart;

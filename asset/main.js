@@ -7,11 +7,9 @@
 define(function(require) {
 	'use strict';
 	require('jQuery');
-	//require('dep/jquery-ui-1.11.4/jquery-ui.js');
     var router = require('router'),
 		$ = jQuery,cPage = {};
 		window.EchartsCof = require('common/MyEcharts');
-
 
 	router.registerRouter({
 		path: '/home/',
@@ -26,13 +24,15 @@ define(function(require) {
     router.registerRouter({
         path: '/info/',
         type: 'info/index'
-    })
+    });
 	router.start('/home/');
 
 	cPage = {
 		init : function () {
 			var _this = this;
-			//hashChange
+			/**
+			 * hashChange
+			 */
 			$(document).on("Runner/hashChange",function(){
 				var hash = location.hash;
 				$('.submenu li').removeClass('active');
@@ -41,7 +41,6 @@ define(function(require) {
 
 			$('.dropdown-toggle').click(function () {
 				var $li = $(this).parent();
-				//$li.addClass('active').siblings().removeClass('active');
 				$('.menu_wrap').slideUp();
 				$(this).next().stop().slideDown();
 			});
