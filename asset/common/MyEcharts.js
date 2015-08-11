@@ -55,6 +55,15 @@
                                             }
                                         }
                                     });
+                                } else if (type == "piepage") {
+                                    temp.push({
+                                        name: data[j].name,
+                                        value: data[j].value,
+                                        itemStyle : {normal : {
+                                            label : {show : j > 28},
+                                            labelLine : {show : j > 28, length:20}
+                                        }}
+                                    });
                                 } else {
                                     temp.push(data[j].value);
                                 }
@@ -85,6 +94,20 @@
                                     name: group[i], type: 'pie',
                                     center: ['50%', '45%'],
                                     radius: '50%',
+                                    data: temp
+                                };
+                                break;
+
+                            case 'piepage':
+                                var series_temp = {
+                                    name: group[i], type: 'pie',
+                                    radius : [i * 4 + 40, i * 4 + 43],
+                                    markPoint: {
+                                        symbol:'emptyCircle',
+                                        symbolSize:series[0].radius[0],
+                                        effect:{show:true,scaleSize:12,color:'rgba(250,225,50,0.8)',shadowBlur:10,period:30},
+                                        data:[{x:'50%',y:'50%'}]
+                                    },
                                     data: temp
                                 };
                                 break;
@@ -157,7 +180,7 @@
                         return {series: series };
                     }
 
-                    if (type == 'map' || type == 'pieline') {
+                    if (type == 'map' || type == 'pieline' || type == 'piepage') {
                         return { category: group, series: series };
                     }else if (type == 'treemap') {
                         return {series: series };
@@ -579,7 +602,7 @@
                         }
                         return cData;
                     } ()),
-                    stackline_datas = ECharts.ChartDataFormate.FormateGroupData(data, 'treemap', is_stack, pack);
+                    stackline_datas = ECharts.ChartDataFormate.FormateGroupData(data, 'piepage', is_stack, pack);
 
                 if (pack['hasTime']) {
                     var option = {
@@ -590,6 +613,11 @@
                         tooltip : {
                             trigger: 'item'
                         },
+                        legend: {
+                            orient : 'vertical',
+                            x : 'left',
+                            data: stackline_datas.origin.category
+                        },
                         toolbox: {
                             show : true,
                             feature : {
@@ -599,7 +627,7 @@
                                 saveAsImage : {show: true}
                             }
                         },
-                        hoverable : true
+                        calculable : false
                     };
 
                     stackline_datas = stackline_datas.options;

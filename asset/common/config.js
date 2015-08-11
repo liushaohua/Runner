@@ -69,7 +69,8 @@
         '分辨率': 'TreeMap',
         'default': 'line',
         '业务线': 'TreeMap',
-        '日期': 'line'
+        '日期': 'line',
+        '页面类型': 'PiePage'
     };
 
     window.config = config;
