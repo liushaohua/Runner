@@ -36,8 +36,8 @@
                         var temp = [];
                         for (var j = 0; j < data.length; j++) {
                             if (group[i] == data[j].group) {
-                                if (type == "map") {
-                                    temp.push({ name: data[j].name, value: data[i].value });
+                                if (type == "map" || type == "pieline" ) {
+                                    temp.push({ name: data[j].name, value: data[j].value });
                                 } else if (type == "treemap") {
                                     temp.push({
                                         name: data[j].name,
@@ -76,6 +76,15 @@
                                         normal: { label: { show: true} },
                                         emphasis: { label: { show: true} }
                                     },
+                                    data: temp
+                                };
+                                break;
+
+                            case 'pieline':
+                                var series_temp = {
+                                    name: group[i], type: 'pie',
+                                    center: ['50%', '45%'],
+                                    radius: '50%',
                                     data: temp
                                 };
                                 break;
@@ -122,7 +131,7 @@
                             case 'line':
                                 var series_temp = { name: group[i], data: temp, type: chart_type };
                                 if (is_stack) {
-                                    //series_temp = $.extend({}, {stack: 'stack'}, series_temp);
+                                    series_temp = $.extend({}, {stack: 'stack'}, series_temp);
                                     series_temp.markPoint = {
                                         data : [
                                             {type: 'max', name: '最大值'},
@@ -134,6 +143,8 @@
                                                 {type: 'average', name: '平均值'}
                                             ]
                                         }
+                                } else {
+                                    series_temp.itemStyle = {normal: {areaStyle: {type: 'default'}}};
                                 }
                                 break;
 
@@ -146,7 +157,7 @@
                         return {series: series };
                     }
 
-                    if (type == 'map') {
+                    if (type == 'map' || type == 'pieline') {
                         return { category: group, series: series };
                     }else if (type == 'treemap') {
                         return {series: series };
@@ -328,6 +339,45 @@
                             splitLine : {    // 轴线
                                 show: false
                             }
+                        }
+                    ],
+                    series: stackline_datas.series
+                };
+
+                var option_m = {
+                    title : {
+                        text: pack['title'] || '未设置title',
+                        subtext: '纯属虚构'
+                    },
+                    dataZoom: {
+                        show: true,
+                        start: 30
+                    },
+                    tooltip : {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data: stackline_datas.category,
+                        textStyle:{color: '#fff'}
+                    },
+                    toolbox: {
+                        show : true,
+                        feature : {
+                            mark : {show: true},
+                            dataView : {show: true, readOnly: false},
+                            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                            restore : {show: true},
+                            saveAsImage : {show: true}
+                        }
+                    },
+                    xAxis: [{
+                        type: 'category', //X轴均为category，Y轴均为value
+                        data: stackline_datas.xAxis,
+                        boundaryGap: false,//数值轴两端的空白策略
+                    }],
+                    yAxis : [
+                        {
+                            type : 'value',
                         }
                     ],
                     series: stackline_datas.series
@@ -518,6 +568,51 @@
                 }
                 return $.extend({}, ECharts.ChartOptionTemplates.CommonLineOption, option);
             },
+            PiePage: function (data, name, is_stack, pack) {
+                var pack = pack || {},
+                    timeLineData = (function () {
+                        var cData = [];
+                        if (pack['hasTime']) {
+                            for (var i in data) {
+                                cData.push(i);
+                            }
+                        }
+                        return cData;
+                    } ()),
+                    stackline_datas = ECharts.ChartDataFormate.FormateGroupData(data, 'treemap', is_stack, pack);
+
+                if (pack['hasTime']) {
+                    var option = {
+                        title : {
+                            text: pack['title'] || '未设置title',
+                            subtext: '纯属虚构'
+                        },
+                        tooltip : {
+                            trigger: 'item'
+                        },
+                        toolbox: {
+                            show : true,
+                            feature : {
+                                mark : {show: true},
+                                dataView : {show: true, readOnly: false},
+                                restore : {show: true},
+                                saveAsImage : {show: true}
+                            }
+                        },
+                        hoverable : true
+                    };
+
+                    stackline_datas = stackline_datas.options;
+                    stackline_datas[0] = $.extend({}, stackline_datas[0],option);
+
+                    var optionLine = ECharts.ChartOptionTemplates.CommonLineOptionTimeLine;
+                    optionLine.timeline['data'] = timeLineData;
+                    optionLine.options = stackline_datas;
+                    return optionLine;
+
+                }
+                return $.extend({}, ECharts.ChartOptionTemplates.CommonLineOption, option);
+            },
             TreeMap: function (data, name, is_stack, pack) {
                 var pack = pack || {},
                     timeLineData = (function () {
@@ -545,6 +640,67 @@
                             feature : {
                                 mark : {show: true},
                                 dataView : {show: true, readOnly: false},
+                                restore : {show: true},
+                                saveAsImage : {show: true}
+                            }
+                        },
+                        hoverable : true
+                    };
+
+                    stackline_datas = stackline_datas.options;
+                    stackline_datas[0] = $.extend({}, stackline_datas[0],option);
+
+                    var optionLine = ECharts.ChartOptionTemplates.CommonLineOptionTimeLine;
+                    optionLine.timeline['data'] = timeLineData;
+                    optionLine.options = stackline_datas;
+                    return optionLine;
+
+                }
+                return $.extend({}, ECharts.ChartOptionTemplates.CommonLineOption, option);
+            },
+            PieLine: function (data, name, is_stack, pack) {
+                var pack = pack || {},
+                    timeLineData = (function () {
+                        var cData = [];
+                        if (pack['hasTime']) {
+                            for (var i in data) {
+                                cData.push(i);
+                            }
+                        }
+                        return cData;
+                    } ()),
+                    stackline_datas = ECharts.ChartDataFormate.FormateGroupData(data, 'pieline', is_stack, pack);
+
+                if (pack['hasTime']) {
+                    var option = {
+                        title : {
+                            text: pack['title'] || '未设置title',
+                            subtext: '纯属虚构'
+                        },
+                        tooltip : {
+                            trigger: 'item'
+                        },
+                        legend: {
+                            data: stackline_datas.origin.category,
+                            textStyle:{color: '#fff'}
+                        },
+                        toolbox: {
+                            show : true,
+                            feature : {
+                                mark : {show: true},
+                                dataView : {show: true, readOnly: false},
+                                magicType : {
+                                    show: true,
+                                    type: ['pie', 'funnel'],
+                                    option: {
+                                        funnel: {
+                                            x: '25%',
+                                            width: '50%',
+                                            funnelAlign: 'left',
+                                            max: 1700
+                                        }
+                                    }
+                                },
                                 restore : {show: true},
                                 saveAsImage : {show: true}
                             }

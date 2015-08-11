@@ -35,26 +35,14 @@
             'value': 7
         }],
         '平台': [{
-            'text': '1z点',
-            'value': '1u'
+            'text': 'PC',
+            'value': 'pc'
         },{
-            'text': '2点',
-            'state': '2u'
+            'text': 'M',
+            'state': 'm'
         },{
-            'text': '3点',
-            'value': '3u'
-        },{
-            'text': '4点',
-            'value':'4u'
-        },{
-            'text': '5点',
-            'value': '5u'
-        },{
-            'text': '6点',
-            'value': '6u'
-        }, {
-            'text': '7点',
-            'value': '7u'
+            'text': 'APP',
+            'value': 'app'
         }]
     };
 
@@ -70,14 +58,18 @@
     };
 
     /**
-     * 中英文转换词典
+     * echarts类型转换
      * @type {Object}
      */
     config.echarts_type = {
-        '时段': 'Map',
+        '省份': 'Map',
+        '时段': 'PieLine',
         '操作系统': 'TreeMap',
+        '浏览器': 'TreeMap',
+        '分辨率': 'TreeMap',
         'default': 'line',
         '业务线': 'TreeMap',
+        '日期': 'line'
     };
 
     window.config = config;

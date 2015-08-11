@@ -102,61 +102,61 @@ define(function(require) {
 					option = [{
 						name:'周一',
 						group:'最高气温',
-						value:11
+						value:120
 					},{
 						name:'周二',
 						group:'最高气温',
-						value:11
+						value:132
 					},{
 						name:'周三',
 						group:'最高气温',
-						value:15
+						value:101
 					},{
 						name:'周四',
 						group:'最高气温',
-						value:13
+						value:134
 					},{
 						name:'周五',
 						group:'最高气温',
-						value:12
+						value:90
 					},{
 						name:'周六',
 						group:'最高气温',
-						value:13
+						value:230
 					},{
 						name:'周日',
 						group:'最高气温',
-						value:10
+						value:210
 					},{
 						name:'周一',
 						group:'最低气温',
-						value:1
+						value:220
 					},{
 						name:'周二',
 						group:'最低气温',
-						value:-3
+						value:182
 					},{
 						name:'周三',
 						group:'最低气温',
-						value:2
+						value:191
 					},{
 						name:'周四',
 						group:'最低气温',
-						value:5
+						value:234
 					},{
 						name:'周五',
 						group:'最低气温',
-						value:3
+						value:290
 					},{
 						name:'周六',
 						group:'最低气温',
-						value:2
+						value:330
 					},{
 						name:'周日',
 						group:'最低气温',
-						value:0
+						value:310
 					}];
-				} else if (type == 'TreeMap' || type == 'Map') {
+				} else if (type == 'TreeMap' || type == 'Map' || type == 'PieLine') {
 					option = {
 						'2002-01-01': [{
 							name:'北京',
@@ -193,11 +193,11 @@ define(function(require) {
 			render_charts: function (type, data) {
 				var cOption;
 				if (type == 'line') {
-					cOption = EchartsCof.ChartOptionTemplates.Lines(data,'hellow-cookie',true, {
+					cOption = EchartsCof.ChartOptionTemplates.Lines(data,'hellow-cookie',false, {
 						'title': '未来一周气温变化-ga'
 					});
 				} else {
-					cOption = EchartsCof.ChartOptionTemplates[type](data,'hellow-cookie',true, {
+					cOption = EchartsCof.ChartOptionTemplates[type](data,'hellow-cookie', true, {
 						'hasTime' : 1,
 						'title': '未来一周气温变化-aa'
 					});
@@ -236,7 +236,7 @@ define(function(require) {
 									$datepicker.datepicker({ dateFormat: 'yy/mm/dd',onSelect: function(dateText, inst) {
 										var date = $datepicker.datepicker().val();
 										_this.Method.date = date;
-										_this.getServer(cVal);
+										_this.getServer(_this.echarts_type[cVal]);
 									} });
 									$datepicker.datepicker('show');
 									$('#ui-datepicker-div').css('top',_position.top +37);
@@ -263,10 +263,12 @@ define(function(require) {
 			chartsData : {
 				'myCharts': {
 					'dom': '',
-					'data': ''
+					'data': '',
+					'now_type': ''
 				}
 			},
 			render_nav: function () {
+				var _this = this;
 				var cHTML = '<li>',
 					data = [{
 					'name': '日期'
@@ -297,6 +299,30 @@ define(function(require) {
 				}
 					cHTML += '</li>';
 				$('.query_wrap ul').html(cHTML);
+
+				/*获取平台业务线下拉数据*/
+				$.ajax({
+					url: 'http://10.9.17.55:8080/filter',
+					type: 'post',
+					async: true,
+					data: {'dim_type':'biz'},
+					dataType: 'json',
+					success: function(data, textStatus) {
+						_this.screen['业务线'] = data.biz_name;
+					}
+				});
+
+				/*this.screen['业务线'] = [{
+					'text': '001dian',
+					'value': 1
+				},{
+					'text': '2点',
+					'value': 2,
+					'state': 1
+				},{
+					'text': '3点',
+					'value': 3
+				}];*/
 				return this;
 			}
 		};
