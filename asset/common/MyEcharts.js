@@ -14,7 +14,8 @@
 
             FormateGroupData: function (data, type, is_stack, pack) {
                 //data的格式如上的Result2，type为要渲染的图表类型：可以为line，bar，is_stack表示为是否是堆积图，这种格式的数据多用于展示多条折线图、分组的柱图
-                var chart_type = 'line';
+                var chart_type = 'line',
+                    pack = pack || {};
                 if (type)
                     chart_type = type || 'line';
 
@@ -73,7 +74,21 @@
 
                         switch (type) {
                             case 'bar':
-                                var series_temp = { name: group[i], data: temp, type: chart_type };
+                                var series_temp = {
+                                    name: group[i],
+                                    data: temp,
+                                    type: chart_type ,
+                                    itemStyle: {
+                                        normal: {
+                                            color: '#B5C334',
+                                            label: {
+                                                show: true,
+                                                position: 'top',
+                                                formatter: '{b}\n{c}'
+                                            }
+                                        }
+                                    },
+                                };
                                 if (is_stack)
                                     series_temp = $.extend({}, { stack: 'stack' }, series_temp);
                                 break;
@@ -840,6 +855,134 @@
                             }
                         },
                         calculable : true
+                    };
+
+                    stackline_datas = stackline_datas.options;
+                    stackline_datas[0] = $.extend({}, stackline_datas[0],option);
+
+                    var optionLine = ECharts.ChartOptionTemplates.CommonLineOptionTimeLine;
+                    optionLine.timeline['data'] = timeLineData;
+                    optionLine.options = stackline_datas;
+                    return optionLine;
+
+                }
+                return $.extend({}, ECharts.ChartOptionTemplates.CommonLineOption, option);
+            },
+            MapContrast: function (data, name, is_stack, pack) {
+                var pack = pack || {},
+                    timeLineData = (function () {
+                        var cData = [];
+                        if (pack['hasTime']) {
+                            for (var i in data) {
+                                cData.push(i);
+                            }
+                        }
+                        return cData;
+                    } ()),
+                    stackline_datas = ECharts.ChartDataFormate.FormateGroupData(data, 'piedouble', is_stack, pack);
+
+                if (pack['hasTime']) {
+                    var option = {
+                        title : {
+                            text: pack['title'] || '未设置title',
+                            subtext: '纯属虚构',
+                            x:'center'
+                        },
+                        tooltip : {
+                            trigger: 'item'
+                        },
+                        legend: {
+                            data: function () {
+                                var c = 0,
+                                    cData = [];
+                                for (var i in data) {
+                                    var data_array = data[i];
+                                    if (c == 0)  {
+                                        for (var j = 0, len = data_array.length; j < len; j++) {
+                                            cData.push(data_array[j]['name']);
+                                        }
+                                        c = 1;
+                                    }
+                                }console.log(cData,'mcccc');
+                                return cData;
+                            } (),
+                            x : 'center',
+                            y : 'bottom',
+                            textStyle:{color: '#fff'}
+                        },
+                        toolbox: {
+                            show : true,
+                            feature : {
+                                mark : {show: true},
+                                dataView : {show: true, readOnly: false},
+                                magicType : {
+                                    show: true,
+                                    type: ['pie', 'funnel']
+                                },
+                                restore : {show: true},
+                                saveAsImage : {show: true}
+                            }
+                        },
+                        calculable : true
+                    };
+
+                    stackline_datas = stackline_datas.options;
+                    stackline_datas[0] = $.extend({}, stackline_datas[0],option);
+
+                    var optionLine = ECharts.ChartOptionTemplates.CommonLineOptionTimeLine;
+                    optionLine.timeline['data'] = timeLineData;
+                    optionLine.options = stackline_datas;
+                    return optionLine;
+
+                }
+                return $.extend({}, ECharts.ChartOptionTemplates.CommonLineOption, option);
+            },
+            Browser: function (data, name, is_stack, pack) {
+                var pack = pack || {},
+                    timeLineData = (function () {
+                        var cData = [];
+                        if (pack['hasTime']) {
+                            for (var i in data) {
+                                cData.push(i);
+                            }
+                        }
+                        return cData;
+                    } ()),
+                    stackline_datas = ECharts.ChartDataFormate.FormateGroupData(data, 'bar', is_stack, pack);
+
+                if (pack['hasTime']) {
+                    var option = {
+                        title : {
+                            text: pack['title'] || '未设置title',
+                            subtext: '纯属虚构',
+                            x:'center'
+                        },
+                        tooltip : {
+                            trigger: 'item'
+                        },
+                        xAxis: [{
+                            type: 'category', //X轴均为category，Y轴均为value
+                            data: stackline_datas.xAxis,
+                            boundaryGap: false,//数值轴两端的空白策略
+                            axisLabel : {
+                                textStyle:{
+                                    color:"#fff"
+                                }
+                            },
+                            splitLine : {    // 轴线
+                                show: false
+                            }
+                        }],
+                        yAxis: [{
+                            type: 'value',
+                            show: false
+                        }],
+                        calculable: true,
+                        grid: {
+                            borderWidth: 0,
+                            y: 80,
+                            y2: 60
+                        }
                     };
 
                     stackline_datas = stackline_datas.options;

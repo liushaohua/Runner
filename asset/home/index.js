@@ -29,15 +29,11 @@ define(function(require) {
 			},
 			Method: {
 				'time_type':'day',
-				'ds':'20150717',
+				'ds':'20150811',
 				'biz_name':'ershouche',
-				'browser_type':'chrome',
-				'limit':'5',
-				'date': $('#datepicker').val(),
-				'time': '',
-				'business': '',
-				'os_type': 'android'
-			},
+				'index_type': 'cate1_name',
+				'value_name': 'pv'
+				},
 			screen: window.config.screen,
 			dictionary: window.config.dictionary,
 			echarts_type: window.config.echarts_type,
@@ -90,6 +86,7 @@ define(function(require) {
 					dataType: 'json',
 					success: function(data, textStatus) {
 						console.log(data);
+						//_this.render_charts(type, data);
 						Render.chartsData.myCharts.dom.hideLoading();
 					},
 					error : function() {
@@ -156,7 +153,7 @@ define(function(require) {
 						group:'最低气温',
 						value:310
 					}];
-				} else if (type == 'TreeMap' || type == 'Map' || type == 'PieLine' || type == 'PiePage' || type == 'PieDouble') {
+				} else if (type == 'TreeMap' || type == 'Map' || type == 'PieLine' || type == 'PiePage' || type == 'PieDouble'  || type == 'Browser') {
 					option = {
 						'2002-01-01': [{
 							name:'北京',
@@ -197,7 +194,7 @@ define(function(require) {
 							value:14
 						}]
 					};
-					//PieDouble为有最低气温的，其他的不需要
+					//PieDouble需要最低气温，其他的不需要
 
 				}
 				_this.render_charts(type, option);
@@ -207,6 +204,11 @@ define(function(require) {
 				var cOption;
 				if (type == 'line') {
 					cOption = EchartsCof.ChartOptionTemplates.Lines(data,'hellow-cookie',false, {
+						'title': '未来一周气温变化-ga'
+					});
+				} else if (type == 'Browser') {
+					cOption = EchartsCof.ChartOptionTemplates.Browser(data,'hellow-cookie',false, {
+						'hasTime' : 1,
 						'title': '未来一周气温变化-ga'
 					});
 				} else {
@@ -343,8 +345,9 @@ define(function(require) {
 		 * echarts初始化函数
 		 */
 		require(['echarts/echarts-all','echarts/chart/macarons'],
-			function (ec,theme) {;
-				var myChart;
+			function (ec,theme) {
+				var myChart,
+					ecConfig = require('zrender');
 				myChart = Render.chartsData.myCharts.dom = echarts.init(document.getElementById('main_wrap'),theme);
 				$('#main_wrap > div').animate({'margin-left':0},500);
 				//myChart.showLoading({

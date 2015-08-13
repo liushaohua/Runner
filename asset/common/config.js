@@ -65,7 +65,7 @@
         '省份': 'Map',
         '时段': 'PieLine',
         '操作系统': 'TreeMap',
-        '浏览器': 'TreeMap',
+        '浏览器': 'Browser',
         '分辨率': 'TreeMap',
         'default': 'line',
         '业务线': 'TreeMap',
