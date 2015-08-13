@@ -70,7 +70,9 @@
         'default': 'line',
         '业务线': 'TreeMap',
         '日期': 'line',
-        '页面类型': 'PiePage'
+        '页面类型': 'PieDouble',
+        '一级分类': 'PieDouble',
+        '二级分类': 'PieDouble'
     };
 
     window.config = config;

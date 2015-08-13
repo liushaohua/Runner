@@ -36,7 +36,7 @@
                         var temp = [];
                         for (var j = 0; j < data.length; j++) {
                             if (group[i] == data[j].group) {
-                                if (type == "map" || type == "pieline" ) {
+                                if (type == "map" || type == "pieline" || type == 'piedouble') {
                                     temp.push({ name: data[j].name, value: data[j].value });
                                 } else if (type == "treemap") {
                                     temp.push({
@@ -55,7 +55,7 @@
                                             }
                                         }
                                     });
-                                } else if (type == "piepage") {
+                                } else if (type == "piepage") {console.log('uioioio');
                                     temp.push({
                                         name: data[j].name,
                                         value: data[j].value,
@@ -98,13 +98,48 @@
                                 };
                                 break;
 
+                            case 'piedouble':
+                                var centerNum = ['25%', '75%'];
+                                var series_temp = {
+                                    name: group[i], type: 'pie',
+                                    radius : [20, 110],
+                                    center : [centerNum[i], 200],
+                                    roseType : 'radius',
+                                    width: '40%',       // for funnel
+                                    max: 10000000,
+                                    data: temp
+                                };
+                                if (i == 0) {
+                                    series_temp.itemStyle = {
+                                        normal : {
+                                            label : {
+                                                show : false
+                                            },
+                                            labelLine : {
+                                                show : false
+                                            }
+                                        },
+                                        emphasis : {
+                                            label : {
+                                                show : true
+                                            },
+                                            labelLine : {
+                                                show : true
+                                            }
+                                        }
+                                    };
+                                } else {
+                                    series_temp.sort = 'ascending';
+                                }
+                                break;
+
                             case 'piepage':
                                 var series_temp = {
                                     name: group[i], type: 'pie',
                                     radius : [i * 4 + 40, i * 4 + 43],
                                     markPoint: {
                                         symbol:'emptyCircle',
-                                        symbolSize:series[0].radius[0],
+                                        symbolSize:[i * 4 + 40, i * 4 + 43],
                                         effect:{show:true,scaleSize:12,color:'rgba(250,225,50,0.8)',shadowBlur:10,period:30},
                                         data:[{x:'50%',y:'50%'}]
                                     },
@@ -180,7 +215,7 @@
                         return {series: series };
                     }
 
-                    if (type == 'map' || type == 'pieline' || type == 'piepage') {
+                    if (type == 'map' || type == 'pieline' || type == 'piepage' || type == 'piedouble') {
                         return { category: group, series: series };
                     }else if (type == 'treemap') {
                         return {series: series };
@@ -608,7 +643,9 @@
                     var option = {
                         title : {
                             text: pack['title'] || '未设置title',
-                            subtext: '纯属虚构'
+                            subtext: '纯属虚构',
+                            x:'right',
+                            y:'bottom'
                         },
                         tooltip : {
                             trigger: 'item'
@@ -734,6 +771,75 @@
                             }
                         },
                         hoverable : true
+                    };
+
+                    stackline_datas = stackline_datas.options;
+                    stackline_datas[0] = $.extend({}, stackline_datas[0],option);
+
+                    var optionLine = ECharts.ChartOptionTemplates.CommonLineOptionTimeLine;
+                    optionLine.timeline['data'] = timeLineData;
+                    optionLine.options = stackline_datas;
+                    return optionLine;
+
+                }
+                return $.extend({}, ECharts.ChartOptionTemplates.CommonLineOption, option);
+            },
+            PieDouble: function (data, name, is_stack, pack) {
+                var pack = pack || {},
+                    timeLineData = (function () {
+                        var cData = [];
+                        if (pack['hasTime']) {
+                            for (var i in data) {
+                                cData.push(i);
+                            }
+                        }
+                        return cData;
+                    } ()),
+                    stackline_datas = ECharts.ChartDataFormate.FormateGroupData(data, 'piedouble', is_stack, pack);
+
+                if (pack['hasTime']) {
+                    var option = {
+                        title : {
+                            text: pack['title'] || '未设置title',
+                            subtext: '纯属虚构',
+                            x:'center'
+                        },
+                        tooltip : {
+                            trigger: 'item'
+                        },
+                        legend: {
+                            data: function () {
+                                var c = 0,
+                                    cData = [];
+                                for (var i in data) {
+                                    var data_array = data[i];
+                                    if (c == 0)  {
+                                        for (var j = 0, len = data_array.length; j < len; j++) {
+                                            cData.push(data_array[j]['name']);
+                                        }
+                                        c = 1;
+                                    }
+                                }console.log(cData,'mcccc');
+                                return cData;
+                            } (),
+                            x : 'center',
+                            y : 'bottom',
+                            textStyle:{color: '#fff'}
+                        },
+                        toolbox: {
+                            show : true,
+                            feature : {
+                                mark : {show: true},
+                                dataView : {show: true, readOnly: false},
+                                magicType : {
+                                    show: true,
+                                    type: ['pie', 'funnel']
+                                },
+                                restore : {show: true},
+                                saveAsImage : {show: true}
+                            }
+                        },
+                        calculable : true
                     };
 
                     stackline_datas = stackline_datas.options;

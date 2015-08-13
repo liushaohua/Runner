@@ -156,7 +156,7 @@ define(function(require) {
 						group:'最低气温',
 						value:310
 					}];
-				} else if (type == 'TreeMap' || type == 'Map' || type == 'PieLine') {
+				} else if (type == 'TreeMap' || type == 'Map' || type == 'PieLine' || type == 'PiePage' || type == 'PieDouble') {
 					option = {
 						'2002-01-01': [{
 							name:'北京',
@@ -170,6 +170,18 @@ define(function(require) {
 							name:'新疆',
 							group: '最高气温',
 							value:15
+						},{
+							name:'北京',
+							group: '最低气温',
+							value:8
+						},{
+							name:'天津',
+							group: '最低气温',
+							value:7
+						},{
+							name:'新疆',
+							group: '最低气温',
+							value:6
 						}],
 						'2003-01-01': [{
 							name:'北京',
@@ -185,6 +197,7 @@ define(function(require) {
 							value:14
 						}]
 					};
+					//PieDouble为有最低气温的，其他的不需要
 
 				}
 				_this.render_charts(type, option);
@@ -201,7 +214,7 @@ define(function(require) {
 						'hasTime' : 1,
 						'title': '未来一周气温变化-aa'
 					});
-				}
+				}console.log(JSON.stringify(cOption));
 				/**
 				 * echarts加载数据对象，渲染图表
 				 */
