@@ -80,7 +80,15 @@
                                     type: chart_type ,
                                     itemStyle: {
                                         normal: {
-                                            color: '#B5C334',
+                                            color: function(params) {
+                                                // build a color map as your need.
+                                                var colorList = [
+                                                    '#C1232B','#B5C334','#FCCE10','#E87C25','#27727B',
+                                                    '#FE8463','#9BCA63','#FAD860','#F3A43B','#60C0DD',
+                                                    '#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0'
+                                                ];
+                                                return colorList[params.dataIndex]
+                                            },
                                             label: {
                                                 show: true,
                                                 position: 'top',
@@ -962,16 +970,8 @@
                         },
                         xAxis: [{
                             type: 'category', //X轴均为category，Y轴均为value
-                            data: stackline_datas.xAxis,
-                            boundaryGap: false,//数值轴两端的空白策略
-                            axisLabel : {
-                                textStyle:{
-                                    color:"#fff"
-                                }
-                            },
-                            splitLine : {    // 轴线
-                                show: false
-                            }
+                            data: stackline_datas.origin.xAxis,
+                            show: false
                         }],
                         yAxis: [{
                             type: 'value',
