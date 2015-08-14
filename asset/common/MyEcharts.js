@@ -964,7 +964,8 @@
                     },
                     legend: {
                         x : 'center',
-                        data:['某软件','某主食手机','某水果手机','降水量','蒸发量']
+                        data:['某软件','某主食手机','某水果手机','降水量','蒸发量'],
+                        textStyle:{color: '#fff'}
                     },
                     toolbox: {
                         show : true,

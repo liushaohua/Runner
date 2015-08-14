@@ -225,13 +225,17 @@ define(function(require) {
 				this.chartsData.myCharts.dom.clear();
 				this.chartsData.myCharts.dom.setOption(cOption);
 				this.chartsData.myCharts.data = cOption;
-
+				
 				type == 'MapContrast' && ~function () {
 					_this.setMap(_this.chartsData.myCharts.dom, cOption);
 				}();
 			},
 			setMap: function (myChart, option) {
 				myChart.on(CecConfig.EVENT.MAP_SELECTED, function (param){
+					$('.query_wrap a').removeClass('active');
+					$('.query_wrap a').filter(function (index) {
+						return $(this).html() == '城市';
+					}).addClass('active');
 					var selected = param.selected;
 					var selectedProvince;
 					var name;
