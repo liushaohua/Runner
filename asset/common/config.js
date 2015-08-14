@@ -72,7 +72,8 @@
         '日期': 'line',
         '页面类型': 'PieDouble',
         '一级分类': 'PieDouble',
-        '二级分类': 'PieDouble'
+        '二级分类': 'PieDouble',
+        '城市': 'MapContrast'
     };
 
     window.config = config;

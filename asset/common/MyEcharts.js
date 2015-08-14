@@ -876,74 +876,82 @@
                 }
                 return $.extend({}, ECharts.ChartOptionTemplates.CommonLineOption, option);
             },
-            MapContrast: function (data, name, is_stack, pack) {
-                var pack = pack || {},
-                    timeLineData = (function () {
-                        var cData = [];
-                        if (pack['hasTime']) {
-                            for (var i in data) {
-                                cData.push(i);
-                            }
+            MapContrast: function (data) {
+                var option = {
+                    tooltip : {
+                        trigger: 'item'
+                    },
+                    toolbox: {
+                        show : true,
+                        orient: 'vertical',
+                        x:'right',
+                        y:'center',
+                        feature : {
+                            mark : {show: true},
+                            dataView : {show: true, readOnly: false}
                         }
-                        return cData;
-                    } ()),
-                    stackline_datas = ECharts.ChartDataFormate.FormateGroupData(data, 'piedouble', is_stack, pack);
-
-                if (pack['hasTime']) {
-                    var option = {
-                        title : {
-                            text: pack['title'] || '未设置title',
-                            subtext: '纯属虚构',
-                            x:'center'
-                        },
-                        tooltip : {
-                            trigger: 'item'
-                        },
-                        legend: {
-                            data: function () {
-                                var c = 0,
-                                    cData = [];
-                                for (var i in data) {
-                                    var data_array = data[i];
-                                    if (c == 0)  {
-                                        for (var j = 0, len = data_array.length; j < len; j++) {
-                                            cData.push(data_array[j]['name']);
-                                        }
-                                        c = 1;
-                                    }
-                                }console.log(cData,'mcccc');
-                                return cData;
-                            } (),
-                            x : 'center',
-                            y : 'bottom',
-                            textStyle:{color: '#fff'}
-                        },
-                        toolbox: {
-                            show : true,
-                            feature : {
-                                mark : {show: true},
-                                dataView : {show: true, readOnly: false},
-                                magicType : {
-                                    show: true,
-                                    type: ['pie', 'funnel']
-                                },
-                                restore : {show: true},
-                                saveAsImage : {show: true}
-                            }
-                        },
-                        calculable : true
-                    };
-
-                    stackline_datas = stackline_datas.options;
-                    stackline_datas[0] = $.extend({}, stackline_datas[0],option);
-
-                    var optionLine = ECharts.ChartOptionTemplates.CommonLineOptionTimeLine;
-                    optionLine.timeline['data'] = timeLineData;
-                    optionLine.options = stackline_datas;
-                    return optionLine;
-
-                }
-                return $.extend({}, ECharts.ChartOptionTemplates.CommonLineOption, option);
+                    },
+                    series : [
+                        {
+                            tooltip: {
+                                trigger: 'item',
+                                formatter: '{b}'
+                            },
+                            name: '选择器',
+                            type: 'map',
+                            mapType: 'china',
+                            mapLocation: {
+                                x: 'left',
+                                y: 'top',
+                                width: '30%'
+                            },
+                            roam: true,
+                            selectedMode : 'single',
+                            itemStyle:{
+                                //normal:{label:{show:true}},
+                                emphasis:{label:{show:true}}
+                            },
+                            data:[
+                                {name: '北京', selected:false},
+                                {name: '天津', selected:false},
+                                {name: '上海', selected:false},
+                                {name: '重庆', selected:false},
+                                {name: '河北', selected:false},
+                                {name: '河南', selected:false},
+                                {name: '云南', selected:false},
+                                {name: '辽宁', selected:false},
+                                {name: '黑龙江', selected:false},
+                                {name: '湖南', selected:false},
+                                {name: '安徽', selected:false},
+                                {name: '山东', selected:false},
+                                {name: '新疆', selected:false},
+                                {name: '江苏', selected:false},
+                                {name: '浙江', selected:false},
+                                {name: '江西', selected:false},
+                                {name: '湖北', selected:false},
+                                {name: '广西', selected:false},
+                                {name: '甘肃', selected:false},
+                                {name: '山西', selected:false},
+                                {name: '内蒙古', selected:false},
+                                {name: '陕西', selected:false},
+                                {name: '吉林', selected:false},
+                                {name: '福建', selected:false},
+                                {name: '贵州', selected:false},
+                                {name: '广东', selected:false},
+                                {name: '青海', selected:false},
+                                {name: '西藏', selected:false},
+                                {name: '四川', selected:false},
+                                {name: '宁夏', selected:false},
+                                {name: '海南', selected:false},
+                                {name: '台湾', selected:false},
+                                {name: '香港', selected:false},
+                                {name: '澳门', selected:false}
+                            ]
+                        }
+                    ],
+                    animation: false
+                };
+                return option;
             },
             Browser: function (data, name, is_stack, pack) {
                 var pack = pack || {},
