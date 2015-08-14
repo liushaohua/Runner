@@ -43,6 +43,16 @@
         },{
             'text': 'APP',
             'value': 'app'
+        }],
+        '一级分类': [{
+            'text': 'PC',
+            'value': 'pc'
+        },{
+            'text': 'M',
+            'state': 'm'
+        },{
+            'text': 'APP',
+            'value': 'app'
         }]
     };
 
@@ -65,12 +75,12 @@
         '省份': 'Map',
         '时段': 'PieLine',
         '操作系统': 'TreeMap',
-        '浏览器': 'Browser',
+        '浏览器': 'TreeMap',
         '分辨率': 'TreeMap',
         'default': 'line',
         '业务线': 'Radar',
         '日期': 'line',
-        '页面类型': 'PieDouble',
+        '页面类型': 'TreeMap',
         '一级分类': 'PieDouble',
         '二级分类': 'PieDouble',
         '城市': 'MapContrast'

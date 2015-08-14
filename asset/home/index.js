@@ -33,6 +33,7 @@ define(function(require) {
 				'ds':'20150811',
 				'biz_name':'ershouche',
 				'index_type': 'cate1_name',
+				'platform': 'PC',
 				'value_name': 'pv'
 				},
 			screen: window.config.screen,
@@ -80,13 +81,15 @@ define(function(require) {
 				console.log('getServer',_this.Method);
 
 				$.ajax({
-					url: 'http://10.59.10.123/',
+					url: 'http://10.9.17.55:8080/',
 					type: 'post',
 					async: true,
 					data: _this.Method,
 					dataType: 'json',
 					success: function(data, textStatus) {
-						console.log(data);
+						type == 'line' && (data = data.data);
+						//修改了数据
+ 						console.log(data);
 						//_this.render_charts(type, data);
 						Render.chartsData.myCharts.dom.hideLoading();
 					},
@@ -225,13 +228,14 @@ define(function(require) {
 				this.chartsData.myCharts.dom.clear();
 				this.chartsData.myCharts.dom.setOption(cOption);
 				this.chartsData.myCharts.data = cOption;
-				
+
 				type == 'MapContrast' && ~function () {
-					_this.setMap(_this.chartsData.myCharts.dom, cOption);
+					_this.setMap(_this.chartsData.myCharts.dom, cOption, type);
 				}();
 			},
-			setMap: function (myChart, option) {
+			setMap: function (myChart, option, type) {
 				myChart.on(CecConfig.EVENT.MAP_SELECTED, function (param){
+					if (type != 'MapContrast') {return;}
 					$('.query_wrap a').removeClass('active');
 					$('.query_wrap a').filter(function (index) {
 						return $(this).html() == '城市';
