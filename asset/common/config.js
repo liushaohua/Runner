@@ -68,7 +68,7 @@
         '浏览器': 'Browser',
         '分辨率': 'TreeMap',
         'default': 'line',
-        '业务线': 'TreeMap',
+        '业务线': 'Radar',
         '日期': 'line',
         '页面类型': 'PieDouble',
         '一级分类': 'PieDouble',
