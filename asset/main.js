@@ -11,9 +11,6 @@ define(function(require) {
 		$ = jQuery,cPage = {};
 
 	window.EchartsCof = require('common/MyEcharts');
-	try{
-		require('niceScroll');
-	}catch(e){}
 
 	router.registerRouter({
 		path: '/home/',
@@ -44,10 +41,12 @@ define(function(require) {
 				$('a[href="'+ hash +'"]').parent().addClass('active');
 			});
 
-			$('body').niceScroll({
-				cursorcolor:"#489bd3",
-				cursorborder: '1px solid #489bd3',
-				zIndex:3
+			require(['niceScroll'],function () {
+				$('body').niceScroll({
+					cursorcolor:"#489bd3",
+					cursorborder: '1px solid #489bd3',
+					zIndex:3
+				});
 			});
 
 			$drop_togo_btn.click(function () {
