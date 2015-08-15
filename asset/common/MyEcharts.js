@@ -737,6 +737,7 @@
 
                     stackline_datas = stackline_datas.options;
                     stackline_datas[0] = $.extend({}, stackline_datas[0],option);
+                    stackline_datas[0].series[0]['name'] = stackline_datas[0].series[1]['name'] = '';
 
                     var optionLine = ECharts.ChartOptionTemplates.CommonLineOptionTimeLine;
                     optionLine.timeline['data'] = timeLineData;
@@ -769,7 +770,20 @@
                             trigger: 'item'
                         },
                         legend: {
-                            data: stackline_datas.origin.category,
+                            data: function () {
+                                var c = 0,
+                                    cData = [];
+                                for (var i in data) {
+                                    var data_array = data[i];
+                                    if (c == 0)  {
+                                        for (var j = 0, len = data_array.length; j < len; j++) {
+                                            cData.push(data_array[j]['name']);
+                                        }
+                                        c = 1;
+                                    }
+                                }console.log(cData,'mcccc');
+                                return cData;
+                            } (),
                             textStyle:{color: '#fff'}
                         },
                         toolbox: {
@@ -993,6 +1007,12 @@
                     calculable : true,
                     polar : [
                         {
+                            name: {
+                                show: true,
+                                textStyle:{
+                                    color:"#fff"
+                                }
+                            },
                             indicator : (function (){
                                 var res = [];
                                 for (var i = 1; i <= 24; i++) {

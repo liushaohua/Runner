@@ -64,16 +64,17 @@
      */
     config.dictionary = {
         '日期': 'ds',
-        '时段': 'shiduan',
-        '一级分类': 'yijifenlei',
-        '二级分类': 'erjifenlei',
-        '页面类型': 'yemianleixing',
-        '省份': 'shengfen',
-        '城市': 'chengshi',
-        '业务线': 'biz_name',
-        '操作系统': 'caozuo',
-        '分辨率': 'fenbianlv',
+        '时段': 'time_window',
+        '一级分类': 'cate1_name',
+        '二级分类': 'cate2_name',
+        '页面类型': 'page_type',
+        '省份': 'province_name',
+        '城市': 'city_name',
+        '操作系统': 'os_type',
+        '分辨率': 'window_size',
         '浏览器': 'browser_type',
+
+        '业务线': 'biz_name',
         '平台': 'platform'
     };
 

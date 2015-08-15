@@ -98,7 +98,7 @@ define(function(require) {
 						type == 'line' && (data = data.data);
 						//修改了数据
  						console.log(data);
-						//_this.render_charts(type, data);
+						_this.render_charts(type, data);
 						Render.chartsData.myCharts.dom.hideLoading();
 					},
 					error : function() {
@@ -687,9 +687,9 @@ define(function(require) {
 								function () {
 									var $datepicker = $( "#datepicker" );
 									$datepicker.css({'left': _position.left - 37, 'top': _position.top});
-									$datepicker.datepicker({ dateFormat: 'yy/mm/dd',onSelect: function(dateText, inst) {
+									$datepicker.datepicker({ dateFormat: 'yymmdd',onSelect: function(dateText, inst) {
 										var date = $datepicker.datepicker().val();
-										_this.Method.date = date;
+										_this.Method.ds = date;
 										_this.getServer(_this.echarts_type[cVal]);
 									} });
 									$datepicker.datepicker('show');
