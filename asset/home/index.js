@@ -35,7 +35,11 @@ define(function(require) {
 				'index_type': 'cate1_name',
 				'platform': 'PC',
 				'value_name': 'pv'
-				},
+			},
+			changeParam: function (Param, value, cType) {
+				this.Method[Param] = value;
+				cType && (this.getServer(cType));
+			},
 			screen: window.config.screen,
 			dictionary: window.config.dictionary,
 			echarts_type: window.config.echarts_type,
@@ -67,7 +71,7 @@ define(function(require) {
 						$this.addClass('active').siblings().removeClass('active');
 						_this.screen[type][oldIndex].state = 0;
 						_this.screen[type][$this.index()].state = 1;
-						_this.dictionary[type] && (_this.Method[_this.dictionary[type]] = $this.attr('value'));
+						//_this.dictionary[type] && (_this.Method[_this.dictionary[type]] = $this.attr('value'));
 						_this.getServer(_this.echarts_type[type]);
 					});
 				};
@@ -79,6 +83,7 @@ define(function(require) {
 				var _this = this,
 					option;
 				console.log('getServer',_this.Method);
+				_this.nowType = type;
 
 				$.ajax({
 					url: 'http://10.9.17.55:8080/',
@@ -217,6 +222,7 @@ define(function(require) {
 						'title': '未来一周气温变化-ga'
 					});
 				} else {
+					type = type || _this.nowType || _this.echarts_type.default;
 					cOption = EchartsCof.ChartOptionTemplates[type](data,'hellow-cookie', true, {
 						'hasTime' : 1,
 						'title': '未来一周气温变化-aa'
@@ -687,7 +693,8 @@ define(function(require) {
 							break;
 						default:
 							_this._dropdown(cVal, _position).init();console.log(cVal);
-							_this.getServer(_this.echarts_type[cVal]);
+							_this.changeParam('index_type', _this.dictionary[cVal], _this.echarts_type[cVal]);
+							//_this.getServer(_this.echarts_type[cVal]);
 							ev.stopPropagation();
 					}
 				});

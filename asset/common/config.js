@@ -57,13 +57,20 @@
     };
 
     /**
-     * 中英文转换词典
+     * select参数转换词典
      * @type {Object}
      */
     config.dictionary = {
         '日期': 'ds',
+        '时段': 'shiduan',
+        '一级分类': 'yijifenlei',
+        '二级分类': 'erjifenlei',
+        '页面类型': 'yemianleixing',
+        '省份': 'shengfen',
+        '城市': 'chengshi',
         '业务线': 'biz_name',
         '操作系统': 'caozuo',
+        '分辨率': 'fenbianlv',
         '浏览器': 'browser_type'
     };
 
@@ -79,6 +86,7 @@
         '分辨率': 'TreeMap',
         'default': 'line',
         '业务线': 'Radar',
+        '平台': 'Radar',
         '日期': 'line',
         '页面类型': 'TreeMap',
         '一级分类': 'PieDouble',
