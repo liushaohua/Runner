@@ -36,19 +36,21 @@
         }],
         '平台': [{
             'text': 'PC',
-            'value': 'pc'
+            'value': 'pc',
+            'state': '1'
         },{
             'text': 'M',
-            'state': 'm'
+            'value': 'M'
         },{
             'text': 'APP',
-            'value': 'app'
+            'value': 'APP'
         }],
         '一级分类': [{
             'text': 'PC',
             'value': 'pc'
         },{
             'text': 'M',
+            'value': 'M',
             'state': 'm'
         },{
             'text': 'APP',
@@ -71,7 +73,8 @@
         '业务线': 'biz_name',
         '操作系统': 'caozuo',
         '分辨率': 'fenbianlv',
-        '浏览器': 'browser_type'
+        '浏览器': 'browser_type',
+        '平台': 'platform'
     };
 
     /**
@@ -86,7 +89,6 @@
         '分辨率': 'TreeMap',
         'default': 'line',
         '业务线': 'Radar',
-        '平台': 'Radar',
         '日期': 'line',
         '页面类型': 'TreeMap',
         '一级分类': 'PieDouble',

@@ -25,6 +25,7 @@ define(function(require) {
 				this.render_nav().setDate().set_method().getServer(this.echarts_type['default']);
 				$(document).click(function () {
 					$('.dropdown').fadeOut(300);
+					$('.query_wrap a i').add($('.menu-btn i')).attr('class','icon_down');
 				});
 				fn && fn();
 			},
@@ -71,7 +72,7 @@ define(function(require) {
 						$this.addClass('active').siblings().removeClass('active');
 						_this.screen[type][oldIndex].state = 0;
 						_this.screen[type][$this.index()].state = 1;
-						//_this.dictionary[type] && (_this.Method[_this.dictionary[type]] = $this.attr('value'));
+						_this.dictionary[type] && (_this.Method[_this.dictionary[type]] = $this.attr('value'));
 						_this.getServer(_this.echarts_type[type]);
 					});
 				};
@@ -83,6 +84,8 @@ define(function(require) {
 				var _this = this,
 					option;
 				console.log('getServer',_this.Method);
+
+				type = type || _this.nowType || _this.echarts_type.default;
 				_this.nowType = type;
 
 				$.ajax({
@@ -222,7 +225,6 @@ define(function(require) {
 						'title': '未来一周气温变化-ga'
 					});
 				} else {
-					type = type || _this.nowType || _this.echarts_type.default;
 					cOption = EchartsCof.ChartOptionTemplates[type](data,'hellow-cookie', true, {
 						'hasTime' : 1,
 						'title': '未来一周气温变化-aa'
@@ -660,8 +662,10 @@ define(function(require) {
 			setDate : function () {
 				var _this = this;
 				$('.date_query a').click(function () {
-					$(this).addClass('active').siblings().removeClass('active');
-					_this.getServer('Map');
+					var $this = $(this);
+					$this.addClass('active').siblings().removeClass('active');
+					_this.changeParam('time_type', $this.attr('value'));
+					_this.getServer();
 				});
 				return _this;
 			},
@@ -669,11 +673,13 @@ define(function(require) {
 				var _this = this;
 				$('.query_wrap').on('click', 'a', function (ev) {
 					var $this = $(this),
-						cVal = $this.html(),
+						cVal = $this.text(),
 						_position = $this.offset(),
-						ev = ev || window.event;
+						ev = ev || window.event,
+						$i = $this.find('i');
 					$('.query_wrap a').removeClass('active');
 					$this.addClass('active');
+					$i.length && ($i.attr('class','icon_up'));
 					switch (cVal) {
 						case '日期':
 							console.log('日期');
@@ -704,8 +710,10 @@ define(function(require) {
 						cVal = $this.find('span').html(),
 						_position = $this.offset(),
 						ev = ev || window.event;
-					_this._dropdown(cVal, _position).init();
+
+					$this.find('i').attr('class','icon_up');
 					ev.stopPropagation();
+					_this._dropdown(cVal, _position).init();
 				});
 				return this;
 			},
@@ -743,7 +751,7 @@ define(function(require) {
 
 				for (var i = 0, len = data.length; i < len; i++) {
 					var bBOOL = ((i+1)% 5 == 0);
-					cHTML += '<a href="javascript:;"'+ (bBOOL ? 'class="c-span-last"' : '')+'>' + data[i]['name'] +'</a>'
+					cHTML += '<a href="javascript:;"'+ (bBOOL ? 'class="c-span-last"' : '')+'>'+ (data[i]['name'] == '一级分类' ? '<i class="icon_down"></i>' : '') + data[i]['name'] +'</a>'
 					      + ( bBOOL ? '</li><li>'  : '');
 				}
 					cHTML += '</li>';
