@@ -9,7 +9,11 @@ define(function(require) {
 	require('jQuery');
     var router = require('router'),
 		$ = jQuery,cPage = {};
-		window.EchartsCof = require('common/MyEcharts');
+
+	window.EchartsCof = require('common/MyEcharts');
+	try{
+		require('niceScroll');
+	}catch(e){}
 
 	router.registerRouter({
 		path: '/home/',
@@ -29,7 +33,8 @@ define(function(require) {
 
 	cPage = {
 		init : function () {
-			var _this = this;
+			var _this = this,
+				$drop_togo_btn = $('.dropdown-toggle');
 			/**
 			 * hashChange
 			 */
@@ -39,10 +44,24 @@ define(function(require) {
 				$('a[href="'+ hash +'"]').parent().addClass('active');
 			});
 
-			$('.dropdown-toggle').click(function () {
-				var $li = $(this).parent();
-				$('.menu_wrap').slideUp();
-				$(this).next().stop().slideDown();
+			$('body').niceScroll({
+				cursorcolor:"#489bd3",
+				cursorborder: '1px solid #489bd3',
+				zIndex:3
+			});
+
+			$drop_togo_btn.click(function () {
+				var $this = $(this),
+					$li = $this.parent(),
+					$next = $this.next();
+
+				$('.dropdown-toggle .icon_cur').removeClass('icon_up').addClass('icon_down');
+				$this.find('.icon_cur').removeClass('icon_down').addClass('icon_up');
+
+				if ($next.is(':hidden')) {
+					$('.menu_wrap').slideUp();
+					$next.stop().slideDown();
+				}
 			});
 
 			var $show_bar = $('.side_show'),
@@ -56,6 +75,7 @@ define(function(require) {
 				$('.left_bar').animate({'left': -223});
 				$show_bar.css('left',240).add($fix_logon).fadeIn(1000);
 				$main.animate({'margin-left': 74});
+				//$('.select_wrap').appendTo($('.select_bar'));
 			});
 
 			$show_bar.click(function () {

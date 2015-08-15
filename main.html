@@ -35,13 +35,14 @@
             <a class="side_show" href="javascript:;"></a>
             <a class="side_hide" href="javascript:;"></a>
         </div>
+        <div class="select_bar"></div>
         <div class="nav">
             <ul class="nav_list">
                 <li>
                     <a class="dropdown-toggle" href="javascript:;"><i class="icon_cur icon_up"></i><i class="analysis"></i>页面详细分析</a>
-                    <div class="rel menu_wrap">
+                    <div class="rel menu_wrap" style="display:block;">
                         <div class="up_arrow abs"></div>
-                        <ul class="submenu" style="display:block;">
+                        <ul class="submenu">
                             <li>
                                 <a href="#/home/"><i class="right_cur"></i>PV&nbsp;UV</a>
                             </li>
@@ -56,16 +57,17 @@
                 </li>
                 <li>
                     <a class="dropdown-toggle" href="javascript:;"><i class="icon_cur icon_down"></i><i class="compose"></i>用户构成</a>
-                    <div>
+                    <div class="rel menu_wrap">
+                        <div class="up_arrow abs"></div>
                         <ul class="submenu">
                             <li>
-                                <a href="#/home/">首页</a>
+                                <a href="#/home/"><i class="right_cur"></i>PV&nbsp;UV</a>
                             </li>
                             <li>
-                                <a href="#/tool/">工具页</a>
+                                <a href="#/tool/"><i class="right_cur"></i>工具页</a>
                             </li>
                             <li>
-                                <a href="#/info/">详情页面</a>
+                                <a href="#/info/"><i class="right_cur"></i>详情页面</a>
                             </li>
                         </ul>
                     </div>
@@ -87,7 +89,8 @@ require.config({
         echarts: '../dep/echarts-2.2.4/build/dist',
         jQuery: '../dep/jquery/dist/jquery.min',
         common: '../asset/common',
-        zrender: '../dep/zrender-2.1.0/src/config'
+        zrender: '../dep/zrender-2.1.0/src/config',
+        niceScroll: '../dep/jquery.nicescroll/jquery.nicescroll.min'
     },
     pachages: []
 });
