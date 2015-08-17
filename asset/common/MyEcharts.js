@@ -323,7 +323,7 @@
                 },
                 calculable : true,
                 toolbox: {
-                    show: true,
+                    show: false,
                     feature: {
                         dataView: { readOnly: false }, //数据预览
                         restore: true, //复原
@@ -471,7 +471,7 @@
                     ],
                     series: stackline_datas.series
                 };
-                
+
                 if (pack['hasTime']) {
                     var option2 = {
                         title : {
@@ -581,16 +581,7 @@
                         calculable : true
                     },
                     toolbox: {
-                        show: true,
-                        orient : 'vertical',
-                        x: 'right',
-                        y: 'center',
-                        feature : {
-                            mark : {show: true},
-                            dataView : {show: true, readOnly: false},
-                            restore : {show: true},
-                            saveAsImage : {show: true}
-                        }
+                        show: false
                     },
                     roamController: {
                         show: true,
@@ -627,7 +618,7 @@
                             calculable : true
                         },
                         toolbox: {
-                            show: true,
+                            show: false,
                             orient : 'vertical',
                             x: 'right',
                             y: 'center',
@@ -732,13 +723,7 @@
                             trigger: 'item'
                         },
                         toolbox: {
-                            show : true,
-                            feature : {
-                                mark : {show: true},
-                                dataView : {show: true, readOnly: false},
-                                restore : {show: true},
-                                saveAsImage : {show: true}
-                            }
+                            show : false
                         },
                         hoverable : true
                     };
@@ -796,25 +781,7 @@
                             textStyle:{color: '#fff'}
                         },
                         toolbox: {
-                            show : true,
-                            feature : {
-                                mark : {show: true},
-                                dataView : {show: true, readOnly: false},
-                                magicType : {
-                                    show: true,
-                                    type: ['pie', 'funnel'],
-                                    option: {
-                                        funnel: {
-                                            x: '25%',
-                                            width: '50%',
-                                            funnelAlign: 'left',
-                                            max: 1700
-                                        }
-                                    }
-                                },
-                                restore : {show: true},
-                                saveAsImage : {show: true}
-                            }
+                            show : false
                         },
                         hoverable : true
                     };
@@ -873,17 +840,7 @@
                             textStyle:{color: '#fff'}
                         },
                         toolbox: {
-                            show : true,
-                            feature : {
-                                mark : {show: true},
-                                dataView : {show: true, readOnly: false},
-                                magicType : {
-                                    show: true,
-                                    type: ['pie', 'funnel']
-                                },
-                                restore : {show: true},
-                                saveAsImage : {show: true}
-                            }
+                            show : false
                         },
                         calculable : true
                     };
@@ -906,14 +863,7 @@
                         trigger: 'item'
                     },
                     toolbox: {
-                        show : true,
-                        orient: 'vertical',
-                        x:'right',
-                        y:'center',
-                        feature : {
-                            mark : {show: true},
-                            dataView : {show: true, readOnly: false}
-                        }
+                        show : false
                     },
                     series : [
                         {
@@ -1140,4 +1090,3 @@
     };
     return ECharts;
 });
-  

@@ -775,6 +775,18 @@ define(function(require) {
 					}
 				});
 
+				/*获取一级分类*/
+				$.ajax({
+					url: 'http://10.9.17.55:8080/filter',
+					type: 'post',
+					async: true,
+					data: {'dim_type': 'cate1','biz_name': 'ershou'},
+					dataType: 'json',
+					success: function(data, textStatus) {
+						_this.screen['一级分类'] = data.data;
+					}
+				});
+
 				/*this.screen['业务线'] = [{
 					'text': '001dian',
 					'value': 1
