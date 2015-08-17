@@ -31,7 +31,8 @@ define(function(require) {
 	cPage = {
 		init : function () {
 			var _this = this,
-				$drop_togo_btn = $('.dropdown-toggle');
+				$drop_togo_btn = $('.dropdown-toggle'),
+				$select_bar = $('.select_bar');
 			/**
 			 * hashChange
 			 */
@@ -39,6 +40,12 @@ define(function(require) {
 				var hash = location.hash;
 				$('.submenu li').removeClass('active');
 				$('a[href="'+ hash +'"]').parent().addClass('active');
+			});
+
+			$('.submenu a').click(function () {
+				window.setPlatform = true;
+				$select_bar.fadeIn(500);
+				$('.select_wrap').appendTo($select_bar);
 			});
 
 			require(['niceScroll'],function () {
@@ -74,7 +81,9 @@ define(function(require) {
 				$('.left_bar').animate({'left': -223});
 				$show_bar.css('left',240).add($fix_logon).fadeIn(1000);
 				$main.animate({'margin-left': 74});
-				//$('.select_wrap').appendTo($('.select_bar'));
+				$select_bar.fadeIn(500);
+				$('.select_wrap').appendTo($select_bar);
+				$('.top_bar').addClass('active')
 			});
 
 			$show_bar.click(function () {

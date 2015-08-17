@@ -16,6 +16,13 @@ define(function(require) {
     home.initBehavior = function() {
 		$(document).trigger('Runner/hashChange');
 		$('.top_bar').animate({'margin-left':0},500);
+
+		//首次进入初始化平台业务线
+		if (!window.setPlatform) {
+			$('.select_wrap').show();
+			$('.top_bar').removeClass('active')
+		}
+
 		/**
 		 * Render图表渲染主函数
 		 */
@@ -98,7 +105,7 @@ define(function(require) {
 						type == 'line' && (data = data.data);
 						//修改了数据
  						console.log(data);
-						_this.render_charts(type, data);
+						//_this.render_charts(type, data);
 						Render.chartsData.myCharts.dom.hideLoading();
 					},
 					error : function() {
@@ -207,7 +214,6 @@ define(function(require) {
 						}]
 					};
 					//PieDouble需要最低气温，其他的不需要
-
 				}
 				_this.render_charts(type, option);
 				return _this;
@@ -755,7 +761,7 @@ define(function(require) {
 					      + ( bBOOL ? '</li><li>'  : '');
 				}
 					cHTML += '</li>';
-				$('.query_wrap ul').html(cHTML);
+				$('.query_wrap ul').html(cHTML).fadeIn(500);
 
 				/*获取平台业务线下拉数据*/
 				$.ajax({

@@ -304,7 +304,15 @@
                 timeline : {
                     data : [
                         '2013-001-01', '2013-02-01', '2013-03-01', '2013-04-01', '2013-05-01'
-                    ]
+                    ],
+                    label : {
+                        formatter : function(s) {
+                            return s.slice(0, 4);
+                        },
+                        textStyle: {
+                            color: '#fff'
+                        }
+                    },
                 },
                 options : [{}]
             },
