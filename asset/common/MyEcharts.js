@@ -749,6 +749,7 @@
 
                     var optionLine = ECharts.ChartOptionTemplates.CommonLineOptionTimeLine;
                     optionLine.timeline['data'] = timeLineData;
+                    optionLine.timeline['y'] = '90%';
                     optionLine.options = stackline_datas;
                     return optionLine;
 
@@ -847,7 +848,7 @@
                         title : {
                             text: pack['title'] || '未设置title',
                             subtext: '纯属虚构',
-                            x:'center'
+                            x:'left'
                         },
                         tooltip : {
                             trigger: 'item'
@@ -868,7 +869,7 @@
                                 return cData;
                             } (),
                             x : 'center',
-                            y : 'bottom',
+                            y : 'top',
                             textStyle:{color: '#fff'}
                         },
                         toolbox: {
@@ -892,6 +893,7 @@
 
                     var optionLine = ECharts.ChartOptionTemplates.CommonLineOptionTimeLine;
                     optionLine.timeline['data'] = timeLineData;
+                    optionLine.timeline['y'] = '88%';
                     optionLine.options = stackline_datas;
                     return optionLine;
 
