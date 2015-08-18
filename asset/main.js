@@ -67,6 +67,8 @@ define(function(require) {
 				if ($next.is(':hidden')) {
 					$('.menu_wrap').slideUp();
 					$next.stop().slideDown();
+				} else {
+					$this.next().slideUp();
 				}
 			});
 

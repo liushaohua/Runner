@@ -51,7 +51,7 @@
         },{
             'text': 'M',
             'value': 'M',
-            'state': 'm'
+            'state': '1'
         },{
             'text': 'APP',
             'value': 'app'
@@ -89,7 +89,7 @@
         '浏览器': 'TreeMap',
         '分辨率': 'TreeMap',
         'default': 'line',
-        '业务线': 'Radar',
+        //'业务线': 'Radar',
         '日期': 'line',
         '页面类型': 'TreeMap',
         '一级分类': 'PieDouble',

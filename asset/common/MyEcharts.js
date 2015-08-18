@@ -307,7 +307,7 @@
                     ],
                     label : {
                         formatter : function(s) {
-                            return s.slice(0, 4);
+                            return s.slice(0, 10);
                         },
                         textStyle: {
                             color: '#fff'
@@ -390,7 +390,7 @@
                 var option = {
                     title : {
                         text: pack['title'] || '未设置title',
-                        subtext: '纯属虚构'
+                        subtext: ''
                     },
                     dataZoom: {
                         show: true,
@@ -420,7 +420,7 @@
                         {
                             type : 'value',
                             axisLabel : {
-                                formatter: '{value} °C',
+                                formatter: '{value}',
                                 textStyle:{
                                     color:"#fff"
                                 }
@@ -560,7 +560,6 @@
                 var option = {
                     title : {
                         text: pack['title'] || '未设置title',
-                        subtext: '纯属虚构',
                         x:'center'
                     },
                     tooltip : {
@@ -597,7 +596,6 @@
                     var option2 = {
                         title : {
                             text: pack['title'] || '未设置title',
-                            subtext: '纯属虚构',
                             x:'center'
                         },
                         tooltip : {
@@ -665,7 +663,6 @@
                     var option = {
                         title : {
                             text: pack['title'] || '未设置title',
-                            subtext: '纯属虚构',
                             x:'right',
                             y:'bottom'
                         },
@@ -716,8 +713,7 @@
                 if (pack['hasTime']) {
                     var option = {
                         title : {
-                            text: pack['title'] || '未设置title',
-                            subtext: '纯属虚构'
+                            text: pack['title'] || '未设置title'
                         },
                         tooltip : {
                             trigger: 'item'
@@ -757,8 +753,7 @@
                 if (pack['hasTime']) {
                     var option = {
                         title : {
-                            text: pack['title'] || '未设置title',
-                            subtext: '纯属虚构'
+                            text: pack['title'] || '未设置title'
                         },
                         tooltip : {
                             trigger: 'item'
@@ -814,7 +809,6 @@
                     var option = {
                         title : {
                             text: pack['title'] || '未设置title',
-                            subtext: '纯属虚构',
                             x:'left'
                         },
                         tooltip : {
@@ -926,7 +920,7 @@
                 };
                 return option;
             },
-            Radar: function () {
+            Radar: function (data) {
                 var data = [
                     {
                         name : '降水量1',
@@ -944,8 +938,7 @@
                 console.log(JSON.stringify(data));
                 var option = {
                     title : {
-                        text: '多雷达图',
-                        subtext: '纯属虚构'
+                        text: '多雷达图'
                     },
                     tooltip : {
                         trigger: 'axis'
@@ -1023,7 +1016,6 @@
                     var option = {
                         title : {
                             text: pack['title'] || '未设置title',
-                            subtext: '纯属虚构',
                             x:'center'
                         },
                         tooltip : {

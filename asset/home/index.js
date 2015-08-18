@@ -38,11 +38,13 @@ define(function(require) {
 			},
 			Method: {
 				'time_type':'day',
-				'ds':'20150811',
-				'biz_name':'ershouche',
-				'index_type': 'cate1_name',
+				'ds':'',
+				'biz_name':'fangchan',
+				'index_type': 'data_date',
 				'platform': 'PC',
-				'value_name': 'pv'
+				'value_name': 'pv',
+				'cate1_name': '',
+				'dim_type': 'cate1'
 			},
 			changeParam: function (Param, value, cType) {
 				this.Method[Param] = value;
@@ -80,6 +82,23 @@ define(function(require) {
 						_this.screen[type][oldIndex].state = 0;
 						_this.screen[type][$this.index()].state = 1;
 						_this.dictionary[type] && (_this.Method[_this.dictionary[type]] = $this.attr('value'));
+						type == '一级分类' && (_this.Method[_this.dictionary[type]] = $this.attr('value'));
+						type == '业务线' && ~function () {
+							//_this.Method['dim_type'] = $this.attr('value');
+							/*获取一级分类*/
+							$.ajax({
+								url: 'http://10.9.17.55:8080/filter',
+								type: 'post',
+								async: true,
+								data: {'dim_type': 'cate1','biz_name': $this.attr('value')},
+								dataType: 'json',
+								success: function(data, textStatus) {
+									data.data[0].state = 1;
+									_this.screen['一级分类'] = data.data;
+								}
+							});
+						}();
+
 						_this.getServer(_this.echarts_type[type]);
 					});
 				};
@@ -102,10 +121,19 @@ define(function(require) {
 					data: _this.Method,
 					dataType: 'json',
 					success: function(data, textStatus) {
-						type == 'line' && (data = data.data);
+						data = data.data;
+
+						if (type == 'TreeMap') {
+							for (var i in data) {
+								data[i].unshift({
+									name: "default", group: "default", value: 1
+								});
+							}
+						}
+
 						//修改了数据
- 						console.log(data);
-						//_this.render_charts(type, data);
+ 						console.log('data=======',JSON.stringify(data));
+						_this.render_charts(type, data);
 						Render.chartsData.myCharts.dom.hideLoading();
 					},
 					error : function() {
@@ -214,8 +242,59 @@ define(function(require) {
 						}]
 					};
 					//PieDouble需要最低气温，其他的不需要
+
+					option2 = {
+						"2015-08-10": [
+							{
+								"name": "special2",
+								"group": "M",
+								"value": 70
+							},
+						{
+							"name": "special",
+							"group": "PC",
+							"value": 7
+						},
+						{
+							"name": "changshang_volvo",
+							"group": "PC",
+							"value": 8
+						},
+						{
+							"name": "che",
+							"group": "PC",
+							"value": 11
+						},
+						{
+							"name": "chexing",
+							"group": "PC",
+							"value": 12
+						}],
+						"2015-08-12": [
+							{
+								"name": "special",
+								"group": "PC",
+								"value": 7
+							},
+							{
+								"name": "changshang_volvo",
+								"group": "PC",
+								"value": 8
+							},
+							{
+								"name": "che",
+								"group": "PC",
+								"value": 11
+							},
+							{
+								"name": "chexing",
+								"group": "PC",
+								"value": 22
+							}]
+
+					};
 				}
-				_this.render_charts(type, option);
+				//_this.render_charts(type, option);
 				return _this;
 			},
 			render_charts: function (type, data) {
@@ -223,17 +302,17 @@ define(function(require) {
 					_this = this;
 				if (type == 'line') {
 					cOption = EchartsCof.ChartOptionTemplates.Lines(data,'hellow-cookie',false, {
-						'title': '未来一周气温变化-ga'
+						'title': ' '
 					});
 				} else if (type == 'Browser') {
 					cOption = EchartsCof.ChartOptionTemplates.Browser(data,'hellow-cookie',false, {
 						'hasTime' : 1,
-						'title': '未来一周气温变化-ga'
+						'title': ' '
 					});
 				} else {
 					cOption = EchartsCof.ChartOptionTemplates[type](data,'hellow-cookie', true, {
 						'hasTime' : 1,
-						'title': '未来一周气温变化-aa'
+						'title': ' '
 					});
 				}console.log(JSON.stringify(cOption));
 				/**
@@ -244,10 +323,10 @@ define(function(require) {
 				this.chartsData.myCharts.data = cOption;
 
 				type == 'MapContrast' && ~function () {
-					_this.setMap(_this.chartsData.myCharts.dom, cOption, type);
+					_this.setMap(_this.chartsData.myCharts.dom, cOption, type, data);
 				}();
 			},
-			setMap: function (myChart, option, type) {
+			setMap: function (myChart, option, type, data) {
 				myChart.on(CecConfig.EVENT.MAP_SELECTED, function (param){
 					if (type != 'MapContrast') {return;}
 					$('.query_wrap a').removeClass('active');
@@ -696,6 +775,7 @@ define(function(require) {
 									$datepicker.datepicker({ dateFormat: 'yymmdd',onSelect: function(dateText, inst) {
 										var date = $datepicker.datepicker().val();
 										_this.Method.ds = date;
+										_this.Method.index_type = 'data_date';
 										_this.getServer(_this.echarts_type[cVal]);
 									} });
 									$datepicker.datepicker('show');
@@ -704,8 +784,13 @@ define(function(require) {
 							);
 							break;
 						default:
-							_this._dropdown(cVal, _position).init();console.log(cVal);
-							_this.changeParam('index_type', _this.dictionary[cVal], _this.echarts_type[cVal]);
+							_this._dropdown(cVal, _position).init();
+							if ($this.has('i').length) {
+								_this.changeParam('index_type', _this.dictionary[cVal]);
+							} else {
+								_this.changeParam('index_type', _this.dictionary[cVal], _this.echarts_type[cVal]);
+							}
+
 							//_this.getServer(_this.echarts_type[cVal]);
 							ev.stopPropagation();
 					}
@@ -771,7 +856,8 @@ define(function(require) {
 					data: {'dim_type':'biz'},
 					dataType: 'json',
 					success: function(data, textStatus) {
-						_this.screen['业务线'] = data.biz_name;
+						data.data[0].state = 1;
+						_this.screen['业务线'] = data.data;
 					}
 				});
 
@@ -780,9 +866,10 @@ define(function(require) {
 					url: 'http://10.9.17.55:8080/filter',
 					type: 'post',
 					async: true,
-					data: {'dim_type': 'cate1','biz_name': 'ershou'},
+					data: {'dim_type': 'cate1','biz_name': 'fangchan'},
 					dataType: 'json',
 					success: function(data, textStatus) {
+						data.data[0].state = 1;
 						_this.screen['一级分类'] = data.data;
 					}
 				});
