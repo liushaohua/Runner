@@ -773,7 +773,10 @@
                                 }console.log(cData,'mcccc');
                                 return cData;
                             } (),
-                            textStyle:{color: '#fff'}
+                            textStyle:{color: '#fff'},
+                            orient : 'center',
+                            x : 'left',
+                            itemWidth: 33
                         },
                         toolbox: {
                             show : false
