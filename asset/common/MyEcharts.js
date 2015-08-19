@@ -122,7 +122,8 @@
                                 break;
 
                             case 'piedouble':
-                                var centerNum = ['25%', '75%'];
+                                //var centerNum = ['25%', '75%'];
+                                var centerNum = ['50%', '75%'];
                                 var series_temp = {
                                     name: group[i], type: 'pie',
                                     radius : [20, 110],

@@ -76,22 +76,28 @@ define(function(require) {
 				$hide_bar = $('.side_hide'),
 				$main = $('#main'),
 				$fix_logon = $('.fix_logo'),
+				$fix_select = $('.fix_select'),
 				$logo = $('.logo'),
 				$p_info = $('.p_info');
 
 			$hide_bar.click(function () {
 				$('.left_bar').animate({'left': -223});
-				$show_bar.css('left',240).add($fix_logon).fadeIn(1000);
+				$fix_select.fadeIn(1000);
+				$show_bar.css('left',226).add($fix_logon).fadeIn(1000);
 				$main.animate({'margin-left': 74});
 				$select_bar.fadeIn(500);
-				$('.select_wrap').appendTo($select_bar);
+				//$('.select_wrap').appendTo($select_bar);
+				$('.select_wrap').appendTo($fix_select);
 				$('.top_bar').addClass('active')
 			});
 
 			$show_bar.click(function () {
 				$('.left_bar').animate({'left': 0});
+				$fix_select.hide();
 				$show_bar.hide().css('left',0);
 				$fix_logon.fadeOut(500);
+				//$fix_select.appendTo($select_bar);
+				$('.select_wrap').appendTo($select_bar);
 				$main.animate({'margin-left': 223});
 			});
 
