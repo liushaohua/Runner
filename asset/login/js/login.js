@@ -23,6 +23,29 @@ $(function () {
         wing.style.transform = 'rotateY(0deg)';
     });
 
+    $('.login_form').submit(function (ev) {
+        ev.preventDefault();
+        var base64 = new Base64().encode,
+            userName = decodeURIComponent($('#name').val()),
+            password = $('#password').val(),
+            appsecret = hex_md5("e2601155a7f9455c0fadde7f2ed31c30test0.3.3" + base64(password) + userName),
+            login_str = 'appkey=test&auth_version=0.3.3&username='+ userName +
+            '&password='+base64(password) +
+            '&appsecret=' + appsecret;
+        $.ajax({
+            url: 'http://t.union.vip.58.com/bsp/cuser/getuserbypassword?'+ login_str,
+            type: 'get',
+            async: true,
+            dataType: 'json',
+            success: function(data, textStatus) {
+
+            },
+            error: function () {
+                alert('fail');
+            }
+        });
+    });
+
     $(window).resize(function () {
         var $cImg = $('#imgbg'),
             $cImgH = $cImg.height();
@@ -35,7 +58,6 @@ $(function () {
         });
     });
     var $login_wrap = $('.login_wrap')[0];
-    $login_wrap.style.webkitTransform = 'scale(1)';
     $login_wrap.style.transform = 'scale(1)';
-
+    $login_wrap.style.webkitTransform = 'scale(1)';
 });
