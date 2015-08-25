@@ -574,7 +574,7 @@
                     },
                     dataRange: {
                         min: 0,
-                        max: 2500,
+                        max: 10000000,
                         x: 'left',
                         y: 'bottom',
                         text:['高','低'],           // 文本，默认为数值文本
@@ -610,7 +610,7 @@
                         },
                         dataRange: {
                             min: 0,
-                            max: 2500,
+                            max: 1000000,
                             x: 'left',
                             y: 'bottom',
                             text:['高','低'],           // 文本，默认为数值文本

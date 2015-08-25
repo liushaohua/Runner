@@ -1,7 +1,7 @@
 $(function () {
     $('[place]').each(function () {
         var $this = $(this);
-        $this.click(function () {
+        $this.on('click focus', function () {
             $this.prev('.c_tip').hide();
         });
         $this.blur(function () {
@@ -28,17 +28,17 @@ $(function () {
         var base64 = new Base64().encode,
             userName = decodeURIComponent($('#name').val()),
             password = $('#password').val(),
-            appsecret = hex_md5("e2601155a7f9455c0fadde7f2ed31c30test0.3.3" + base64(password) + userName),
-            login_str = 'appkey=test&auth_version=0.3.3&username='+ userName +
+            appsecret = hex_md5("eb8d662688ee5d87d5b73146a72806f2fvp0.3.3" + base64(password) + userName),
+            login_str = 'appkey=fvp&auth_version=0.3.3&username='+ userName +
             '&password='+base64(password) +
             '&appsecret=' + appsecret;
         $.ajax({
-            url: 'http://t.union.vip.58.com/bsp/cuser/getuserbypassword?'+ login_str,
+            url: 'http://union.web.58dns.com/bsp/cuser/getuserbypassword?'+ login_str,
             type: 'get',
             async: true,
             dataType: 'json',
             success: function(data, textStatus) {
-
+                alert('µÇÂ¼³É¹¦');
             },
             error: function () {
                 alert('fail');
