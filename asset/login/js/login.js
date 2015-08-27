@@ -27,21 +27,23 @@ $(function () {
         ev.preventDefault();
         var base64 = new Base64().encode,
             userName = decodeURIComponent($('#name').val()),
-            password = $('#password').val(),
-            appsecret = hex_md5("eb8d662688ee5d87d5b73146a72806f2fvp0.3.3" + base64(password) + userName),
-            login_str = 'appkey=fvp&auth_version=0.3.3&username='+ userName +
-            '&password='+base64(password) +
-            '&appsecret=' + appsecret;
+            password = base64($('#password').val());
+
         $.ajax({
-            url: 'http://union.web.58dns.com/bsp/cuser/getuserbypassword?'+ login_str,
-            type: 'get',
+            url: 'http://10.9.17.55:8080/user_login.php',
+            type: 'post',
             async: true,
+            data: {
+                'username': userName,
+                'password': password
+            },
             dataType: 'json',
             success: function(data, textStatus) {
-                alert('µÇÂ¼³É¹¦');
-            },
-            error: function () {
-                alert('fail');
+                if (data['status'] == 'ok') {
+                    window.location.href = '/Runner/main.html';
+                } else {
+                    alert('fail');
+                }
             }
         });
     });
