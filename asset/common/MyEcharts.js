@@ -434,46 +434,7 @@
                     series: stackline_datas.series
                 };
 
-                var option_m = {
-                    title : {
-                        text: pack['title'] || '未设置title',
-                        subtext: '纯属虚构'
-                    },
-                    dataZoom: {
-                        show: true,
-                        start: 30
-                    },
-                    tooltip : {
-                        trigger: 'axis'
-                    },
-                    legend: {
-                        data: stackline_datas.category,
-                        textStyle:{color: '#fff'}
-                    },
-                    toolbox: {
-                        show : true,
-                        feature : {
-                            mark : {show: true},
-                            dataView : {show: true, readOnly: false},
-                            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
-                            restore : {show: true},
-                            saveAsImage : {show: true}
-                        }
-                    },
-                    xAxis: [{
-                        type: 'category', //X轴均为category，Y轴均为value
-                        data: stackline_datas.xAxis,
-                        boundaryGap: false,//数值轴两端的空白策略
-                    }],
-                    yAxis : [
-                        {
-                            type : 'value',
-                        }
-                    ],
-                    series: stackline_datas.series
-                };
-
-                if (pack['hasTime']) {
+                /*if (pack['hasTime']) {
                     var option2 = {
                         title : {
                             text: pack['title'] || '未设置title',
@@ -516,7 +477,7 @@
                     optionLine.options = stackline_datas;
                     return optionLine;
 
-                }
+                }*/
                 return $.extend({}, ECharts.ChartOptionTemplates.CommonLineOption, option);
             },
 
@@ -524,25 +485,42 @@
                 //data:数据格式：{name：xxx,group:xxx,value:xxx}...
                 var bars_dates = ECharts.ChartDataFormate.FormateGroupData(data, 'bar', is_stack);
                 var option = {
-                    legend: bars_dates.category,
+                    dataZoom: {
+                        show: true,
+                        start: 30
+                    },
+                    legend:{
+                        data: bars_dates.category,
+                        textStyle:{color: '#fff'}
+                    },
                     xAxis: [{
                         type: 'category',
                         data: bars_dates.xAxis,
-                        axisLabel: {
-                            show: true,
-                            interval: 'auto',
-                            rotate: 0,
-                            margion: 8
+                        axisLabel : {
+                            textStyle:{
+                                color:"#fff"
+                            }
+                        },
+                        splitLine : {    // 轴线
+                            show: false
                         }
                     }],
 
                     yAxis: [{
                         type: 'value',
-                        name: name || '',
-                        splitArea: { show: true }
+                        axisLabel : {
+                            formatter: '{value}',
+                            textStyle:{
+                                color:"#fff"
+                            }
+                        },
+                        splitLine : {    // 轴线
+                            show: false
+                        }
                     }],
                     series: bars_dates.series
                 };
+
                 return $.extend({}, ECharts.ChartOptionTemplates.CommonLineOption, option);
             },
 

@@ -89,6 +89,7 @@
         '分辨率': 'TreeMap',
         'default': 'line',
         //'业务线': 'Radar',
+        //'日期': 'line',
         '日期': 'line',
         '页面类型': 'TreeMap',
         '一级分类': 'PieDouble',
