@@ -113,8 +113,11 @@ font-family:"Microsoft YaHei ", Helvetica, Arial, sans-serif;font-weight:bold;}
 .query_channel a{display:inline-block;width:30px;}
 .query_channel a.active{border-bottom:1px solid blue;}
 /*echars*/
-#main_wrap{margin:40px auto 0;background:none;}
+#main_wrap{margin:0 auto;background:none;height:550px;width:800px;}
 #main_wrap > div{margin-left:-1500px;margin-left:0px\9;}
+.double_wrap{text-align: center;}
+#left_wrap{width: 500px;height:400px;display: inline-block;}
+#right_wrap{width: 500px;height:400px;display: inline-block;}
 .top_bar{  margin-left: 1500;  width: 100%;margin-left:0px\9;}
 /*»’¿˙*/
 #datepicker{opacity: 0;width: 0px;position:absolute;}

@@ -46,9 +46,10 @@ define(function(require) {
 				'cate1_name': '',
 				'dim_type': 'cate1'
 			},
-			changeParam: function (Param, value, cType) {
+			changeParam: function (Param, value, cType, isR) {
 				this.Method[Param] = value;
-				cType && (this.getServer(cType));
+				var isR = isR || false;
+				cType && (this.getServer(cType, isR));
 			},
 			screen: window.config.screen,
 			dictionary: window.config.dictionary,
@@ -108,10 +109,9 @@ define(function(require) {
 					init: init
 				};
 			},
-			getServer: function (type) {
+			getServer: function (type, isR) {
 				var _this = this,
 					option;
-				console.log('getServer',_this.Method);
 
 				type = type || _this.nowType || _this.echarts_type.default;
 				_this.nowType = type;
@@ -133,9 +133,18 @@ define(function(require) {
 							}
 						}
 
-						//修改了数据
- 						console.log('data=======',JSON.stringify(data));
-						_this.render_charts(type, data);
+						if (window.Max) {
+							if  (isR) {
+								_this.render_charts(type, data, 'myChartsR');
+							}else if(type == 'PieLine') {
+								_this.render_charts(type, data, 'myChartsL');
+							} else {
+								_this.render_charts(type, data);
+							}
+						} else {
+							_this.render_charts(type, data);
+						}
+
 						Render.chartsData.myCharts.dom.hideLoading();
 					},
 					error : function() {
@@ -299,9 +308,10 @@ define(function(require) {
 				//_this.render_charts(type, option);
 				return _this;
 			},
-			render_charts: function (type, data) {
+			render_charts: function (type, data, obj) {
 				var cOption,
-					_this = this;
+					_this = this,
+					echartsObj = obj || 'myCharts';
 				if (type == 'line') {
 					cOption = EchartsCof.ChartOptionTemplates.Lines(data,'hellow-cookie',false, {
 						'title': ' '
@@ -316,13 +326,25 @@ define(function(require) {
 						'hasTime' : 1,
 						'title': ' '
 					});
-				}console.log(JSON.stringify(cOption));
+				}
 				/**
 				 * echarts加载数据对象，渲染图表
 				 */
-				this.chartsData.myCharts.dom.clear();
-				this.chartsData.myCharts.dom.setOption(cOption);
-				this.chartsData.myCharts.data = cOption;
+				~function () {
+					var $main = $('#main_wrap'),
+						$double_wrap = $('.double_wrap');
+					if (obj) {
+						$double_wrap.show();
+						$main.hide();
+					}else {
+						$double_wrap.hide();
+						$main.show();
+					}
+				} ();
+
+				this.chartsData[echartsObj].dom.clear();
+				this.chartsData[echartsObj].dom.setOption(cOption);
+				this.chartsData[echartsObj].data = cOption;
 
 				type == 'MapContrast' && ~function () {
 					_this.setMap(_this.chartsData.myCharts.dom, cOption, type, data);
@@ -428,6 +450,11 @@ define(function(require) {
 								_this.changeParam('index_type', _this.dictionary[cVal]);
 							} else {
 								_this.changeParam('index_type', _this.dictionary[cVal], _this.echarts_type[cVal]);
+								window.echartType = _this.echarts_type[cVal];
+								if (_this.echarts_type[cVal] == 'PieLine' && window.Max) {
+									_this.changeParam('index_type', 'data_date', 'line', true);
+									window.echartType = 'PieLine';
+								}
 							}
 
 							//_this.getServer(_this.echarts_type[cVal]);
@@ -450,9 +477,16 @@ define(function(require) {
 			chartsData : {
 				'myCharts': {
 					'dom': '',
-					'data': '',
-					'now_type': ''
-				}
+					'data': ''
+				},
+				'myChartsL': {
+					'dom': '',
+					'data': ''
+				},
+				'myChartsR': {
+					'dom': '',
+					'data': ''
+				},
 			},
 			render_nav: function () {
 				var _this = this;
@@ -532,9 +566,11 @@ define(function(require) {
 		 */
 		require(['echarts/echarts-all','echarts/chart/macarons'],
 			function (ec,theme) {
-				var myChart;
-					window.CecConfig = require('zrender');
+				var myChart, myChartL, myChartR;
+				window.CecConfig = require('zrender');
 				myChart = Render.chartsData.myCharts.dom = echarts.init(document.getElementById('main_wrap'),theme);
+				myChartL = Render.chartsData.myChartsL.dom = echarts.init(document.getElementById('left_wrap'),theme);
+				myChartR = Render.chartsData.myChartsR.dom = echarts.init(document.getElementById('right_wrap'),theme);
 				$('#main_wrap > div').animate({'margin-left':0},500);
 				//myChart.showLoading({
 					//text: '正在努力的读取数据中...'

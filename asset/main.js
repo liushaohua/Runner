@@ -81,17 +81,19 @@ define(function(require) {
 				$p_info = $('.p_info');
 
 			$hide_bar.click(function () {
+				window.Max = true;
 				$('.left_bar').animate({'left': -223});
 				$fix_select.fadeIn(1000);
 				$show_bar.css('left',226).add($fix_logon).fadeIn(1000);
 				$main.animate({'margin-left': 74});
 				$select_bar.fadeIn(500);
-				//$('.select_wrap').appendTo($select_bar);
 				$('.select_wrap').appendTo($fix_select);
-				$('.top_bar').addClass('active')
+				$('.top_bar').addClass('active');
+				doubleCharts();
 			});
 
 			$show_bar.click(function () {
+				window.Max = false;
 				$('.left_bar').animate({'left': 0});
 				$fix_select.hide();
 				$show_bar.hide().css('left',0);
@@ -99,7 +101,14 @@ define(function(require) {
 				//$fix_select.appendTo($select_bar);
 				$('.select_wrap').appendTo($select_bar);
 				$main.animate({'margin-left': 223});
+				doubleCharts();
 			});
+
+			function doubleCharts () {
+				if (window.echartType == 'PieLine') {
+					$('.query_wrap').find('[value="时段"]').click();
+				}
+			}
 
 			$('.right_gap').click(function (ev) {
 				var ev = ev || window.event;
