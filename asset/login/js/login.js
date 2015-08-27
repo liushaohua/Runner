@@ -3,6 +3,9 @@ $(function () {
         var $this = $(this);
         $this.on('click focus', function () {
             $this.prev('.c_tip').hide();
+            $('.error_tip').fadeOut(500,function () {
+                $(this).css('right','-200px');
+            });
         });
         $this.blur(function () {
             if ($this.val() == '') {
@@ -41,8 +44,9 @@ $(function () {
             success: function(data, textStatus) {
                 if (data['status'] == 'ok') {
                     window.location.href = '/Runner/main.html';
+                    sessionStorage._user = userName;
                 } else {
-                    alert('fail');
+                    $('.error_tip').css('display','inline-block').animate({'right': '-140'});
                 }
             }
         });
@@ -62,4 +66,6 @@ $(function () {
     var $login_wrap = $('.login_wrap')[0];
     $login_wrap.style.transform = 'scale(1)';
     $login_wrap.style.webkitTransform = 'scale(1)';
+    $login_wrap.style.webkitTransform = 'scale(1)';
+    $login_wrap.style.msTransform = 'scale(1)';
 });

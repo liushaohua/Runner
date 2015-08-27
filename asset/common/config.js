@@ -73,7 +73,6 @@
         '操作系统': 'os_type',
         '分辨率': 'window_size',
         '浏览器': 'browser_type',
-
         '业务线': 'biz_name',
         '平台': 'platform'
     };

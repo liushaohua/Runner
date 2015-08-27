@@ -1,0 +1,35 @@
+div.ace_gutter-cell{padding-left:13px;}
+*{margin:0;padding:0;list-style:none;}
+a{text-decoration:none;}
+html{height:100%;}
+body{overflow:hidden;background: #000002;}
+.wrap{width:100%:height:100%;}
+#imgbg.source-image { width: 100%;position: absolute;top: 0;left: 0;}
+.right_gap,.login_wrap .pass-text-input .c_icon{background:url(../images/icon.png) no-repeat}
+.login_wrap .wing{margin-bottom: 27px; transform-origin: center;  transform: rotatey(0deg); transition:1s all ease;}
+.login_wrap .wing:hover,.login_wrap:hover .wing{-transform: rotatey(360deg);}
+.right_nav{position:absolute;right:0;width:500px;background:#2d3e4f;height:50px;border-radius:8px;padding-left:24px;}
+.right_nav .nav_bar{position:absolute;top:3px;left:24px;width:90px;height:38px;background:#3498db;border-radius:3px;}
+.right_nav .right_gap{position:absolute;width:24px;height:21px;right:6%;top:30%;background-position:-59px 0;}
+.right_nav ul{overflow:hidden;position:absolute;}
+.right_nav li{height:38px;float:left;margin-right:35px;margin-top:2%;border-radius:4px;}
+.right_nav li.active a{background:#3498db;}
+.right_nav li a{padding-left:17px;padding-right:17px;height:100%;display:inline-block;line-height:38px;
+    font-size:14px;color:#fff;border-radius:3px;background:transparent;transition:.5s all ease;}
+.right_nav li a:hover{background:#3498db;}
+.login_wrap{width:276px;position:absolute;top:27%;left:50%;margin-left:-139px;transform: scale(5);transition:.4s all ease-in;-ms-transition:.4s all ease-in;}
+.login_wrap ul li{height:42px;margin-bottom:32px;position:relative;border-radius:11px;}
+.login_wrap ul li .error_tip{position: absolute;  right: -200px;  top: 10px;  color: red;  border-radius: 5px;
+    box-shadow: 0 0 7px red;  font-size: 13px;  border: 1px solid red;  padding: 5px;display: none;}
+.login_wrap .login_btn{margin-bottom:23px;height:45px;}
+.login_wrap .login_btn input{height:100%;background:#3498db;width:100%;border:none;font-size: 21px;color: #fff;cursor:pointer;border-radius: 11px;}
+.login_wrap .pass-text-input input{display: block;position: relative;height: 12px;padding: 11px 40px 13px 10px;border: 3px solid #3498db;font-size: 14px;
+    border-radius:11px;width:220px;color: #666;outline:none;line-height:12px;}
+.login_wrap .pass-text-input .c_icon{display:block;position:absolute;top:12px;right:10px;width:24px;height:20px;z-index:1;}
+.login_wrap .pass-text-input .login_password{background-position:-28px -0;}
+.login_wrap .pass-text-input .c_tip{position:absolute;z-index:1;left:12px;top:13px;font-size:14px;color:#666;}
+.service{clear:both;}
+.service a{display:inline-block;padding-left:15px;padding-right:15px;height:38px;background-color:transparent;
+    line-height:38px;color:#fff;font-size:19px;transition:.5s all ease;border-radius:5px;}
+.service a:hover{background:#5dade2;}
+.fr{float:right;}

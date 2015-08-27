@@ -62,11 +62,11 @@ define(function(require) {
 					$next = $this.next();
 
 				$('.dropdown-toggle .icon_cur').removeClass('icon_up').addClass('icon_down');
-				$this.find('.icon_cur').removeClass('icon_down').addClass('icon_up');
 
 				if ($next.is(':hidden')) {
 					$('.menu_wrap').slideUp();
 					$next.stop().slideDown();
+					$this.find('.icon_cur').removeClass('icon_down').addClass('icon_up');
 				} else {
 					$this.next().slideUp();
 				}

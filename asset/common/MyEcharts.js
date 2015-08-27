@@ -242,7 +242,7 @@
                     if (type == 'map' || type == 'pieline' || type == 'piepage' || type == 'piedouble') {
                         return { category: group, series: series };
                     }else if (type == 'treemap') {
-                        return {series: series };
+                        return {series: series};
                     }
                     return { category: group, xAxis: xAxis, series: series };
                 }
@@ -712,12 +712,26 @@
                     stackline_datas = ECharts.ChartDataFormate.FormateGroupData(data, 'treemap', is_stack, pack);
 
                 if (pack['hasTime']) {
+                    function sortArr(m,n){
+                        return m['value']>n['value']?1:(m['value']<n['value']?-1:0);
+                    }
                     var option = {
                         title : {
                             text: pack['title'] || '未设置title'
                         },
                         tooltip : {
                             trigger: 'item'
+                        },
+                        legend: {
+                            data: function () {
+                                var cData = [],
+                                    sList = data[timeLineData[1]].sort(sortArr).reverse().slice(0,5);
+                                for (var i = 0,len = sList.length; i < len; i++) {
+                                    cData.push(sList[i].name);
+                                }
+                                return cData;
+                            }(),
+                            textStyle:{color: '#fff'}
                         },
                         toolbox: {
                             show : false
@@ -728,7 +742,7 @@
                     stackline_datas = stackline_datas.options;
                     stackline_datas[0] = $.extend({}, stackline_datas[0],option);
                     stackline_datas[0].series[0]['name'] = stackline_datas[0].series[1]['name'] = '';
-
+console.log('zzzz',stackline_datas[0].series[0]);
                     var optionLine = ECharts.ChartOptionTemplates.CommonLineOptionTimeLine;
                     optionLine.timeline['data'] = timeLineData;
                     optionLine.timeline['y'] = '90%';
@@ -771,7 +785,7 @@
                                         }
                                         c = 1;
                                     }
-                                }console.log(cData,'mcccc');
+                                }
                                 return cData;
                             } (),
                             textStyle:{color: '#fff'},
