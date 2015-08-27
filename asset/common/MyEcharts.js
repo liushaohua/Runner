@@ -126,8 +126,8 @@
                                 var centerNum = ['50%', '75%'];
                                 var series_temp = {
                                     name: group[i], type: 'pie',
-                                    radius : [20, 110],
-                                    center : [centerNum[i], 200],
+                                    radius : '55%',
+                                    center : [centerNum[i], '47%'],
                                     roseType : 'radius',
                                     width: '40%',       // for funnel
                                     max: 10000000,
@@ -844,7 +844,7 @@ console.log('zzzz',stackline_datas[0].series[0]);
                                         }
                                         c = 1;
                                     }
-                                }console.log(cData,'mcccc');
+                                }
                                 return cData;
                             } (),
                             x : 'center',
