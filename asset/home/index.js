@@ -44,7 +44,8 @@ define(function(require) {
 				'platform': 'PC',
 				'value_name': window.hashMethod.value_name,
 				'cate1_name': '',
-				'dim_type': 'cate1'
+				'dim_type': 'cate1',
+				'data_type': 'view'
 			},
 			changeParam: function (Param, value, cType, isR) {
 				this.Method[Param] = value;
@@ -153,6 +154,33 @@ define(function(require) {
 						}catch(e){}
 					}
 				});
+
+				//list context
+				var listMechod = $.extend({}, _this.Method, {
+					data_type: 'list'
+				});
+				$.ajax({
+					url: 'http://10.9.17.55:8080/',
+					type: 'post',
+					async: true,
+					data: listMechod,
+					dataType: 'json',
+					success: function(data, textStatus) {
+						var data = data.data,
+							cHTML = '';
+						for (var i = 0, len = data.length; i < len; i++) {
+							cHTML+= '<tr>'
+								 +		'<td>'+ data[i]['data_date'] +'</td>'
+								 +		'<td>'+ data[i]['pv'] +'</td>'
+								 +		'<td>'+ data[i]['biz_name'] +'</td>'
+								 +      '<td>'+ data[i]['platform'] +'</td>'
+								 +	'</tr>';
+						}
+						$('.table_model tbody').html(cHTML);
+					}
+				});
+
+
 				if (type == 'line') {
 					option = [{
 						name:'周一',

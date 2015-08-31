@@ -67,7 +67,10 @@ define(function(require) {
 				window.setPlatform = true;
 				$select_bar.fadeIn(500);
 				$('.fix_select').empty();
-				$('.select_wrap').appendTo($select_bar);
+				if (!$select_bar.find('.select_wrap').length) {
+					$('.select_wrap').appendTo($select_bar);
+				}
+
 			});
 
 			require(['niceScroll'],function () {
@@ -104,17 +107,18 @@ define(function(require) {
 
 			$hide_bar.click(function () {
 				window.Max = true;
+				var $select_wrap = $('.select_wrap');
 				$('.left_bar').animate({'left': -223});
 				$fix_select.fadeIn(1000);
 				$show_bar.css('left',226).add($fix_logon).fadeIn(1000);
 				$('.select_wrap').fadeOut(500);
 				$main.animate({'margin-left': 74},500, function() {
 					$select_bar.fadeIn(500);
-					$('.select_wrap').appendTo($fix_select);
-					if ($('.select_wrap').length > 1) {
-						$('.select_wrap').eq(1).remove();
+					$select_wrap.appendTo($fix_select);
+					if ($select_wrap.length > 1) {
+						$select_wrap.eq(1).remove();
 					}
-					$('.select_wrap').fadeIn(500);
+					$select_wrap.fadeIn(500);
 
 					$('.top_bar').addClass('active');
 					doubleCharts();
