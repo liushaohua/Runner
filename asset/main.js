@@ -13,7 +13,7 @@ define(function(require) {
 	window.EchartsCof = require('common/MyEcharts');
 
 	router.registerRouter({
-		path: '/home/',
+		path: '/pv/',
 		type: 'home/index'
 	});
 
@@ -23,10 +23,10 @@ define(function(require) {
 	});
 
     router.registerRouter({
-        path: '/info/',
-        type: 'info/index'
+        path: '/jump/',
+        type: 'home/index'
     });
-	router.start('/home/');
+	router.start('/pv/');
 
 	cPage = {
 		init : function () {
@@ -41,7 +41,7 @@ define(function(require) {
 				$('.submenu li').removeClass('active');
 				$('a[href="'+ hash +'"]').parent().addClass('active');
 
-				if (hash == '#/home/') {
+				if (hash == '#/pv/') {
 					window.hashMethod = {
 						index_type: 'pvuv,',
 						value_name: 'pv'
@@ -50,6 +50,11 @@ define(function(require) {
 					window.hashMethod = {
 						index_type: 'clicks,',
 						value_name: 'click_times'
+					};
+				} else if (hash == '#/jump/') {
+					window.hashMethod = {
+						index_type: 'jump,',
+						value_name: 'jump_times'
 					};
 				}
 			});

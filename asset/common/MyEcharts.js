@@ -115,7 +115,7 @@
                             case 'pieline':
                                 var series_temp = {
                                     name: group[i], type: 'pie',
-                                    center: ['50%', '45%'],
+                                    center: ['55%', '45%'],
                                     radius: '50%',
                                     data: temp
                                 };
@@ -719,8 +719,10 @@
 
                     stackline_datas = stackline_datas.options;
                     stackline_datas[0] = $.extend({}, stackline_datas[0],option);
-                    stackline_datas[0].series[0]['name'] = stackline_datas[0].series[1]['name'] = '';
-console.log('zzzz',stackline_datas[0].series[0]);
+                    for (var i = 0, len = stackline_datas.length; i < len; i++) {
+                        stackline_datas[i].series[0]['name'] = stackline_datas[i].series[1]['name'] = '';
+                    }
+
                     var optionLine = ECharts.ChartOptionTemplates.CommonLineOptionTimeLine;
                     optionLine.timeline['data'] = timeLineData;
                     optionLine.timeline['y'] = '90%';

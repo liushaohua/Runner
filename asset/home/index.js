@@ -423,6 +423,9 @@ define(function(require) {
 						_position = $this.offset(),
 						ev = ev || window.event,
 						$i = $this.find('i');
+
+					if (/no-drop/.test($this.attr('class')) ) return;
+
 					$('.query_wrap a').removeClass('active');
 					$this.addClass('active');
 					$i.length && ($i.attr('class','icon_up'));
@@ -490,36 +493,49 @@ define(function(require) {
 			},
 			render_nav: function () {
 				var _this = this;
-				var cHTML = '<li>',
-					data = [{
-					'name': '日期'
-				},{
-					'name': '时段'
-				},{
-					'name': '一级分类'
-				},{
-					'name': '二级分类'
-				},{
-					'name': '页面类型'
-				},{
-					'name': '省份'
-				},{
-					'name': '城市'
-				},{
-					'name': '浏览器'
-				},{
-					'name': '操作系统'
-				},{
-					'name': '分辨率'
-				}];
 
-				for (var i = 0, len = data.length; i < len; i++) {
-					var bBOOL = ((i+1)% 5 == 0);
-					cHTML += '<a href="javascript:;"'+ (bBOOL ? 'class="c-span-last"' : '')+' value="'+ data[i]['name'] +'">'+ (data[i]['name'] == '一级分类' ? '<i class="icon_down"></i><span>'+ data[i]['name'] +'</span>' : data[i]['name']) +'</a>'
-					      + ( bBOOL ? '</li><li>'  : '');
-				}
-					cHTML += '</li>';
-				$('.query_wrap ul').html(cHTML).fadeIn(500);
+				$.ajax({
+					url: 'http://10.9.17.55:8080/filter',
+					type: 'post',
+					async: true,
+					data: {'dim_type':'biz'},
+					dataType: 'json',
+					success: function(data, textStatus) {
+						var cHTML = '<li>',
+							data = [{
+								'name': '日期'
+							},{
+								'name': '时段'
+							},{
+								'name': '一级分类'
+							},{
+								'name': '二级分类'
+							},{
+								'name': '页面类型'
+							},{
+								'name': '省份'
+							},{
+								'name': '城市'
+							},{
+								'name': '浏览器'
+							},{
+								'name': '操作系统'
+							},{
+								//'name': '分辨率',
+								//'disabled': true
+								'name': '分辨率'
+							}];
+
+						for (var i = 0, len = data.length; i < len; i++) {
+							var bBOOL = ((i+1)% 5 == 0),
+								disabled = data[i]['disabled'];
+							cHTML += '<a href="javascript:;" class="'+ (bBOOL ? 'c-span-last' : '')+ (disabled ? ' no-drop' : '')+'" value="'+ data[i]['name'] +'">'+ (data[i]['name'] == '一级分类' ? '<i class="icon_down"></i><span>'+ data[i]['name'] +'</span>' : data[i]['name']) +'</a>'
+								+ ( bBOOL ? '</li><li>'  : '');
+						}
+						cHTML += '</li>';
+						$('.query_wrap ul').html(cHTML).fadeIn(500);
+					}
+				});
 
 				/*获取平台业务线下拉数据*/
 				$.ajax({
