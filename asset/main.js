@@ -26,6 +26,12 @@ define(function(require) {
         path: '/jump/',
         type: 'home/index'
     });
+
+	router.registerRouter({
+		path: '/viewout/',
+		type: 'home/index'
+	});
+
 	router.start('/pv/');
 
 	cPage = {
@@ -41,22 +47,18 @@ define(function(require) {
 				$('.submenu li').removeClass('active');
 				$('a[href="'+ hash +'"]').parent().addClass('active');
 
-				if (hash == '#/pv/') {
-					window.hashMethod = {
-						index_type: 'pvuv,',
-						value_name: 'pv'
-					};
-				} else if (hash == '#/click/') {
-					window.hashMethod = {
-						index_type: 'clicks,',
-						value_name: 'click_times'
-					};
-				} else if (hash == '#/jump/') {
-					window.hashMethod = {
-						index_type: 'jump,',
-						value_name: 'jump_times'
-					};
-				}
+				var hashTable = {
+					'#/pv/': 'pvuv,|pv',
+					'#/click/': 'clicks,|click_times',
+					'#/jump/': 'jump,|jump_times',
+					'#/viewout/': 'viewout,|viewout_times'
+				},
+				hashStr = hashTable[hash].split('|');
+
+				window.hashMethod = {
+					index_type: hashStr[0],
+					value_name: hashStr[1]
+				};
 			});
 
 			$('.submenu a').click(function () {
