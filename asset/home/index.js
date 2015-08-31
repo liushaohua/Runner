@@ -40,9 +40,9 @@ define(function(require) {
 				'time_type':'day',
 				'ds':'',
 				'biz_name':'fangchan',
-				'index_type': 'data_date',
+				'index_type': window.hashMethod.index_type + 'data_date',
 				'platform': 'PC',
-				'value_name': 'pv',
+				'value_name': window.hashMethod.value_name,
 				'cate1_name': '',
 				'dim_type': 'cate1'
 			},
@@ -436,7 +436,7 @@ define(function(require) {
 										var date = $datepicker.datepicker().val();
 										_this.Method.ds = date;
 										$this.html(date);
-										_this.Method.index_type = 'data_date';
+										_this.Method.index_type = window.hashMethod.index_type + 'data_date';
 										_this.getServer(_this.echarts_type[cVal]);
 									} });
 									$datepicker.datepicker('show');
@@ -447,12 +447,12 @@ define(function(require) {
 						default:
 							_this._dropdown(cVal, _position, $this).init();
 							if ($this.has('i').length) {
-								_this.changeParam('index_type', _this.dictionary[cVal]);
+								_this.changeParam('index_type', window.hashMethod.index_type + _this.dictionary[cVal]);
 							} else {
-								_this.changeParam('index_type', _this.dictionary[cVal], _this.echarts_type[cVal]);
+								_this.changeParam('index_type', window.hashMethod.index_type + _this.dictionary[cVal], _this.echarts_type[cVal]);
 								window.echartType = _this.echarts_type[cVal];
 								if (_this.echarts_type[cVal] == 'PieLine' && window.Max) {
-									_this.changeParam('index_type', 'data_date', 'line', true);
+									_this.changeParam('index_type', window.hashMethod.index_type + 'data_date', 'line', true);
 									window.echartType = 'PieLine';
 								}
 							}

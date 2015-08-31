@@ -18,7 +18,7 @@ define(function(require) {
 	});
 
 	router.registerRouter({
-		path: '/tool/',
+		path: '/click/',
 		type: 'home/index'
 	});
 
@@ -40,11 +40,26 @@ define(function(require) {
 				var hash = location.hash;
 				$('.submenu li').removeClass('active');
 				$('a[href="'+ hash +'"]').parent().addClass('active');
+
+				if (hash == '#/home/') {
+					window.hashMethod = {
+						index_type: 'pvuv,',
+						value_name: 'pv'
+					};
+				} else if (hash == '#/click/') {
+					window.hashMethod = {
+						index_type: 'clicks,',
+						value_name: 'click_times'
+					};
+				}
 			});
 
 			$('.submenu a').click(function () {
+				var $this = $(this),
+					$href = $this.attr('href');
 				window.setPlatform = true;
 				$select_bar.fadeIn(500);
+				$('.fix_select').empty();
 				$('.select_wrap').appendTo($select_bar);
 			});
 
@@ -88,7 +103,12 @@ define(function(require) {
 				$('.select_wrap').fadeOut(500);
 				$main.animate({'margin-left': 74},500, function() {
 					$select_bar.fadeIn(500);
-					$('.select_wrap').appendTo($fix_select).fadeIn(500);
+					$('.select_wrap').appendTo($fix_select);
+					if ($('.select_wrap').length > 1) {
+						$('.select_wrap').eq(1).remove();
+					}
+					$('.select_wrap').fadeIn(500);
+
 					$('.top_bar').addClass('active');
 					doubleCharts();
 				});
