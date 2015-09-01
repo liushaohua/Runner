@@ -9,7 +9,7 @@
 </head>
 <script>
 //未登录重定向
-//!sessionStorage._user && (window.location.href = '/Runner/asset/login/index.html');
+!sessionStorage._user && (window.location.href = '/Runner/asset/login/index.html');
 </script>
 <body>
 <div class="wrap">
@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="p_info">
-            HI,SunGang <i class="down"></i><a href="javascript:;" class="down">下载excel</a><a href="javascript:;" class="out">退出</a>
+            HI,<span class="p_name"></span><i class="down"></i><a href="javascript:;" class="down">下载excel</a><a href="javascript:;" class="out">退出</a>
         </div>
         <div id="main"><!-- templace --></div>
     </div>

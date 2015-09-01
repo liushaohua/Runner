@@ -22,7 +22,7 @@ body{overflow:hidden;background: #000002;}
 .login_wrap ul li .error_tip{position: absolute;  right: -200px;  top: 10px;  color: red;  border-radius: 5px;
     box-shadow: 0 0 7px red;  font-size: 13px;  border: 1px solid red;  padding: 5px;display: none;}
 .login_wrap .login_btn{margin-bottom:23px;height:45px;}
-.login_wrap .login_btn input{height:100%;background:#3498db;width:100%;border:none;font-size: 21px;color: #fff;cursor:pointer;border-radius: 11px;}
+.login_wrap .login_btn input{height:100%;background:#3498db;width:100%;border:none;font-size: 21px;color: #fff;cursor:pointer;border-radius: 11px;outline:none;}
 .login_wrap .pass-text-input input{display: block;position: relative;height: 12px;padding: 11px 40px 13px 10px;border: 3px solid #3498db;font-size: 14px;
     border-radius:11px;width:220px;color: #666;outline:none;line-height:12px;}
 .login_wrap .pass-text-input .c_icon{display:block;position:absolute;top:12px;right:10px;width:24px;height:20px;z-index:1;}

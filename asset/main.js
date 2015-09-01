@@ -73,6 +73,14 @@ define(function(require) {
 
 			});
 
+			$('.p_name').html(sessionStorage._user);
+
+			//logot
+			$('.out').click(function () {
+				sessionStorage.removeItem('_user');
+				window.location.reload();
+			});
+
 			require(['niceScroll'],function () {
 				$('body').niceScroll({
 					cursorcolor:"#489bd3",

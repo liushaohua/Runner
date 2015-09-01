@@ -160,16 +160,39 @@ define(function(require) {
 				pageServe (0, list_num, pageInit);
 
 				function renHtml (data) {
-					var cHTML = '';
+					var cHTML = '',
+						$thead = $('.table_model thead'),
+						$tbody = $('.table_model tbody'),
+						hashTitle = {
+							'#/click/': '<th>点击率</th><th>点击量</th>',
+							'#/jump/': '<th>跳出率</th><th>跳出量</th>',
+							'#/viewout/': '<th>退出率</th><th>退出量</th>',
+							'#/pv/': '<th>PV</th>'
+						},
+						$th = '<th>日期</th>' + hashTitle[location.hash] + '<th>业务线</th><th>来源</th>';
+					$thead.html('<tr>' + $th +'</tr>');
 					for (var i = 0, len = data.length; i < len; i++) {
+						var hashStr = location.hash.slice(2,location.hash.length -1),
+							tds;
+						if (location.hash != '#/pv/') {
+							tds = '<td>'+ data[i][hashStr+'_percent'] +'</td>'
+							    + '<td>'+ data[i][hashStr+'_times'] +'</td>';
+						} else {
+							tds = '<td>'+ data[i]['pv'] +'</td>';
+						}
 						cHTML+= '<tr>'
 							+		'<td>'+ data[i]['ds'] +'</td>'
-							+		'<td>'+ data[i]['pv'] +'</td>'
+							+		tds
 							+		'<td>'+ data[i]['biz_name'] +'</td>'
 							+      '<td>'+ data[i]['platform'] +'</td>'
 							+	'</tr>';
 					}
-					$('.table_model tbody').html(cHTML);
+					$tbody.html(cHTML);
+					$tbody.find('tr').hover(function () {
+						$(this).css('background','#77BBE8');
+					},function () {
+						$(this).css('background','transparent');
+					});
 				}
 
 				function pageInit(total, data_count) {
@@ -397,7 +420,7 @@ define(function(require) {
 						'hasTime' : 1,
 						'title': ' '
 					});
-				}console.log('999==',JSON.stringify(cOption));
+				}
 				/**
 				 * echarts加载数据对象，渲染图表
 				 */
