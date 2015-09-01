@@ -112,7 +112,8 @@ define(function(require) {
 			},
 			getServer: function (type, isR) {
 				var _this = this,
-					option;
+					option,
+					list_num = 10;
 
 				type = type || _this.nowType || _this.echarts_type.default;
 				_this.nowType = type;
@@ -156,54 +157,72 @@ define(function(require) {
 				});
 
 				//list context
-				var listMechod = $.extend({}, _this.Method, {
-					data_type: 'list'
-				});
-				$.ajax({
-					url: 'http://10.9.17.55:8080/',
-					type: 'post',
-					async: true,
-					data: listMechod,
-					dataType: 'json',
-					success: function(data, textStatus) {
-						var data = data.data,
-							cHTML = '';
-						require(['dep/kkpager/kkpager.min.js'],function () {
-							kkpager.generPageHtml({
-								pno : 1,
-								mode : 'click',
-								// 总页码
-								total : 5,
-								// 总数据条数
-								totalRecords : 50,
-								click : function(n) {
-									//fn(n);
-									this._config['total'] = this.total;
-									this._config['totalRecords'] = this.totalRecords;
-									this.selectPage(n);
-								},
-								lang : {
-									prePageText : '<',
-									nextPageText : '>',
-									gopageButtonOkText : '跳转',
-								},
-								getHref : function(n) {
-									return '#';
-								}
-							}, true);
-						});
-						for (var i = 0, len = data.length; i < len; i++) {
-							cHTML+= '<tr>'
-								 +		'<td>'+ data[i]['data_date'] +'</td>'
-								 +		'<td>'+ data[i]['pv'] +'</td>'
-								 +		'<td>'+ data[i]['biz_name'] +'</td>'
-								 +      '<td>'+ data[i]['platform'] +'</td>'
-								 +	'</tr>';
-						}
-						$('.table_model tbody').html(cHTML);
-					}
-				});
+				pageServe (0, list_num, pageInit);
 
+				function renHtml (data) {
+					var cHTML = '';
+					for (var i = 0, len = data.length; i < len; i++) {
+						cHTML+= '<tr>'
+							+		'<td>'+ data[i]['ds'] +'</td>'
+							+		'<td>'+ data[i]['pv'] +'</td>'
+							+		'<td>'+ data[i]['biz_name'] +'</td>'
+							+      '<td>'+ data[i]['platform'] +'</td>'
+							+	'</tr>';
+					}
+					$('.table_model tbody').html(cHTML);
+				}
+
+				function pageInit(total, data_count) {
+					require(['dep/kkpager/kkpager.min.js'],function () {
+						kkpager.generPageHtml({
+							pno : 1,
+							mode : 'click',
+							// 总页码
+							total : total,
+							// 总数据条数
+							totalRecords : data_count,
+							click : function(n) {
+								pageServe((n-1) * list_num, list_num);
+								this._config['total'] = this.total;
+								this._config['totalRecords'] = this.totalRecords;
+								this.selectPage(n);
+							},
+							lang : {
+								prePageText : '<',
+								nextPageText : '>',
+								gopageButtonOkText : '跳转',
+							},
+							getHref : function(n) {
+								return '#';
+							}
+						}, true);
+					});
+				}
+
+				function pageServe(offset, limit, fn) {
+					var listMechod = $.extend({}, _this.Method, {
+						data_type: 'list',
+						offset: offset,
+						limit: limit
+					});
+					$.ajax({
+						url: 'http://10.9.17.55:8080/',
+						type: 'post',
+						async: true,
+						data: listMechod,
+						dataType: 'json',
+						success: function(data, textStatus) {
+							if (data.status == "failed") return;
+							var s_data = data,
+								data = data.data,
+								data_count = s_data.rows_count,
+								total = Math.ceil(data_count / 10);
+
+							fn && fn(total, data_count);
+							data && (renHtml(data));
+						}
+					});
+				}
 
 				if (type == 'line') {
 					option = [{
