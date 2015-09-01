@@ -92,7 +92,7 @@
         //'日期': 'line',
         '日期': 'line',
         '页面类型': 'TreeMap',
-        '一级分类': 'Bars',
+        '一级分类': 'Column',
         '二级分类': 'PieDouble',
         '城市': 'MapContrast'
     };

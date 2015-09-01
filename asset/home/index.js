@@ -168,6 +168,30 @@ define(function(require) {
 					success: function(data, textStatus) {
 						var data = data.data,
 							cHTML = '';
+						require(['dep/kkpager/kkpager.min.js'],function () {
+							kkpager.generPageHtml({
+								pno : 1,
+								mode : 'click',
+								// 总页码
+								total : 5,
+								// 总数据条数
+								totalRecords : 50,
+								click : function(n) {
+									//fn(n);
+									this._config['total'] = this.total;
+									this._config['totalRecords'] = this.totalRecords;
+									this.selectPage(n);
+								},
+								lang : {
+									prePageText : '<',
+									nextPageText : '>',
+									gopageButtonOkText : '跳转',
+								},
+								getHref : function(n) {
+									return '#';
+								}
+							}, true);
+						});
 						for (var i = 0, len = data.length; i < len; i++) {
 							cHTML+= '<tr>'
 								 +		'<td>'+ data[i]['data_date'] +'</td>'
@@ -239,7 +263,7 @@ define(function(require) {
 						group:'最低气温',
 						value:310
 					}];
-				} else if (type == 'TreeMap' || type == 'Map' || type == 'PieLine' || type == 'PiePage' || type == 'PieDouble'  || type == 'Browser') {
+				} else if (type == 'TreeMap' || type == 'Map' || type == 'PieLine' || type == 'PiePage' || type == 'PieDouble'  || type == 'Browser' || type == 'Column') {
 					option = {
 						'2002-01-01': [{
 							name:'北京',
@@ -354,7 +378,7 @@ define(function(require) {
 						'hasTime' : 1,
 						'title': ' '
 					});
-				}
+				}console.log('999==',JSON.stringify(cOption));
 				/**
 				 * echarts加载数据对象，渲染图表
 				 */
