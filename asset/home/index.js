@@ -147,6 +147,8 @@ define(function(require) {
 							_this.render_charts(type, data);
 						}
 
+						$('.data_model_head').data('method', _this.Method);
+
 						Render.chartsData.myCharts.dom.hideLoading();
 					},
 					error : function() {
@@ -160,10 +162,11 @@ define(function(require) {
 				pageServe (0, list_num, pageInit);
 
 				function renHtml (data) {
-					var cHTML = '',
+					var origin_method = $('.data_model_head').data('method') || _this.Method,
+						cHTML = '',
 						$thead = $('.table_model thead'),
 						$tbody = $('.table_model tbody'),
-						s_type = _this.Method['index_type'].split(',')[1],
+						s_type = origin_method['index_type'].split(',')[1],
 						hashTitle = {
 							'#/click/': '<th>点击量</th><th>点击率</th>',
 							'#/jump/': '<th>跳出量</th><th>跳出率</th>',
@@ -247,10 +250,10 @@ define(function(require) {
 					});
 				}
 
-				function pageServe(offset, limit, fn) {	console.log(_this.Method,'lll',_this.nowType);
-					var listMechod = $.extend({}, _this.Method, {
+				function pageServe(offset, limit, fn) {
+					var origin_method = $('.data_model_head').data('method') || _this.Method,
+					    listMechod = $.extend({}, origin_method, {
 						data_type: 'list',
-						index_type: location.hash.slice(2,location.hash.length-1) + ',' + _this.Method['index_type'].split(',')[1],
 						offset: offset,
 						limit: limit
 					});
@@ -496,7 +499,7 @@ define(function(require) {
 						return;
 					}
 					option.series[1] = {
-						name: '随机数据',
+						name: '城市数据',
 						type: 'map',
 						mapType: selectedProvince,
 						itemStyle:{

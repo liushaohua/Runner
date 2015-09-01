@@ -683,7 +683,7 @@
                 }
                 return $.extend({}, ECharts.ChartOptionTemplates.CommonLineOption, option);
             },
-            TreeMap: function (data, name, is_stack, pack) {
+            TreeMap: function (data, name, is_stack, pack) {console.log('5csss',data);
                 var pack = pack || {},
                     timeLineData = (function () {
                         var cData = [];
@@ -699,7 +699,7 @@
                 if (pack['hasTime']) {
                     function sortArr(m,n){
                         return m['value']>n['value']?1:(m['value']<n['value']?-1:0);
-                    }
+                    }console.log('6csss',data);
                     var option = {
                         title : {
                             text: pack['title'] || '未设置title'
