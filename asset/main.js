@@ -13,7 +13,7 @@ define(function(require) {
 	window.EchartsCof = require('common/MyEcharts');
 
 	router.registerRouter({
-		path: '/pv/',
+		path: '/pvuv/',
 		type: 'home/index'
 	});
 
@@ -32,7 +32,7 @@ define(function(require) {
 		type: 'home/index'
 	});
 
-	router.start('/pv/');
+	router.start('/pvuv/');
 
 	cPage = {
 		init : function () {
@@ -48,8 +48,8 @@ define(function(require) {
 				$('a[href="'+ hash +'"]').parent().addClass('active');
 
 				var hashTable = {
-					'#/pv/': 'pvuv,|pv',
-					'#/click/': 'clicks,|click_times',
+					'#/pvuv/': 'pvuv,|pv',
+					'#/click/': 'click,|click_times',
 					'#/jump/': 'jump,|jump_times',
 					'#/viewout/': 'viewout,|viewout_times'
 				},

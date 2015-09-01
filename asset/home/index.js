@@ -42,7 +42,7 @@ define(function(require) {
 				'biz_name':'fangchan',
 				'index_type': window.hashMethod.index_type + 'data_date',
 				'platform': 'PC',
-				'value_name': window.hashMethod.value_name,
+				//'value_name': window.hashMethod.value_name,
 				'cate1_name': '',
 				'dim_type': 'cate1',
 				'data_type': 'view'
@@ -163,26 +163,51 @@ define(function(require) {
 					var cHTML = '',
 						$thead = $('.table_model thead'),
 						$tbody = $('.table_model tbody'),
+						s_type = _this.Method['index_type'].split(',')[1],
 						hashTitle = {
-							'#/click/': '<th>点击率</th><th>点击量</th>',
-							'#/jump/': '<th>跳出率</th><th>跳出量</th>',
-							'#/viewout/': '<th>退出率</th><th>退出量</th>',
-							'#/pv/': '<th>PV</th>'
+							'#/click/': '<th>点击量</th><th>点击率</th>',
+							'#/jump/': '<th>跳出量</th><th>跳出率</th>',
+							'#/viewout/': '<th>退出量</th><th>退出率</th>',
+							'#/pvuv/': '<th>PV</th>'
 						},
-						$th = '<th>日期</th>' + hashTitle[location.hash] + '<th>业务线</th><th>来源</th>';
+						hashType = {
+							'ds': '日期',
+							'time_window': '时段',
+							'cate1_name': '一级分类',
+							'cate2_name': '二级分类',
+							'page_type': '页面类型',
+							'province_name': '省份',
+							'city_name': '城市',
+							'os_type': '操作系统',
+							'window_size': '分辨率',
+							'browser_type': '浏览器',
+							'biz_name': '业务线',
+							'platform': '平台'
+						},$thModel = '';
+
+					if (s_type != 'data_date') {
+						$thModel = '<th>'+ hashType[s_type] +'</th>';
+					}
+
+					var $th = '<th>日期</th>' + hashTitle[location.hash] + $thModel +'<th>业务线</th><th>来源</th>';
 					$thead.html('<tr>' + $th +'</tr>');
 					for (var i = 0, len = data.length; i < len; i++) {
 						var hashStr = location.hash.slice(2,location.hash.length -1),
-							tds;
-						if (location.hash != '#/pv/') {
-							tds = '<td>'+ data[i][hashStr+'_percent'] +'</td>'
-							    + '<td>'+ data[i][hashStr+'_times'] +'</td>';
+							tds,$tdMdel = '';
+						if (location.hash != '#/pvuv/') {
+							tds = '<td>'+ data[i][hashStr+'_times'] +'</td>'
+								+ '<td>'+ data[i][hashStr+'_percent'] +'</td>'
 						} else {
 							tds = '<td>'+ data[i]['pv'] +'</td>';
 						}
+
+						if (s_type != 'data_date') {
+							$tdMdel = '<td>'+ data[i][s_type] +'</td>';
+						}
+
 						cHTML+= '<tr>'
 							+		'<td>'+ data[i]['ds'] +'</td>'
-							+		tds
+							+		tds + $tdMdel
 							+		'<td>'+ data[i]['biz_name'] +'</td>'
 							+      '<td>'+ data[i]['platform'] +'</td>'
 							+	'</tr>';
@@ -222,9 +247,10 @@ define(function(require) {
 					});
 				}
 
-				function pageServe(offset, limit, fn) {
+				function pageServe(offset, limit, fn) {	console.log(_this.Method,'lll',_this.nowType);
 					var listMechod = $.extend({}, _this.Method, {
 						data_type: 'list',
+						index_type: location.hash.slice(2,location.hash.length-1) + ',' + _this.Method['index_type'].split(',')[1],
 						offset: offset,
 						limit: limit
 					});
