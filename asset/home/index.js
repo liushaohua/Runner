@@ -113,7 +113,8 @@ define(function(require) {
 			getServer: function (type, isR) {
 				var _this = this,
 					option,
-					list_num = 10;
+					list_num = 10,
+					lastMethod;
 
 				type = type || _this.nowType || _this.echarts_type.default;
 				_this.nowType = type;
@@ -168,10 +169,10 @@ define(function(require) {
 						$tbody = $('.table_model tbody'),
 						s_type = origin_method['index_type'].split(',')[1],
 						hashTitle = {
-							'#/click/': '<th>点击量</th><th>点击率</th>',
-							'#/jump/': '<th>跳出量</th><th>跳出率</th>',
-							'#/viewout/': '<th>退出量</th><th>退出率</th>',
-							'#/pvuv/': '<th>PV</th>'
+							'#/click/': '<th>点击量&nbsp;&nbsp;<i value="click_times">↑</i></th><th>点击率&nbsp;&nbsp;<i value="click_percent">↑</i></th>',
+							'#/jump/': '<th>跳出量&nbsp;&nbsp;<i value="jump_times">↑</i></th><th>跳出率&nbsp;&nbsp;<i value="jump_percent">↑</i></th>',
+							'#/viewout/': '<th>退出量&nbsp;&nbsp;<i value="viewout_times">↑</i></th><th>退出率&nbsp;&nbsp;<i value="viewout_percent">↑</i></th>',
+							'#/pvuv/': '<th>PV&nbsp;&nbsp;<i value="pv">↑</i></th>'
 						},
 						hashType = {
 							'ds': '日期',
@@ -223,6 +224,19 @@ define(function(require) {
 					});
 				}
 
+				//sort
+				$('.table_model').on('click', 'i', function () {
+					var $this = $(this);
+					if ($this.attr('value')) {console.log(lastMethod,'opop');
+						if ($this.hasClass('down')) {
+							$this.removeClass('down');
+						} else {
+							console.log('wodian');
+							$this.addClass('down');
+						}
+					}
+				});
+
 				function pageInit(total, data_count) {
 					require(['dep/kkpager/kkpager.min.js'],function () {
 						kkpager.generPageHtml({
@@ -256,7 +270,8 @@ define(function(require) {
 						data_type: 'list',
 						offset: offset,
 						limit: limit
-					});
+					}),
+					lastMethod = origin_method;
 					$.ajax({
 						url: 'http://10.9.17.55:8080/',
 						type: 'post',
