@@ -576,7 +576,8 @@ define(function(require) {
 									$datepicker.datepicker({ dateFormat: 'yymmdd',onSelect: function(dateText, inst) {
 										var date = $datepicker.datepicker().val();
 										_this.Method.ds = date;
-										$this.html(date);
+										$('a[value="日期"]').html(date);
+										Render.chartsData.myCharts.dom = window.myChart;
 										_this.Method.index_type = window.hashMethod.index_type + 'data_date';
 										_this.getServer(_this.echarts_type[cVal]);
 									} });
@@ -722,7 +723,7 @@ define(function(require) {
 			function (ec,theme) {
 				var myChart, myChartL, myChartR;
 				window.CecConfig = require('zrender');
-				myChart = Render.chartsData.myCharts.dom = echarts.init(document.getElementById('main_wrap'),theme);
+				window.myChart = Render.chartsData.myCharts.dom = echarts.init(document.getElementById('main_wrap'),theme);
 				myChartL = Render.chartsData.myChartsL.dom = echarts.init(document.getElementById('left_wrap'),theme);
 				myChartR = Render.chartsData.myChartsR.dom = echarts.init(document.getElementById('right_wrap'),theme);
 				$('#main_wrap > div').animate({'margin-left':0},500);
