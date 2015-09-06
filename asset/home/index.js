@@ -587,7 +587,18 @@ define(function(require) {
 							);
 							break;
 						default:
+							//二级分类
+							/*if ($this.attr('value') == '二级分类') {
+								setTimeout(function () {
+									$('[value="一级分类"]').click();
+									_this.changeParam('index_type','cate2_name');
+								},500);
+								_this._dropdown('二级分类', _position, $this).init();
+								return;
+							}*/
+
 							_this._dropdown(cVal, _position, $this).init();
+
 							if ($this.has('i').length) {
 								_this.changeParam('index_type', window.hashMethod.index_type + _this.dictionary[cVal]);
 							} else {
