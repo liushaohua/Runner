@@ -29,13 +29,14 @@ define(function(require) {
 		var Render = {
 			init: function (fn) {
 				var _this = this;
-				this.render_nav().setDate().set_method().getServer(this.echarts_type['default']);
+				this.render_nav().setDate().set_method().getServer(this.echarts_type['default']).sort_data();
 				$(document).click(function () {
 					$('.dropdown').fadeOut(300);
 					$('.query_wrap a i').add($('.menu-btn i')).attr('class','icon_down');
 				});
 				fn && fn();
 			},
+			lastMethod: '',
 			Method: {
 				'time_type':'day',
 				'ds':'',
@@ -51,6 +52,31 @@ define(function(require) {
 				this.Method[Param] = value;
 				var isR = isR || false;
 				cType && (this.getServer(cType, isR));
+			},
+			sort_data: function () {
+				$('.table_model').on('click', 'i', function () {
+					console.log('dianle');
+					var $this = $(this),
+						method = $.extend({}, Render.lastMethod, {
+						'sort_by': window.hashMethod.index_type.replace(',',''),
+						'order': $this.attr('value')
+					});
+
+					$.ajax({
+						url: 'http://10.9.17.55:8080/',
+						type: 'post',
+						async: true,
+						data: method,
+						dataType: 'json',
+						success: function(data, textStatus) {
+							if (data.status == "failed") return;
+							var s_data = data,
+								data = data.data;
+							//data && (renHtml(data));
+						}
+					});
+				});
+				return this;
 			},
 			screen: window.config.screen,
 			dictionary: window.config.dictionary,
@@ -113,8 +139,7 @@ define(function(require) {
 			getServer: function (type, isR) {
 				var _this = this,
 					option,
-					list_num = 10,
-					lastMethod;
+					list_num = 10;
 
 				type = type || _this.nowType || _this.echarts_type.default;
 				_this.nowType = type;
@@ -174,7 +199,7 @@ define(function(require) {
 							'#/viewout/': '<th>退出量&nbsp;&nbsp;<i value="viewout_times">↑</i></th><th>退出率&nbsp;&nbsp;<i value="viewout_percent">↑</i></th>',
 							'#/pvuv/': '<th>PV&nbsp;&nbsp;<i value="pv">↑</i></th>'
 						},
-						hashType = window.config.dictionary,$thModel = '';
+						hashType = window.config.dictionary_etoc,$thModel = '';
 
 					if (s_type != 'data_date') {
 						$thModel = '<th>'+ hashType[s_type] +'</th>';
@@ -214,7 +239,7 @@ define(function(require) {
 				//sort
 				$('.table_model').on('click', 'i', function () {
 					var $this = $(this);
-					if ($this.attr('value')) {console.log(lastMethod,'opop');
+					if ($this.attr('value')) {
 						if ($this.hasClass('down')) {
 							$this.removeClass('down');
 						} else {
@@ -254,11 +279,11 @@ define(function(require) {
 				function pageServe(offset, limit, fn) {
 					var origin_method = $('.data_model_head').data('method') || _this.Method,
 					    listMechod = $.extend({}, origin_method, {
-						data_type: 'list',
-						offset: offset,
-						limit: limit
-					}),
-					lastMethod = origin_method;
+							data_type: 'list',
+							offset: offset,
+							limit: limit
+						});
+					Render.lastMethod = listMechod;	console.log('last',Render.lastMethod);
 					$.ajax({
 						url: 'http://10.9.17.55:8080/',
 						type: 'post',
