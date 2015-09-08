@@ -126,7 +126,7 @@ define(function(require) {
 					data: _this.Method,
 					dataType: 'json',
 					success: function(data, textStatus) {
-						data = data.data;
+						data = isR ?  data.data2 : data.data;
 
 						if (type == 'TreeMap') {
 							for (var i in data) {
@@ -174,20 +174,7 @@ define(function(require) {
 							'#/viewout/': '<th>退出量&nbsp;&nbsp;<i value="viewout_times">↑</i></th><th>退出率&nbsp;&nbsp;<i value="viewout_percent">↑</i></th>',
 							'#/pvuv/': '<th>PV&nbsp;&nbsp;<i value="pv">↑</i></th>'
 						},
-						hashType = {
-							'ds': '日期',
-							'time_window': '时段',
-							'cate1_name': '一级分类',
-							'cate2_name': '二级分类',
-							'page_type': '页面类型',
-							'province_name': '省份',
-							'city_name': '城市',
-							'os_type': '操作系统',
-							'window_size': '分辨率',
-							'browser_type': '浏览器',
-							'biz_name': '业务线',
-							'platform': '平台'
-						},$thModel = '';
+						hashType = window.config.dictionary,$thModel = '';
 
 					if (s_type != 'data_date') {
 						$thModel = '<th>'+ hashType[s_type] +'</th>';
@@ -605,7 +592,7 @@ define(function(require) {
 								_this.changeParam('index_type', window.hashMethod.index_type + _this.dictionary[cVal], _this.echarts_type[cVal]);
 								window.echartType = _this.echarts_type[cVal];
 								if (_this.echarts_type[cVal] == 'PieLine' && window.Max) {
-									_this.changeParam('index_type', window.hashMethod.index_type + 'data_date', 'line', true);
+									_this.changeParam('index_type', window.hashMethod.index_type + _this.dictionary[cVal], 'line', true);
 									window.echartType = 'PieLine';
 								}
 							}
@@ -648,38 +635,39 @@ define(function(require) {
 					url: 'http://10.9.17.55:8080/filter',
 					type: 'post',
 					async: true,
-					data: {'dim_type':'biz'},
+					data: {'dim_type':window.hashMethod.index_type.replace(',','')},
 					dataType: 'json',
 					success: function(data, textStatus) {
 						var cHTML = '<li>',
-							data = [{
-								'name': '日期'
-							},{
-								'name': '时段'
-							},{
-								'name': '一级分类'
-							},{
-								'name': '二级分类'
-							},{
-								'name': '页面类型'
-							},{
-								'name': '省份'
-							},{
-								'name': '城市'
-							},{
-								'name': '浏览器'
-							},{
-								'name': '操作系统'
-							},{
-								//'name': '分辨率',
-								//'disabled': true
-								'name': '分辨率'
-							}];
+							data = data.data;
+						var data_old = [{
+							'name': '日期'
+						},{
+							'name': '时段'
+						},{
+							'name': '一级分类'
+						},{
+							'name': '二级分类'
+						},{
+							'name': '页面类型'
+						},{
+							'name': '省份'
+						},{
+							'name': '城市'
+						},{
+							'name': '浏览器'
+						},{
+							'name': '操作系统'
+						},{
+							'name': '分辨率',
+							'disabled': true
+						}];
 
 						for (var i = 0, len = data.length; i < len; i++) {
-							var bBOOL = ((i+1)% 5 == 0),
-								disabled = data[i]['disabled'];
-							cHTML += '<a href="javascript:;" class="'+ (bBOOL ? 'c-span-last' : '')+ (disabled ? ' no-drop' : '')+'" value="'+ data[i]['name'] +'">'+ (data[i]['name'] == '一级分类' ? '<i class="icon_down"></i><span>'+ data[i]['name'] +'</span>' : data[i]['name']) +'</a>'
+							var name = window.config.dictionary_etoc[data[i]['text']],
+							    bBOOL = ((i+1)% 5 == 0),
+								disabled = data[i]['value'] == 0;
+							cHTML += '<a href="javascript:;" class="'+ (bBOOL ? 'c-span-last' : '')+ (disabled ? ' no-drop' : '')+'" value="'+ name +'">'+ (name == '一级分类' ? '<i class="icon_down"></i><span>'+ name +'</span>' : name) +'</a>'
 								+ ( bBOOL ? '</li><li>'  : '');
 						}
 						cHTML += '</li>';

@@ -78,6 +78,27 @@
     };
 
     /**
+     * select参数转换词典etoc
+     * @type {Object}
+     */
+
+    config.dictionary_etoc = {
+        'ds': '日期',
+        'data_date': '日期',
+        'time_window': '时段',
+        'cate1_name': '一级分类',
+        'cate2_name': '二级分类',
+        'page_type': '页面类型',
+        'province_name': '省份',
+        'city_name': '城市',
+        'os_type': '操作系统',
+        'window_size': '分辨率',
+        'browser_type': '浏览器',
+        'biz_name': '业务线',
+        'platform': '平台'
+    }
+
+    /**
      * echarts类型转换
      * @type {Object}
      */

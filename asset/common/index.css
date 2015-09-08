@@ -106,7 +106,7 @@ font-family:"Microsoft YaHei ", Helvetica, Arial, sans-serif;font-weight:bold;}
 .home-container .query_wrap a{width:134px;height:35px;margin-right:30px;text-align:center;display:inline-block;line-height:35px;position:relative;transition:.5s all ease;}
 .home-container .query_wrap a.c-span-last{margin-right:0;}
 .home-container .query_wrap a.no-drop{  color: gray;  cursor: no-drop;}
-.home-container .query_wrap a.no-drop:hover{box-shadow: 0 0 0 #20c993;border-color:##8e8f93;}
+.home-container .query_wrap a.no-drop:hover{box-shadow: 0 0 0 #20c993;border-color:#8e8f93;}
 .home-container .query_wrap a.active,.home-container .query_wrap a:hover{border-color:#20c993;box-shadow: 0 0 6px #20c993;}
 .home-container .query_wrap a i{width: 14px;  height: 10px;  top: 15px;  left: 107px;position:absolute;}
 .home-container .query_wrap a i.icon_up {background-position: 0px -37px;}
@@ -177,9 +177,9 @@ div.ui-datepicker, .ui-datepicker td{
 /**data_model**/
 .data_model .pager_content{text-align:center;margin-top:15px;}
 .data_model .goPageBox{color:#fff;}
-.data_model .data_model_head{height:60px;line-height: 60px;margin-top:30px;
-    background: #2a6ec5;border:1px solid #296cc4;text-indent: 10px;}
-.data_model table td,.data_model table th{font-size: 12px;  color: #fff;  height: 34px;  line-height: 34px;  padding: 0 0 0 22px;
-     border-right: 1px solid #e8e8e8;border-bottom: 1px solid #e8e8e8;  word-break: break-all;text-align:left;}
-.table_model{border-left:1px solid #e8e8e8;}
+.data_model .data_model_head{border-radius:10px 10px 0 0;height:40px;line-height: 40px;border: 2px solid #282256;text-indent:15px;margin-top:30px;}
+.data_model .data_model_head span{font-weight: bold;font-size: 26px;}
+.data_model table td,.data_model table th{font-size: 13px;  color: #fff;  height: 34px;  line-height: 34px;  padding: 0 0 0 22px;
+     border-right: 2px solid #282256;border-bottom: 2px solid #282256;  word-break: break-all;text-align:left;}
+.table_model{border-left:2px solid #282256;}
 .table_model i{font-style:normal;cursor: pointer;}
