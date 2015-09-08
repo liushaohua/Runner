@@ -102,7 +102,7 @@ define(function(require) {
 								}
 							});
 						}();
-
+						type == '一级分类' && (type = '二级分类');
 						_this.getServer(_this.echarts_type[type]);
 					});
 				};
@@ -588,18 +588,18 @@ define(function(require) {
 							break;
 						default:
 							//二级分类
-							/*if ($this.attr('value') == '二级分类') {
-								setTimeout(function () {
-									$('[value="一级分类"]').click();
-									_this.changeParam('index_type','cate2_name');
-								},500);
-								_this._dropdown('二级分类', _position, $this).init();
+							if ($this.attr('value') == '二级分类') {
+								_this._dropdown('一级分类', $this.prev().offset(), $this).init();
+								_this.changeParam('index_type', window.hashMethod.index_type + _this.dictionary[cVal]);
+								ev.stopPropagation();
 								return;
-							}*/
+							}
 
-							_this._dropdown(cVal, _position, $this).init();
+							if (cVal != '一级分类') {
+								_this._dropdown(cVal, _position, $this).init();
+							}
 
-							if ($this.has('i').length) {
+							if ($this.has('i').length && cVal != '一级分类') {
 								_this.changeParam('index_type', window.hashMethod.index_type + _this.dictionary[cVal]);
 							} else {
 								_this.changeParam('index_type', window.hashMethod.index_type + _this.dictionary[cVal], _this.echarts_type[cVal]);
