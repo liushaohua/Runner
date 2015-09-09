@@ -177,9 +177,10 @@ div.ui-datepicker, .ui-datepicker td{
 /**data_model**/
 .data_model .pager_content{text-align:center;margin-top:15px;}
 .data_model .goPageBox{color:#fff;}
-.data_model .data_model_head{border-radius:10px 10px 0 0;height:40px;line-height: 40px;border: 2px solid #282256;text-indent:15px;margin-top:30px;}
-.data_model .data_model_head span{font-weight: bold;font-size: 26px;}
-.data_model table td,.data_model table th{font-size: 13px;  color: #fff;  height: 34px;  line-height: 34px;  padding: 0 0 0 22px;
-     border-right: 2px solid #282256;border-bottom: 2px solid #282256;  word-break: break-all;text-align:left;}
+.data_model .data_table_wrap{box-shadow: 0 0 9px #20c993;border-radius:5px;overflow:hidden;  margin-top: 30px;}
+.data_model .data_model_head{height:40px;line-height: 40px;border: 2px solid #282256;text-indent:15px;overflow:hidden;}
+.data_model .data_model_head span{font-weight: bold;font-size: 26px;float:left;}
+.data_model table td,.data_model table th{font-size: 13px;  color: #fff;  height: 34px;  line-height: 34px;  padding: 0 0 0 22px;border-right: 2px solid #282256;border-bottom: 2px solid #282256;  word-break: break-all;text-align:left;}
+.data_model #detail_datepicker{  opacity: 0; width: 0px;  position: absolute;}
 .table_model{border-left:2px solid #282256;}
 .table_model i{font-style:normal;cursor: pointer;}

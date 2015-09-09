@@ -29,7 +29,7 @@ define(function(require) {
 		var Render = {
 			init: function (fn) {
 				var _this = this;
-				this.render_nav().setDate().set_method().getServer(this.echarts_type['default']).sort_data();
+				this.render_nav().setDate().set_method().getServer(this.echarts_type['default']);
 				$(document).click(function () {
 					$('.dropdown').fadeOut(300);
 					$('.query_wrap a i').add($('.menu-btn i')).attr('class','icon_down');
@@ -52,31 +52,6 @@ define(function(require) {
 				this.Method[Param] = value;
 				var isR = isR || false;
 				cType && (this.getServer(cType, isR));
-			},
-			sort_data: function () {
-				$('.table_model').on('click', 'i', function () {
-					console.log('dianle');
-					var $this = $(this),
-						method = $.extend({}, Render.lastMethod, {
-						'sort_by': window.hashMethod.index_type.replace(',',''),
-						'order': $this.attr('value')
-					});
-
-					$.ajax({
-						url: 'http://10.9.17.55:8080/',
-						type: 'post',
-						async: true,
-						data: method,
-						dataType: 'json',
-						success: function(data, textStatus) {
-							if (data.status == "failed") return;
-							var s_data = data,
-								data = data.data;
-							//data && (renHtml(data));
-						}
-					});
-				});
-				return this;
 			},
 			screen: window.config.screen,
 			dictionary: window.config.dictionary,
@@ -136,6 +111,30 @@ define(function(require) {
 					init: init
 				};
 			},
+			setDetailDate: function (fn, list_num, pageInit) {
+				var _this = this;
+
+				$('.data_model_head a').click(function () {
+					var $this = $(this);
+					require(['dep/jquery-ui-1.11.4/jquery-ui.js'],
+						function () {
+							var $datepicker = $( "#detail_datepicker" );
+
+							$(".hasDatepicker").removeClass("hasDatepicker");
+							$datepicker.datepicker("destroy");
+							$datepicker.datepicker({ dateFormat: 'yymmdd',onSelect: function(dateText, inst) {
+								var date = $datepicker.datepicker().val();
+								$this.html(date);
+								$this.data('date', date);
+								fn(0, list_num, pageInit);
+							} });
+							$datepicker.datepicker('show');
+						}
+					);
+				});
+
+				return _this;
+			},
 			getServer: function (type, isR) {
 				var _this = this,
 					option,
@@ -187,7 +186,12 @@ define(function(require) {
 				//list context
 				pageServe (0, list_num, pageInit);
 
-				function renHtml (data) {
+				if (_this.setDetailDate) {
+					_this.setDetailDate(pageServe, list_num, pageInit);
+					delete _this.setDetailDate;
+				}
+
+				function renHtml (data, isBool) {
 					var origin_method = $('.data_model_head').data('method') || _this.Method,
 						cHTML = '',
 						$thead = $('.table_model thead'),
@@ -206,7 +210,7 @@ define(function(require) {
 					}
 
 					var $th = '<th>日期</th>' + hashTitle[location.hash] + $thModel +'<th>业务线</th><th>来源</th>';
-					$thead.html('<tr>' + $th +'</tr>');
+					!isBool && ($thead.html('<tr>' + $th +'</tr>'));
 					for (var i = 0, len = data.length; i < len; i++) {
 						var hashStr = location.hash.slice(2,location.hash.length -1),
 							tds,$tdMdel = '';
@@ -234,20 +238,45 @@ define(function(require) {
 					},function () {
 						$(this).css('background','transparent');
 					});
-				}
 
-				//sort
-				$('.table_model').on('click', 'i', function () {
-					var $this = $(this);
-					if ($this.attr('value')) {
-						if ($this.hasClass('down')) {
-							$this.removeClass('down');
-						} else {
-							console.log('wodian');
-							$this.addClass('down');
-						}
+					if (isBool) {
+						return;
 					}
-				});
+					//sort
+					$('.table_model i').unbind('click');
+					$('.table_model i').click(function () {
+						var $this = $(this),
+							method,
+							order = 'asc';
+
+						if ($this.attr('value')) {
+							if ($this.hasClass('down')) {
+								$this.removeClass('down');
+								order = 'desc';
+							} else {
+								$this.addClass('down');
+							}
+						}
+						method = $.extend({}, Render.lastMethod, {
+							'sort_by': $this.attr('value'),
+							'order': order
+						});
+
+						$.ajax({
+							url: 'http://10.9.17.55:8080/',
+							type: 'post',
+							async: true,
+							data: method,
+							dataType: 'json',
+							success: function(data, textStatus) {
+								if (data.status == "failed") return;
+								var s_data = data,
+									data = data.data;
+								data && (renHtml(data, true));
+							}
+						});
+					});
+				}
 
 				function pageInit(total, data_count) {
 					require(['dep/kkpager/kkpager.min.js'],function () {
@@ -281,7 +310,8 @@ define(function(require) {
 					    listMechod = $.extend({}, origin_method, {
 							data_type: 'list',
 							offset: offset,
-							limit: limit
+							limit: limit,
+							ds: $('.detail_date').data('date') || ''
 						});
 					Render.lastMethod = listMechod;	console.log('last',Render.lastMethod);
 					$.ajax({
@@ -456,6 +486,7 @@ define(function(require) {
 					};
 				}
 				//_this.render_charts(type, option);
+				//_this.pageServe = pageServe;
 				return _this;
 			},
 			render_charts: function (type, data, obj) {
