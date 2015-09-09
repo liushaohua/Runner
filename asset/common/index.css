@@ -20,6 +20,25 @@ html {_filter:expression(document.execCommand("BackgroundImageCache", false, tru
 .disNone{display: none;}
 .disBlock{display:block;}
 .mt65{margin-top:65px;}
+/*icon*/
+[class^="icon-"], [class*=" icon-"] {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-top: 1px;
+    line-height: 14px;
+    vertical-align: text-top;
+    background-image: url("./images/glyphicons-halflings.png");
+    background-position: 14px 14px;
+    background-repeat: no-repeat;
+}
+.icon-arrow-up {
+    background-position: -289px -96px;
+}
+
+.icon-arrow-down {
+    background-position: -312px -96px;
+}
 
 /*index-page*/
 html, body { height: 100%;}
@@ -181,6 +200,7 @@ div.ui-datepicker, .ui-datepicker td{
 .data_model .data_model_head{height:40px;line-height: 40px;border: 2px solid #282256;text-indent:15px;overflow:hidden;}
 .data_model .data_model_head span{font-weight: bold;font-size: 26px;float:left;}
 .data_model table td,.data_model table th{font-size: 13px;  color: #fff;  height: 34px;  line-height: 34px;  padding: 0 0 0 22px;border-right: 2px solid #282256;border-bottom: 2px solid #282256;  word-break: break-all;text-align:left;}
+.data_model table th{font-size:14px;}
 .data_model #detail_datepicker{  opacity: 0; width: 0px;  position: absolute;}
 .table_model{border-left:2px solid #282256;}
 .table_model i{font-style:normal;cursor: pointer;}

@@ -198,10 +198,11 @@ define(function(require) {
 						$tbody = $('.table_model tbody'),
 						s_type = origin_method['index_type'].split(',')[1],
 						hashTitle = {
-							'#/click/': '<th>点击量&nbsp;&nbsp;<i value="click_times">↑</i></th><th>点击率&nbsp;&nbsp;<i value="click_percent">↑</i></th>',
-							'#/jump/': '<th>跳出量&nbsp;&nbsp;<i value="jump_times">↑</i></th><th>跳出率&nbsp;&nbsp;<i value="jump_percent">↑</i></th>',
-							'#/viewout/': '<th>退出量&nbsp;&nbsp;<i value="viewout_times">↑</i></th><th>退出率&nbsp;&nbsp;<i value="viewout_percent">↑</i></th>',
-							'#/pvuv/': '<th>PV&nbsp;&nbsp;<i value="pv">↑</i></th>'
+							'#/click/': '<th>点击量&nbsp;&nbsp;' +
+							'<i value="click_times" class="icon-arrow-up"></i></th><th>点击率&nbsp;&nbsp;<i value="click_percent" class="icon-arrow-up"></i></th>',
+							'#/jump/': '<th>跳出量&nbsp;&nbsp;<i value="jump_times" class="icon-arrow-up"></i></th><th>跳出率&nbsp;&nbsp;<i value="jump_percent" class="icon-arrow-up"></i></th>',
+							'#/viewout/': '<th>退出量&nbsp;&nbsp;<i value="viewout_times" class="icon-arrow-up"></i></th><th>退出率&nbsp;&nbsp;<i value="viewout_percent" class="icon-arrow-up"></i></th>',
+							'#/pvuv/': '<th>PV&nbsp;&nbsp;<i value="pv" class="icon-arrow-up"></i></th>'
 						},
 						hashType = window.config.dictionary_etoc,$thModel = '';
 
@@ -250,11 +251,15 @@ define(function(require) {
 							order = 'asc';
 
 						if ($this.attr('value')) {
-							if ($this.hasClass('down')) {
-								$this.removeClass('down');
+							if ($this.hasClass('icon-arrow-down')) {
+								$this.removeClass('icon-arrow-down');
+								$this.addClass('icon-arrow-up');
+								$this.attr('title','升序');
 								order = 'desc';
 							} else {
-								$this.addClass('down');
+								$this.addClass('icon-arrow-down');
+								$this.removeClass('icon-arrow-up');
+								$this.attr('title','降序');
 							}
 						}
 						method = $.extend({}, Render.lastMethod, {
