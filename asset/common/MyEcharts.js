@@ -37,7 +37,7 @@
                         var temp = [];
                         for (var j = 0; j < data.length; j++) {
                             if (group[i] == data[j].group) {
-                                if (type == "map" || type == "pieline" || type == 'piedouble' || type == 'column') {
+                                if (type == "map" || type == "pieline" || type == 'piedouble' || type == 'column' || type == 'columnline') {
                                     temp.push({ name: data[j].name, value: data[j].value });
                                 } else if (type == "treemap") {
                                     temp.push({
@@ -124,6 +124,13 @@
                             case 'column':
                                 var series_temp = {
                                     name: group[i], type: 'bar',
+                                    data: temp
+                                };
+                                break;
+
+                            case 'columnline':
+                                var series_temp = {
+                                    name: group[i], type: 'line',
                                     data: temp
                                 };
                                 break;
@@ -599,6 +606,7 @@
                             x: 'left',
                             y: 'bottom',
                             text:['高','低'],           // 文本，默认为数值文本
+                            textStyle:{color: '#fff'},
                             calculable : true
                         },
                         toolbox: {
@@ -1016,7 +1024,71 @@
                         return cData;
                     } ()),
                     stackline_datas = ECharts.ChartDataFormate.FormateGroupData(data, 'column', is_stack, pack);
-                    console.log(stackline_datas,'===');
+
+                if (pack['hasTime']) {
+                    var option = {
+                        title : {
+                            text: pack['title'] || '未设置title'
+                        },
+                        tooltip : {
+                            trigger: 'axis'
+                        },
+                        legend: {
+                            data: stackline_datas.origin.category,
+                            textStyle:{color: '#fff'}
+                        },
+                        xAxis: [{
+                            type: 'category', //X轴均为category，Y轴均为value
+                            data: stackline_datas.origin.xAxis,
+                            axisLabel : {
+                                textStyle:{
+                                    color:"#fff"
+                                }
+                            },
+                            splitLine : {    // 轴线
+                                show: false
+                            }
+                        }],
+                        yAxis: [{
+                            type: 'value',
+                            axisLabel : {
+                                formatter: '{value}',
+                                textStyle:{
+                                    color:"#fff"
+                                }
+                            },
+                            splitLine : {    // 轴线
+                                show: false
+                            }
+                        }],
+                        calculable: true
+                    };
+
+                    stackline_datas = stackline_datas.options;
+                    stackline_datas[0] = $.extend({}, stackline_datas[0],option);
+
+                    var optionLine = ECharts.ChartOptionTemplates.CommonLineOptionTimeLine;
+                    optionLine.timeline['data'] = timeLineData;
+                    optionLine.timeline['y2'] = -10;
+                    optionLine.options = stackline_datas;
+                    return optionLine;
+
+                }
+                return $.extend({}, ECharts.ChartOptionTemplates.CommonLineOption, option);
+            },
+            ColumnLine: function (data, name, is_stack, pack) {
+                var pack = pack || {},
+                    timeLineData = (function () {
+                        var cData = [];
+                        if (pack['hasTime']) {
+                            for (var i in data) {
+                                cData.push(i);
+                            }
+                        }
+                        return cData;
+                    } ()),
+                    stackline_datas = ECharts.ChartDataFormate.FormateGroupData(data, 'columnline', is_stack, pack);
+
                 if (pack['hasTime']) {
                     var option = {
                         title : {
@@ -1062,7 +1134,6 @@
                     return optionLine;
 
                 }
-                console.log($.extend({}, ECharts.ChartOptionTemplates.CommonLineOption, option),'m,m');
                 return $.extend({}, ECharts.ChartOptionTemplates.CommonLineOption, option);
             },
             Browser: function (data, name, is_stack, pack) {

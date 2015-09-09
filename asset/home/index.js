@@ -142,7 +142,7 @@ define(function(require) {
 
 				type = type || _this.nowType || _this.echarts_type.default;
 				_this.nowType = type;
-
+				Render.chartsData.myCharts.dom.showLoading();
 				$.ajax({
 					url: 'http://10.9.17.55:8080/',
 					type: 'post',
@@ -150,7 +150,8 @@ define(function(require) {
 					data: _this.Method,
 					dataType: 'json',
 					success: function(data, textStatus) {
-						data = isR ?  data.data2 : data.data;
+						//data = isR ?  data.data2 : data.data;
+						data = data.data;
 
 						if (type == 'TreeMap') {
 							for (var i in data) {
@@ -173,8 +174,6 @@ define(function(require) {
 						}
 
 						$('.data_model_head').data('method', _this.Method);
-
-						Render.chartsData.myCharts.dom.hideLoading();
 					},
 					error : function() {
 						try{
@@ -390,7 +389,7 @@ define(function(require) {
 						group:'最低气温',
 						value:310
 					}];
-				} else if (type == 'TreeMap' || type == 'Map' || type == 'PieLine' || type == 'PiePage' || type == 'PieDouble'  || type == 'Browser' || type == 'Column') {
+				} else if (type == 'TreeMap' || type == 'Map' || type == 'PieLine' || type == 'PiePage' || type == 'PieDouble'  || type == 'Browser' || type == 'Column' || type == 'ColumnLine') {
 					option = {
 						'2002-01-01': [{
 							name:'北京',
@@ -525,7 +524,8 @@ define(function(require) {
 				this.chartsData[echartsObj].dom.clear();
 				this.chartsData[echartsObj].dom.setOption(cOption);
 				this.chartsData[echartsObj].data = cOption;
-
+				this.chartsData[echartsObj].dom.hideLoading();
+				
 				type == 'MapContrast' && ~function () {
 					_this.setMap(_this.chartsData.myCharts.dom, cOption, type, data);
 				}();
@@ -577,10 +577,12 @@ define(function(require) {
 						orient: 'horizontal',
 						x: 'right',
 						min: 0,
-						max: 1000,
+						max: 100000,
 						color:['orange','yellow'],
 						text:['高','低'],           // 文本，默认为数值文本
-						splitNumber:0
+						splitNumber:0,
+						calculable : true,
+						textStyle:{color: '#fff'}
 					};
 					myChart.setOption(option, true);
 				});
@@ -647,7 +649,7 @@ define(function(require) {
 								_this.changeParam('index_type', window.hashMethod.index_type + _this.dictionary[cVal], _this.echarts_type[cVal]);
 								window.echartType = _this.echarts_type[cVal];
 								if (_this.echarts_type[cVal] == 'PieLine' && window.Max) {
-									_this.changeParam('index_type', window.hashMethod.index_type + _this.dictionary[cVal], 'line', true);
+									_this.changeParam('index_type', window.hashMethod.index_type + _this.dictionary[cVal], 'ColumnLine', true);
 									window.echartType = 'PieLine';
 								}
 							}

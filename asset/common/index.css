@@ -201,8 +201,9 @@ div.ui-datepicker, .ui-datepicker td{
 .data_model .data_model_head span{font-weight: bold;font-size: 26px;float:left;}
 .data_model table td,.data_model table th{font-size: 13px;  color: #fff;  height: 34px;  line-height: 34px;  padding: 0 0 0 22px;border-right: 2px solid #282256;border-bottom: 2px solid #282256;  word-break: break-all;text-align:left;}
 .data_model table th{font-size:14px;}
-.data_model #detail_datepicker{  opacity: 0; width: 0px;  position: absolute;}
+.data_model #detail_datepicker{  opacity: 0; width: 0px;margin-lef:-13px;}
 .table_model{border-left:2px solid #282256;}
+.table_model thead{background-color: rgb(86, 44, 127);}
 .table_model tbody tr{transition:.8s all ease;}
 .table_model tbody tr:hover{background:rgb(119, 187, 232);}
 .table_model i{font-style:normal;cursor: pointer;}
