@@ -203,4 +203,6 @@ div.ui-datepicker, .ui-datepicker td{
 .data_model table th{font-size:14px;}
 .data_model #detail_datepicker{  opacity: 0; width: 0px;  position: absolute;}
 .table_model{border-left:2px solid #282256;}
+.table_model tbody tr{transition:.8s all ease;}
+.table_model tbody tr:hover{background:rgb(119, 187, 232);}
 .table_model i{font-style:normal;cursor: pointer;}

@@ -234,12 +234,6 @@ define(function(require) {
 							+	'</tr>';
 					}
 					$tbody.html(cHTML);
-					$tbody.find('tr').hover(function () {
-						$(this).css('background','#77BBE8');
-					},function () {
-						$(this).css('background','transparent');
-					});
-
 					if (isBool) {
 						return;
 					}
