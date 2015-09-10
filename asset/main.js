@@ -63,9 +63,13 @@ define(function(require) {
 			 * hashChange
 			 */
 			$(document).on("Runner/hashChange",function(){
-				var hash = location.hash;
+				var hash = location.hash,
+					$hashDom = $('a[href="'+ hash +'"]');
+
 				$('.submenu li').removeClass('active');
-				$('a[href="'+ hash +'"]').parent().addClass('active');
+				$hashDom.parent().addClass('active');
+				$('.menu_wrap').hide();
+				$hashDom.parents('.menu_wrap').show();
 
 				var hashTable = {
 					'#/pvuv/': 'pvuv,|pv',

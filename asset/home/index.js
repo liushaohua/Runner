@@ -105,14 +105,14 @@ define(function(require) {
 						}();
 						type == '一级分类' && (type = '二级分类');
 						//如果上一个状态是二级分类
-						_this.getServer(_this.nowType == 'PieDouble'? 'to_cate1': _this.echarts_type[type]);
+						_this.getServer((_this.nowType == 'PieDouble' && type == '业务线')? 'to_cate1': _this.echarts_type[type]);
 					});
 				};
 				return {
 					init: init
 				};
 			},
-			setDetailDate: function (fn, list_num, pageInit) {
+			setDetailDate: function (fn, list_num, pageInit, bool) {
 				var _this = this;
 
 				$('.data_model_head a').click(function () {
@@ -127,7 +127,7 @@ define(function(require) {
 								var date = $datepicker.datepicker().val();
 								$this.html(date);
 								$this.data('date', date);
-								fn(0, list_num, pageInit);
+								fn(0, list_num, pageInit, true);
 							} });
 							$datepicker.datepicker('show');
 						}
@@ -192,7 +192,7 @@ define(function(require) {
 				pageServe (0, list_num, pageInit);
 
 				if (_this.setDetailDate) {
-					_this.setDetailDate(pageServe, list_num, pageInit);
+					_this.setDetailDate(pageServe, list_num, pageInit, true);
 					delete _this.setDetailDate;
 				}
 
@@ -309,13 +309,13 @@ define(function(require) {
 					});
 				}
 
-				function pageServe(offset, limit, fn) {
+				function pageServe(offset, limit, fn, bool) {
 					var origin_method = $('.data_model_head').data('method') || _this.Method,
 					    listMechod = $.extend({}, origin_method, {
 							data_type: 'list',
 							offset: offset,
 							limit: limit,
-							ds: $('.detail_date').data('date') || ''
+							ds: bool ? $('.detail_date').data('date'): origin_method.ds
 						});
 					Render.lastMethod = listMechod;	console.log('last',Render.lastMethod);
 					$.ajax({
@@ -627,6 +627,9 @@ define(function(require) {
 										var date = $datepicker.datepicker().val();
 										_this.Method.ds = date;
 										$('a[value="日期"]').html(date);
+										if ($('.detail_date').html() != '选择日期') {
+											$('.detail_date').html(date);
+										}
 										Render.chartsData.myCharts.dom = window.myChart;
 										_this.Method.index_type = window.hashMethod.index_type + 'data_date';
 										_this.getServer(_this.echarts_type[cVal]);

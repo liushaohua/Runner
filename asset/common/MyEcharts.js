@@ -740,7 +740,7 @@
 
                     var optionLine = ECharts.ChartOptionTemplates.CommonLineOptionTimeLine;
                     optionLine.timeline['data'] = timeLineData;
-                    optionLine.timeline['y'] = '90%';
+                    optionLine.timeline['y2'] = -10;
                     optionLine.options = stackline_datas;
                     return optionLine;
 
@@ -857,7 +857,7 @@
 
                     var optionLine = ECharts.ChartOptionTemplates.CommonLineOptionTimeLine;
                     optionLine.timeline['data'] = timeLineData;
-                    optionLine.timeline['y'] = '88%';
+                    optionLine.timeline['y2'] = -10;
                     optionLine.options = stackline_datas;
                     return optionLine;
 
