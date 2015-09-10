@@ -32,6 +32,26 @@ define(function(require) {
 		type: 'home/index'
 	});
 
+	router.registerRouter({
+		path: '/newusers/',
+		type: 'home/index'
+	});
+
+	router.registerRouter({
+		path: '/2weeks/',
+		type: 'home/index'
+	});
+
+	router.registerRouter({
+		path: '/3weeks/',
+		type: 'home/index'
+	});
+
+	router.registerRouter({
+		path: '/faith/',
+		type: 'home/index'
+	});
+
 	router.start('/pvuv/');
 
 	cPage = {
@@ -51,7 +71,11 @@ define(function(require) {
 					'#/pvuv/': 'pvuv,|pv',
 					'#/click/': 'click,|click_times',
 					'#/jump/': 'jump,|jump_times',
-					'#/viewout/': 'viewout,|viewout_times'
+					'#/viewout/': 'viewout,|viewout_times',
+					'#/newusers/': 'newusers,|pv',
+					'#/2weeks/': '2weeks,|click_times',
+					'#/3weeks/': '3weeks,|jump_times',
+					'#/faith/': 'faith,|viewout_times'
 				},
 				hashStr = hashTable[hash].split('|');
 

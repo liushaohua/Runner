@@ -104,7 +104,8 @@ define(function(require) {
 							});
 						}();
 						type == '一级分类' && (type = '二级分类');
-						_this.getServer(_this.echarts_type[type]);
+						//如果上一个状态是二级分类
+						_this.getServer(_this.nowType == 'PieDouble'? 'to_cate1': _this.echarts_type[type]);
 					});
 				};
 				return {
@@ -140,6 +141,11 @@ define(function(require) {
 					option,
 					list_num = 10;
 
+				//如果是从二级分类修改业务线切过来的 手动修改为一级分类
+				if (type == 'to_cate1') {
+					$('.query_wrap a[value="一级分类"]').click();
+					return;
+				}
 				type = type || _this.nowType || _this.echarts_type.default;
 				_this.nowType = type;
 				Render.chartsData.myCharts.dom.showLoading();
