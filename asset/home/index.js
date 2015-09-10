@@ -199,6 +199,7 @@ define(function(require) {
 				function renHtml (data, isBool) {
 					var origin_method = $('.data_model_head').data('method') || _this.Method,
 						cHTML = '',
+						win_hash = location.hash,
 						$thead = $('.table_model thead'),
 						$tbody = $('.table_model tbody'),
 						s_type = origin_method['index_type'].split(',')[1],
@@ -207,7 +208,14 @@ define(function(require) {
 							'<i value="click_times" class="icon-arrow-up"></i></th><th>点击率&nbsp;&nbsp;<i value="click_percent" class="icon-arrow-up"></i></th>',
 							'#/jump/': '<th>跳出量&nbsp;&nbsp;<i value="jump_times" class="icon-arrow-up"></i></th><th>跳出率&nbsp;&nbsp;<i value="jump_percent" class="icon-arrow-up"></i></th>',
 							'#/viewout/': '<th>退出量&nbsp;&nbsp;<i value="viewout_times" class="icon-arrow-up"></i></th><th>退出率&nbsp;&nbsp;<i value="viewout_percent" class="icon-arrow-up"></i></th>',
-							'#/pvuv/': '<th>PV&nbsp;&nbsp;<i value="pv" class="icon-arrow-up"></i></th>'
+							'#/pvuv/': '<th>PV&nbsp;&nbsp;<i value="pv" class="icon-arrow-up"></i></th>',
+
+
+							'#/newusers/': '<th>新用户数&nbsp;&nbsp;' +
+							'<i value="newusers_times" class="icon-arrow-up"></i></th>',
+							'#/2weeks/': '<th>2周活跃用户数&nbsp;&nbsp;<i value="2weeks_times" class="icon-arrow-up"></i></th>',
+							'#/3weeks/': '<th>2周活跃用户数&nbsp;&nbsp;<i value="3weeks_times" class="icon-arrow-up"></i></th>',
+							'#/faith/': '<th>忠实用户&nbsp;&nbsp;<i value="faith_times" class="icon-arrow-up"></i></th>'
 						},
 						hashType = window.config.dictionary_etoc,$thModel = '';
 
@@ -220,11 +228,14 @@ define(function(require) {
 					for (var i = 0, len = data.length; i < len; i++) {
 						var hashStr = location.hash.slice(2,location.hash.length -1),
 							tds,$tdMdel = '';
-						if (location.hash != '#/pvuv/') {
-							tds = '<td>'+ data[i][hashStr+'_times'] +'</td>'
-								+ '<td>'+ data[i][hashStr+'_percent'] +'</td>'
-						} else {
+
+						if (win_hash == '#/pvuv/') {
 							tds = '<td>'+ data[i]['pv'] +'</td>';
+						} else if (win_hash == '#/2weeks/' || win_hash ==  '#/3weeks/' || win_hash =='#/faith/') {
+							tds = '<td>'+ data[i]['users'] +'</td>';
+						} else {
+							tds = '<td>'+ data[i][hashStr+'_times'] +'</td>'
+								+ '<td>'+ data[i][hashStr+'_percent'] +'</td>';
 						}
 
 						if (s_type != 'data_date') {
