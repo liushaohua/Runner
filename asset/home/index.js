@@ -146,6 +146,10 @@ define(function(require) {
 					$('.query_wrap a[value="一级分类"]').click();
 					return;
 				}
+
+				//清除list的order
+				delete window.list_order;
+
 				type = type || _this.nowType || _this.echarts_type.default;
 				_this.nowType = type;
 				Render.chartsData.myCharts.dom.showLoading();
@@ -157,6 +161,12 @@ define(function(require) {
 					dataType: 'json',
 					success: function(data, textStatus) {
 						//data = isR ?  data.data2 : data.data;
+						if (data.status == "failed") {
+							Render.chartsData.myCharts.dom.showLoading({
+								text: '此维度暂无数据，请切换其他维度...'
+							});
+							return;
+						}
 						data = data.data;
 
 						if (type == 'TreeMap') {
@@ -225,6 +235,17 @@ define(function(require) {
 
 					var $th = '<th>日期</th>' + hashTitle[location.hash] + $thModel +'<th>业务线</th><th>来源</th>';
 					!isBool && ($thead.html('<tr>' + $th +'</tr>'));
+
+					//order_icon
+					var list_order = window.list_order;
+					$thead.find('i').attr('class','icon-arrow-up');
+					if (list_order) {
+						var $order = $thead.find('i[value="'+ list_order['sort_by'] +'"]');
+						if ($order[0]) {
+							$order.attr('class', list_order['order'] == 'asc' ? 'icon-arrow-down': 'icon-arrow-up');
+						}
+					}
+
 					for (var i = 0, len = data.length; i < len; i++) {
 						var hashStr = location.hash.slice(2,location.hash.length -1),
 							tds,$tdMdel = '';
@@ -274,8 +295,14 @@ define(function(require) {
 						}
 						method = $.extend({}, Render.lastMethod, {
 							'sort_by': $this.attr('value'),
-							'order': order
+							'order': order,
+							'offset': 0
 						});
+
+						window.list_order = {
+							'sort_by': $this.attr('value'),
+							'order': order
+						};
 
 						$.ajax({
 							url: 'http://10.9.17.55:8080/',
@@ -286,8 +313,12 @@ define(function(require) {
 							success: function(data, textStatus) {
 								if (data.status == "failed") return;
 								var s_data = data,
-									data = data.data;
+									data = data.data,
+									data_count = s_data.rows_count,
+									total = Math.ceil(data_count / 10);
+
 								data && (renHtml(data, true));
+								pageInit(total, data_count);
 							}
 						});
 					});
@@ -328,6 +359,10 @@ define(function(require) {
 							limit: limit,
 							ds: bool ? $('.detail_date').data('date'): origin_method.ds
 						});
+
+					if (window.list_order) {
+						listMechod = $.extend({}, listMechod,window.list_order);
+					}
 					Render.lastMethod = listMechod;	console.log('last',Render.lastMethod);
 					$.ajax({
 						url: 'http://10.9.17.55:8080/',
