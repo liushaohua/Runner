@@ -12,45 +12,27 @@ define(function(require) {
 
 	window.EchartsCof = require('common/MyEcharts');
 
-	router.registerRouter({
-		path: '/pvuv/',
-		type: 'home/index'
-	});
+	var routerObj = {
+		'/pvuv/': 'home/index',
+		'/click/': 'home/index',
+		'/jump/': 'home/index',
+		'/viewout/': 'home/index',
+		'/newusers/': 'home/index',
+		'/2weeks/': 'home/index',
+		'/3weeks/': 'home/index',
+		'/faith/': 'home/index'
+	};
 
-	router.registerRouter({
-		path: '/click/',
-		type: 'home/index'
-	});
+	registerRouter(routerObj);
 
-    router.registerRouter({
-        path: '/jump/',
-        type: 'home/index'
-    });
-
-	router.registerRouter({
-		path: '/viewout/',
-		type: 'home/index'
-	});
-
-	router.registerRouter({
-		path: '/newusers/',
-		type: 'home/index'
-	});
-
-	router.registerRouter({
-		path: '/2weeks/',
-		type: 'home/index'
-	});
-
-	router.registerRouter({
-		path: '/3weeks/',
-		type: 'home/index'
-	});
-
-	router.registerRouter({
-		path: '/faith/',
-		type: 'home/index'
-	});
+	function registerRouter(obj) {
+		for (var i in obj) {
+			router.registerRouter({
+				path: i,
+				type: obj[i]
+			});
+		}
+	}
 
 	router.start('/pvuv/');
 
@@ -114,6 +96,15 @@ define(function(require) {
 					cursorcolor:"#489bd3",
 					cursorborder: '1px solid #489bd3',
 					zIndex:3
+				});
+				$(document).scroll(function() {
+					if ($('.dropdown')[0]) {
+						var left = $('.dropdown').offset().left;
+						if (left < 200) {
+							$('.dropdown').hide();
+							$(document).click();
+						}
+					}
 				});
 			});
 

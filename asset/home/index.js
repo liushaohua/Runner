@@ -661,6 +661,7 @@ define(function(require) {
 					if (/no-drop/.test($this.attr('class')) ) return;
 
 					$('.query_wrap a').removeClass('active');
+					$('.dropdown').css('position','absolute');
 					$this.addClass('active');
 					$i.length && ($i.attr('class','icon_up'));
 					switch (cVal) {
@@ -717,11 +718,11 @@ define(function(require) {
 				$('.menu-btn').click(function (ev) {
 					var $this = $(this),
 						cVal = $this.attr('value'),
-						_position = $this.offset(),
+						_position = $this.offset().left < 200 ? $this.offset() : $this.position(),
 						ev = ev || window.event;
 
 					$this.find('i').attr('class','icon_up');
-					ev.stopPropagation();
+					ev.stopPropagation();console.log('wicai',_position);
 					_this._dropdown(cVal, _position, $this).init();
 				});
 				return this;
