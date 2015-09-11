@@ -371,7 +371,13 @@ define(function(require) {
 						data: listMechod,
 						dataType: 'json',
 						success: function(data, textStatus) {
-							if (data.status == "failed") return;
+							var $pager_content = $('.pager_content');
+							$pager_content.show()
+							if (data.status == "failed") {
+								$('.table_model tbody').html('<td colspan="5" style="text-align:center">暂无数据</td>');
+								$pager_content.hide();
+								return;
+							}
 							var s_data = data,
 								data = data.data,
 								data_count = s_data.rows_count,

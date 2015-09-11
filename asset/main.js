@@ -69,6 +69,11 @@ define(function(require) {
 					index_type: hashStr[0],
 					value_name: hashStr[1]
 				};
+
+				$('.menu-btn').each(function (i, v) {
+					var $this = $(this);
+					$this.find('span').html($this.attr('value'));
+				});
 			});
 
 			$('.submenu a').click(function () {
