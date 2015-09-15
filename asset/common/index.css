@@ -115,6 +115,7 @@ html{background:#342b6c;}
 .home-container .active .date_query{padding-left:105px;}
 .home-container .date_query a{display:inline-block;width:85px;height:43px;line-height:43px;font-size:19px;text-align:center;
 font-family:"Microsoft YaHei ", Helvetica, Arial, sans-serif;font-weight:bold;}
+.home-container .date_query a.gray{color:rgb(118, 116, 129);cursor: no-drop}
 .home-container .date_query a.active{border-bottom:3px solid #12aaeb;color:#12aaeb;}
 .home-container .query_b{margin-left:16px;clear:both;height:140px;}
 .home-container .query_wrap,.home-container .query_wrap a{border:1px solid #8e8f93;}

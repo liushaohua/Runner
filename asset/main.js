@@ -46,7 +46,8 @@ define(function(require) {
 			 */
 			$(document).on("Runner/hashChange",function(){
 				var hash = location.hash,
-					$hashDom = $('a[href="'+ hash +'"]');
+					$hashDom = $('a[href="'+ hash +'"]'),
+					$date_query = $('.date_query');
 
 				$('.submenu li').removeClass('active');
 				$hashDom.parent().addClass('active');
@@ -69,6 +70,19 @@ define(function(require) {
 					index_type: hashStr[0],
 					value_name: hashStr[1]
 				};
+
+				//用户构成-月数据置灰
+				var gray_Index = {
+					'#/newusers/': 1,
+					'#/2weeks/': 1,
+					'#/3weeks/': 1,
+					'#/faith/': 1
+				};
+				if (gray_Index[hash]) {
+					$date_query.find('a[value="month"]').addClass('gray');
+				} else {
+					$date_query.find('a').removeClass('gray');
+				}
 
 				$('.menu-btn').each(function (i, v) {
 					var $this = $(this);

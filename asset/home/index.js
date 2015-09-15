@@ -649,6 +649,7 @@ define(function(require) {
 				var _this = this;
 				$('.date_query a').click(function () {
 					var $this = $(this);
+					if ($this.hasClass('gray')) return;
 					$this.addClass('active').siblings().removeClass('active');
 					_this.changeParam('time_type', $this.attr('value'));
 
