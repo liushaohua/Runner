@@ -651,7 +651,13 @@ define(function(require) {
 					var $this = $(this);
 					$this.addClass('active').siblings().removeClass('active');
 					_this.changeParam('time_type', $this.attr('value'));
-					_this.getServer();
+
+					if (window.echartType == 'PieLine' && window.Max) {
+						_this.changeParam('index_type', window.hashMethod.index_type + 'time_window', 'ColumnLine', true);
+					} else {
+						_this.getServer();
+					}
+
 				});
 				return _this;
 			},

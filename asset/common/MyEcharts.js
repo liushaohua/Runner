@@ -44,11 +44,6 @@
                                         name: data[j].name,
                                         value: data[j].value,
                                         itemStyle: {
-                                            normal: {
-                                                color: function(lower, upper) {
-                                                    return '#' + Math.floor(Math.random() * (upper - lower + 1) + lower).toString(16);
-                                                }(0, 0xF0F0F0),
-                                            },
                                             emphasis: {
                                                 label: {
                                                     show: false
