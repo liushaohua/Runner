@@ -735,7 +735,7 @@ define(function(require) {
 						ev = ev || window.event;
 
 					$this.find('i').attr('class','icon_up');
-					ev.stopPropagation();console.log('wicai',_position);
+					ev.stopPropagation();W
 					_this._dropdown(cVal, _position, $this).init();
 				});
 				return this;

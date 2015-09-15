@@ -1,4 +1,8 @@
 $(function () {
+    var $queryPlat = $('.service a'),
+        onlyShow = false,
+        $queryBtn = $('.service_open a,.service_try a');
+
     $('[place]').each(function () {
         var $this = $(this);
         $this.on('click focus', function () {
@@ -24,6 +28,21 @@ $(function () {
         wing.style['transition'] = "none";
         wing.style.webkitTransform = 'rotateY(0deg)';
         wing.style.transform = 'rotateY(0deg)';
+    });
+
+    $queryPlat.hover(function() {
+        var $this = $(this);
+        $($this.attr('position')).stop().fadeIn(700);
+    }, function () {
+        var $this = $(this);
+        $($this.attr('position')).fadeOut(700);
+    });
+
+
+    $queryBtn.hover(function () {
+        $(this).parent().stop().show();
+    }, function () {
+        $(this).parent().stop().fadeOut(700);
     });
 
     $('.login_form').submit(function (ev) {
@@ -60,7 +79,7 @@ $(function () {
         }
 
         $('.login_wrap').css({
-            'top': $cImgH * 0.27,
+            'top': $cImgH * 0.20,
         });
     });
     var $login_wrap = $('.login_wrap')[0];
